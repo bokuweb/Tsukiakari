@@ -2,12 +2,15 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="./stylesheets/main.css">
     <title>Hello World!</title>
   </head>
   <body>
-    <h1>Hello World!</h1>
-    We are using node <script>document.write(process.versions.node)</script>,
-    Chrome <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
+    <div class="container">
+      <div class="users">a</div>
+      <div class="sidemenu">bc</div>
+      <div class="content">aaaasadsdsadsadc</div>
+    </div>
+    <script>require('electron-connect').client.create()</script>
   </body>
 </html>
