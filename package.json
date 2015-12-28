@@ -6,6 +6,9 @@
   "scripts": {
     "dev": "gulp serve & npm run watch:stylus",
     "start": "electron src/browser/src/main.js",
+    "build:js": "browserify --extension=js -o src/renderer/dist/bundle.js src/renderer/src/index.js",
+    "watch": "npm run watch:js & npm run watch:stylus",
+    "watch:js": "watchify --extension=js -o src/renderer/dist/bundle.js src/renderer/src/index.js",
     "watch:stylus": "stylus src/renderer/stylus/ --watch  --out src/renderer/stylesheets/",
     "build:stylus": "stylus src/renderer/stylus/ --out src/renderer/stylesheets/"
   },
