@@ -41,13 +41,18 @@
     "watchify": "^3.6.1"
   },
   "dependencies": {
+    "lodash": "^3.10.1",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
     "react-redux": "^4.0.3",
-    "redux": "^3.0.5"
+    "redux": "^3.0.5",
+    "redux-logger": "^2.3.1",
+    "redux-thunk": "^1.0.3"
   },
   "babel": {
-        "presets": ["es2015"]
+    "presets": [
+      "es2015"
+    ]
   },
   "browserify": {
     "transform": [
