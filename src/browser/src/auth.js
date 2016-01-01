@@ -3,8 +3,9 @@
 const BrowserWindow = require('browser-window');
 const TwitterApi = require('node-twitter-api');
 
-class Auth {
+module.exports = class Auth {
   constructor() {
+
     this.twitter = new TwitterApi({
       callback: 'http://example.com',
       consumerKey,
@@ -28,7 +29,7 @@ class Auth {
 
         loginWindow.webContents.on('will-navigate', (event, url) => {
           event.preventDefault();
-          matched = url.match(/\?oauth_token=([^&]*)&oauth_verifier=([^&]*)/);
+          const matched = url.match(/\?oauth_token=([^&]*)&oauth_verifier=([^&]*)/);
           if (matched) {
             this.twitter.getAccessToken(requestToken, requestTokenSecret, matched[2], (error, accessToken, accessTokenSecret) => {
               if(error) reject(error);
@@ -39,7 +40,7 @@ class Auth {
                     setTimeout(() => loginWindow.close(), 100);
                     profile.accessToken = accessToken;
                     profile.accessTokenSecret = accessTokenSecret;
-                    esolve(profile);
+                    resolve(profile);
                   }
                 });
               }
@@ -48,7 +49,7 @@ class Auth {
         });
 
         loginWindow.webContents.session.clearStorageData({}, () => {
-          loginWindow.loadUrl(url);
+          loginWindow.loadURL(url);
         });
       });
     });

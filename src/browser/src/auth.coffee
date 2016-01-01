@@ -1,4 +1,4 @@
-BrowserWindow = require 'browser-window'
+import BrowserWindow from 'browser-window'
 TwitterApi    = require 'node-twitter-api'
 #jsonfile      = require 'jsonfile'
 #config        = require 'config'
