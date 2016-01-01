@@ -1,5 +1,7 @@
-import BrowserWindow from 'browser-window';
-import TwitterApi from 'node-twitter-api';
+'use strict';
+
+const BrowserWindow = require('browser-window');
+const TwitterApi = require('node-twitter-api');
 
 class Auth {
   constructor() {
