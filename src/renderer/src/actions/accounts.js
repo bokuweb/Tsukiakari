@@ -6,7 +6,7 @@ export const loadAccounts = () => {
   return dispatch => {
     const path = remote.getGlobal('accountFilePath');
     jsonfile.readFile(path, (err, accounts) => {
-      dispatch({type: types. LOAD_ACCOUNTS_ACCOUNTS, accounts});
+      dispatch({type: types.LOAD_ACCOUNTS, accounts});
     });
   };
 };

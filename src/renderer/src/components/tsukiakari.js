@@ -16,7 +16,7 @@ export default class Tsukiakari extends Component {
         <div className="sidemenu">
           <img className="logo" src="images/logo.png" />
         </div>
-        <div className="content">ああいいういaaaasadsdsadsadcdddaaa</div>
+        <div className="content">ああああいいういaaaasadsdsadsadcdddaaa</div>
       </div>
     );
   }
