@@ -67,11 +67,15 @@ app.on('ready', function() {
     });
   };
 
+  const addAccountUnlessExist = (account) => {
+    account._id = accounts.length;
+    if (!_.includes(_.map(accounts, 'id'), account.id)) accounts.push(account);
+    jsonfile.writeFile(accountFilePath, accounts,  err => console.dir(err));
+  };
+
   ipc.on('authenticate-request', (event, arg) => {
     authenticate().then(account => {
-      account._id = accounts.length;
-      if (!_.includes(_.map(accounts, 'id'), account.id)) accounts.push(account);
-      jsonfile.writeFile(accountFilePath, accounts,  err => console.dir(err));
+      addAccountUnlessExist(account);
       event.sender.send('authenticate-request-reply', accounts);
     });
   });
@@ -80,9 +84,7 @@ app.on('ready', function() {
     loadMainWindow();
   } else {
     authenticate().then(account => {
-      account._id = accounts.length;
-      if (!_.includes(_.map(accounts, 'id'), account.id)) accounts.push(account);
-      jsonfile.writeFile(accountFilePath, accounts, err => console.dir(err));
+      addAccountUnlessExist(account);
       loadMainWindow();
     });
   }

@@ -2,15 +2,18 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Tsukiakari from '../components/tsukiakari';
-//import * as feedActions from '../actions/feed';
+import * as accounts from '../actions/accounts';
 
 function mapStateToProps(state)  {
   return state;
 }
 
 function mapDispatchToProps(dispatch) {
-  const actions = _.assign({}, {});
-  return bindActionCreators(actions, dispatch);
+  return {
+    actions :{
+      accounts: bindActionCreators(accounts, dispatch)
+    }
+  };
 }
 
 export default connect(

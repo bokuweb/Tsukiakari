@@ -4,7 +4,7 @@
   "description": "A minimal Electron application",
   "main": "/src/browser/src/main.js",
   "scripts": {
-    "dev": "gulp serve & npm run watch:stylus",
+    "dev": "gulp serve & npm run watch",
     "start": "electron src/browser/src/main.js",
     "build:js": "browserify --extension=js -o src/renderer/dist/bundle.js src/renderer/src/index.js",
     "watch": "npm run watch:js & npm run watch:stylus",

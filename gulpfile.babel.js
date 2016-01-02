@@ -8,7 +8,7 @@ gulp.task('serve', () => {
   gulp.watch([
   'src/renderer/stylesheets/main.css',
   'src/renderer/index.html',
-  'src/renderer/src/dist/*.js'], electron.reload);
+  'src/renderer/dist/*.js'], electron.reload);
 });
 
 gulp.task('stop', () => electron.stop());
