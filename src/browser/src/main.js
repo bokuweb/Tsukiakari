@@ -36,7 +36,7 @@ app.on('ready', function() {
 
   const loadMainWindow = () => {
     // Create the browser window.
-    mainWindow = new BrowserWindow({width: 800, height: 600});
+    mainWindow = new BrowserWindow({width: 800, height: 600, 'node-integration': true});
     // and load the index.html of the app.
     mainWindow.loadURL(`file://${__dirname}/../../renderer/index.html`);
     client.create(mainWindow);
@@ -67,13 +67,24 @@ app.on('ready', function() {
     });
   };
 
+  const addAccountUnlessExist = (account) => {
+    account._id = accounts.length;
+    if (!_.includes(_.map(accounts, 'id'), account.id)) accounts.push(account);
+    jsonfile.writeFile(accountFilePath, accounts,  err => console.dir(err));
+  };
+
+  ipc.on('authenticate-request', (event, arg) => {
+    authenticate().then(account => {
+      addAccountUnlessExist(account);
+      event.sender.send('authenticate-request-reply', accounts);
+    });
+  });
+
   if (accounts[0] !== undefined) {
     loadMainWindow();
   } else {
     authenticate().then(account => {
-      account._id = accounts.length;
-      if (!_.includes(_.map(accounts, 'id'), account.id)) accounts.push(account);
-      jsonfile.writeFile(accountFilePath, accounts, err => console.dir(err));
+      addAccountUnlessExist(account);
       loadMainWindow();
     });
   }

@@ -5,14 +5,18 @@ export default class Tsukiakari extends Component {
     super(props);
   }
 
+  componentWillMount() {
+    this.props.actions.accounts.loadAccounts();
+  }
+
   render() {
     return (
       <div className="container">
-        <div className="users">a</div>
+        <div className="users">abbb</div>
         <div className="sidemenu">
           <img className="logo" src="images/logo.png" />
         </div>
-        <div className="content">aaaasadsdsadsadc</div>
+        <div className="content">ああいいういaaaasadsdsadsadcdddaaa</div>
       </div>
     );
   }
