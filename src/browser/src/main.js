@@ -67,6 +67,15 @@ app.on('ready', function() {
     });
   };
 
+  ipc.on('authenticate-request', (event, arg) => {
+    authenticate().then(account => {
+      account._id = accounts.length;
+      if (!_.includes(_.map(accounts, 'id'), account.id)) accounts.push(account);
+      jsonfile.writeFile(accountFilePath, accounts,  err => console.dir(err));
+      event.sender.send('authenticate-request-reply', accounts);
+    });
+  });
+
   if (accounts[0] !== undefined) {
     loadMainWindow();
   } else {
