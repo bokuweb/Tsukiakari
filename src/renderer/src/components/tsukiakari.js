@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Accounts from './accounts';
 
 export default class Tsukiakari extends Component {
   constructor(props) {
@@ -6,13 +7,15 @@ export default class Tsukiakari extends Component {
   }
 
   componentWillMount() {
-    this.props.actions.accounts.loadAccounts();
+    const {loadAccounts} = this.props.actions.accounts;
+    loadAccounts();
   }
 
   render() {
+    const {accounts} = this.props.accounts;
     return (
       <div className="container">
-        <div className="users">abbb</div>
+        <Accounts accounts={accounts} />
         <div className="sidemenu">
           <img className="logo" src="images/logo.png" />
         </div>

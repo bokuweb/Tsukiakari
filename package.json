@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "gulp serve & npm run watch",
     "start": "electron src/browser/src/main.js",
-    "watch:js": "babel --watch --presets react -d src/renderer/dist/ src/renderer/src/",
+    "watch:js": "babel --watch -d src/renderer/dist/ src/renderer/src/",
     "build:js": "browserify --extension=js -o src/renderer/dist/bundle.js src/renderer/src/index.js",
     "build:lib": "browserify --extension=js -o lib/index.js src/index.js",
     "watch": "npm run watch:js & npm run watch:stylus",
@@ -44,6 +44,7 @@
     "watchify": "^3.6.1"
   },
   "dependencies": {
+    "babel-plugin-syntax-do-expressions": "^6.3.13",
     "jsonfile": "^2.2.3",
     "lodash": "^3.10.1",
     "node-twitter-api": "^1.6.3",
