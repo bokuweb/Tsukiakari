@@ -17,7 +17,9 @@ export default class Tsukiakari extends Component {
       <div className="container">
         <Accounts accounts={accounts} />
         <div className="sidemenu">
-          <img className="logo" src="images/logo.png" />
+          <div className="logo_wrapper">
+            <img className="logo" src="images/logo.png" />
+          </div>
         </div>
         <div className="content">ああああいいういaaaasadsdsadsadcdddaaa</div>
       </div>
