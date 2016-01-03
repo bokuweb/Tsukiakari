@@ -7,12 +7,18 @@ export default class Accounts extends Component {
 
   render() {
     const {accounts} = this.props;
+    console.dir(accounts);
     return (
       <div className="accounts">
         {
           do {
             accounts.map(account => {
-              return account.name;
+              return (
+                <img
+                   key={account.id}
+                   src={account.profile_image_url}
+                   className="accounts__avatar"/>
+              );
             });
           }
         }
