@@ -1,5 +1,4 @@
 {
-  "plugins": ["syntax-do-expressions"],
+  "plugins": [ "transform-do-expressions", "syntax-do-expressions"],
   "presets": ["es2015", "react"]
-
 }

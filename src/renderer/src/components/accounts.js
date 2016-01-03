@@ -6,13 +6,12 @@ export default class Accounts extends Component {
   }
 
   render() {
-    console.dir(this.props);
     const {accounts} = this.props;
     return (
       <div className="accounts">
         {
           do {
-            return accounts.map(account => {
+            accounts.map(account => {
               return account.name;
             });
           }
