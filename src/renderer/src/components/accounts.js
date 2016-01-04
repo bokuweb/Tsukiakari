@@ -10,18 +10,23 @@ export default class Accounts extends Component {
     console.dir(accounts);
     return (
       <div className="accounts">
-        {
-          do {
-            accounts.map(account => {
-              return (
-                <img
-                   key={account.id}
-                   src={account.profile_image_url}
-                   className="accounts__avatar"/>
-              );
-            });
+        <div className="accounts__accounts">
+          {
+            do {
+              accounts.map(account => {
+                return (
+                  <img
+                     key={account.id}
+                     src={account.profile_image_url}
+                     className="accounts__avatar"/>
+                );
+              });
+            }
           }
-        }
+        </div>
+        <div className="accounts__add">
+          +
+        </div>
       </div>
     );
   }
