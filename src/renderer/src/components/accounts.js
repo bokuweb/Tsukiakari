@@ -25,7 +25,8 @@ export default class Accounts extends Component {
           }
         </div>
         <div className="accounts__add">
-          +
+          <i className="accounts__icon--add lnr lnr-plus-circle"/>
+          Add
         </div>
       </div>
     );
