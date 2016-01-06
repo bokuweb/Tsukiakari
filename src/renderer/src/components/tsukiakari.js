@@ -20,6 +20,10 @@ export default class Tsukiakari extends Component {
           <div className="logo_wrapper">
             <img className="logo" src="images/logo.png" />
           </div>
+          <div className="button--newtweet">
+            <i className="icon-twitter"/>
+            <span>New Tweet</span>
+          </div>
         </div>
         <div className="content">ああああいいういaaaasadsdsadsadcdddaaa</div>
       </div>
