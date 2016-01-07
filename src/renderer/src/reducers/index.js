@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
 import accounts from './accounts';
+import tweets from './tweets';
 
 const rootReducer = combineReducers({
-  accounts
+  accounts,
+  tweets
 });
 
 export default rootReducer;

@@ -1,5 +1,5 @@
 import Twitter from 'twitter';
-import remote  from 'remote';
+import remote from 'remote';
 
 export default class TwitterClient {
   constructor(accessToken, accessTokenSecret) {
@@ -11,18 +11,19 @@ export default class TwitterClient {
     });
   }
 
-  getHomeTimeline(params) {
-    var d = Q.defer();
-    this._client.get('statuses/home_timeline', params, (error, tweets, response) => {
-      if (error) {
-        console.log(util.inspect(error));
-        d.reject(error);
-      }
-      return d.resolve(tweets);
+  fetchHomeTimeline(params) {
+    return new Promise((resolve, reject) => {
+      this.client.get(
+        'statuses/home_timeline',
+        params,
+        (error, tweets, response) => {
+          if (error) reject(error);
+          else resolve(tweets);
+        });
     });
-    return d.promise;
   }
 
+  /*
   getFavorites(params) {
     var d = Q.defer();
     this._client.get('favorites/list', params, (error, tweets, response) => {
@@ -143,5 +144,6 @@ export default class TwitterClient {
     });
     return d.promise;
   }
+   */
 }
 
