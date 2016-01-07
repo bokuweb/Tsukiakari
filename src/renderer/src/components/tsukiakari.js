@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Accounts from './accounts';
+import Sidemenu from './sidemenu';
 
 export default class Tsukiakari extends Component {
   constructor(props) {
@@ -16,15 +17,7 @@ export default class Tsukiakari extends Component {
     return (
       <div className="container">
         <Accounts accounts={accounts} />
-        <div className="sidemenu">
-          <div className="logo_wrapper">
-            <img className="logo" src="images/logo.png" />
-          </div>
-          <div className="button--newtweet">
-            <i className="icon-twitter"/>
-            <span>New Tweet</span>
-          </div>
-        </div>
+        <Sidemenu />
         <div className="content">ああああいいういaaaasadsdsadsadcdddaaa</div>
       </div>
     );

@@ -15,10 +15,12 @@ export default class Accounts extends Component {
             do {
               accounts.map(account => {
                 return (
-                  <img
-                     key={account.id}
-                     src={account.profile_image_url}
-                     className="accounts__avatar"/>
+                  <div key={account.id}>
+                    <img
+                       src={account.profile_image_url}
+                       className="accounts__avatar"/>
+                    <span className="accounts__name">{account.screen_name}</span>
+                  </div>
                 );
               });
             }
