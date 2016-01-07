@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Accounts from './accounts';
+import Sidemenu from './sidemenu';
+import Contents from './contents';
 
 export default class Tsukiakari extends Component {
   constructor(props) {
@@ -13,15 +15,20 @@ export default class Tsukiakari extends Component {
 
   render() {
     const {accounts} = this.props.accounts;
+    const {fetchHomeTimeline} = this.props.actions.tweets;
+    const {timeline} = this.props.tweets;
     return (
       <div className="container">
         <Accounts accounts={accounts} />
-        <div className="sidemenu">
-          <div className="logo_wrapper">
-            <img className="logo" src="images/logo.png" />
-          </div>
-        </div>
-        <div className="content">ああああいいういaaaasadsdsadsadcdddaaa</div>
+        <Sidemenu />
+        {
+          (accounts.length !== 0)
+            ? <Contents
+                   accounts={accounts}
+                   timeline={timeline}
+                   fetchHomeTimeline={fetchHomeTimeline} />
+            : <div />
+        }
       </div>
     );
   }
