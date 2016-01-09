@@ -1,5 +1,5 @@
 import Twitter from '../lib/twitter-client';
-import * as types from '../constants/action-types';
+import { createAction } from 'redux-actions';
 
 export const fetchHomeTimeline = account => {
   return dispatch => {
@@ -7,7 +7,8 @@ export const fetchHomeTimeline = account => {
     const twitter = new Twitter(accessToken, accessTokenSecret);
     twitter.fetchHomeTimeline({})
       .then(tweets => {
-        dispatch({type: types.FETCH_TIMELINE, tweets});
+        const action = createAction('FETCH_TIMELINE');
+        dispatch(action({tweets}));
       });
   };
 };
