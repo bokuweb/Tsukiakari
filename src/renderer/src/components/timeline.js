@@ -8,7 +8,11 @@ export default class Timeline extends Component {
 
   getTimeline() {
     return this.props.timeline.map(tweet => {
-      return <TweetItem tweet={tweet} />;
+      return (
+        <TweetItem
+           key={tweet.id}
+           tweet={tweet} />
+      );
     });
   }
 
