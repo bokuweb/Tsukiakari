@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import Timeline from './timeline';
 
-export default class Sidemenu extends Component {
+export default class Contents extends Component {
   constructor(props) {
     super(props);
   }
@@ -9,15 +10,11 @@ export default class Sidemenu extends Component {
     this.props.fetchHomeTimeline(this.props.accounts[0]);
   }
 
-  getTimeline() {
-    return this.props.timeline.map(tweet => {
-      return tweet.text;
-    });
-  }
+
   render() {
     return (
       <div className="contents">
-        {this.getTimeline()}
+        <Timeline timeline={this.props.timeline} />
       </div>
     );
   }

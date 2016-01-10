@@ -9,7 +9,7 @@ export const fetchHomeTimeline = account => {
       .then(tweets => {
         const action = createAction('FETCH_TIMELINE');
         dispatch(action({tweets}));
-      });
+      }).catch(error => console.dir(error));
   };
 };
 
