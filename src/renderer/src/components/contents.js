@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Timeline from './timeline';
+import TimelineBox from './timeline-box';
 
 export default class Contents extends Component {
   constructor(props) {
@@ -14,7 +14,10 @@ export default class Contents extends Component {
   render() {
     return (
       <div className="contents">
-        <Timeline timeline={this.props.timeline} />
+        <TimelineBox timeline={this.props.timeline} />
+        <TimelineBox timeline={this.props.timeline} />
+        <TimelineBox timeline={this.props.timeline} />
+        <TimelineBox timeline={this.props.timeline} />
       </div>
     );
   }
