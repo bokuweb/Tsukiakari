@@ -1,13 +1,13 @@
 import jsonfile from 'jsonfile';
 import remote from 'remote';
-import * as types from '../constants/action-types';
+import { createAction } from 'redux-actions';
 
 export const loadAccounts = () => {
   return dispatch => {
     const path = remote.getGlobal('accountFilePath');
     jsonfile.readFile(path, (err, accounts) => {
-      dispatch({type: types.LOAD_ACCOUNTS, accounts});
+      const action = createAction('LOAD_ACCOUNTS');
+      dispatch(action({accounts}));
     });
   };
 };
-
