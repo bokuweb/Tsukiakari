@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Infinite from 'react-infinite';
 import TweetItem from './tweetitem';
 
-const defaultElementHeight = 40;
+const defaultElementHeight = 100;
 
 export default class Timeline extends Component {
   constructor(props) {
@@ -13,7 +13,7 @@ export default class Timeline extends Component {
       elementHeight: defaultElementHeight
     };
     this.onWindowResize = this.onWindowResize.bind(this);
-    window.addEventListener('resize', this.onWindowResize)
+    //window.addEventListener('resize', this.onWindowResize)
   }
 
   componentDidMount() {
@@ -58,6 +58,7 @@ export default class Timeline extends Component {
       if (this.state.elementHeight[i]) return this.state.elementHeight[i];
       return defaultElementHeight;
     });
+    console.dir(height)
   }
 
   onInfiniteLoad() {
