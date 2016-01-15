@@ -2,18 +2,19 @@ import React, { Component } from 'react';
 import Infinite from 'react-infinite';
 import TweetItem from './tweetitem';
 
-const defaultElementHeight = 100;
+const defaultElementHeight = 140;
 
 export default class Timeline extends Component {
   constructor(props) {
     super(props);
     this.scrollTimer = null;
+    this.isInitialized = false;
     this.state = {
-      timelineHeight: 100,
+      timelineHeight: 1000,
       elementHeight: defaultElementHeight
     };
     this.onWindowResize = this.onWindowResize.bind(this);
-    //window.addEventListener('resize', this.onWindowResize)
+    window.addEventListener('resize', this.onWindowResize);
   }
 
   componentDidMount() {
@@ -23,6 +24,9 @@ export default class Timeline extends Component {
   }
 
   componentDidUpdate() {
+    if (this.props.timeline.length === 0 ) return;
+    if (this.isInitialized) return;
+    this.isInitialized = true;
     this.updateElementHeight(this.props.timeline);
   }
 
@@ -49,16 +53,18 @@ export default class Timeline extends Component {
     const timelineHeight = timeline.clientHeight;
     this.setState({timelineHeight});
     console.log(timelineHeight);
+    console.dir(timeline)
   }
 
   updateElementHeight (timeline) {
-    const height = timeline.map((tweet, i) => {
+    const elementHeight = timeline.map((tweet, i) => {
       const el = document.getElementById(i);
       if (el) return el.clientHeight;
       if (this.state.elementHeight[i]) return this.state.elementHeight[i];
       return defaultElementHeight;
     });
-    console.dir(height)
+    this.setState({elementHeight});
+    console.dir(elementHeight);
   }
 
   onInfiniteLoad() {
