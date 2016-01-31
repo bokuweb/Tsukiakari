@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import SortablePane, {Pane} from 'react-sortable-pane';
 import TimelineBox from './timeline-box';
 
 export default class Contents extends Component {
@@ -10,15 +11,14 @@ export default class Contents extends Component {
     this.props.fetchHomeTimeline(this.props.accounts[0]);
   }
 
-
   render() {
     return (
-      <div className="contents">
-        <TimelineBox timeline={this.props.timeline} />
-        <TimelineBox timeline={this.props.timeline} />
-        <TimelineBox timeline={this.props.timeline} />
-        <TimelineBox timeline={this.props.timeline} />
-      </div>
+      <SortablePane customClass="contents" margin={10}>
+        <Pane width={320} minWidth={320} style={{overflowX: 'hidden'}}><TimelineBox timeline={this.props.timeline} /></Pane>
+        <Pane width={320} minWidth={320} style={{overflowX: 'hidden'}}><TimelineBox timeline={this.props.timeline} /></Pane>
+        <Pane width={320} minWidth={320} style={{overflowX: 'hidden'}}><TimelineBox timeline={this.props.timeline} /></Pane>
+        <Pane width={320} minWidth={320} style={{overflowX: 'hidden'}}><TimelineBox timeline={this.props.timeline} /></Pane>
+      </SortablePane>
     );
   }
 }

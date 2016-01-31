@@ -53,7 +53,6 @@ export default class Timeline extends Component {
     const timelineHeight = timeline.clientHeight;
     this.setState({timelineHeight});
     console.log(timelineHeight);
-    console.dir(timeline)
   }
 
   updateElementHeight (timeline) {
