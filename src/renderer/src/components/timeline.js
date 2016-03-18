@@ -17,7 +17,7 @@ export default class Timeline extends Component {
       timelineHeight: 1000,
       elementHeight: defaultElementHeight,
     };
-    this.onWindowResize = this.onWindowResize.bind(this);
+    this.onWindowResize = ::this.onWindowResize;
     window.addEventListener('resize', this.onWindowResize);
   }
 
@@ -48,19 +48,19 @@ export default class Timeline extends Component {
     console.log('scroll');
     clearTimeout(this.scrollTimer);
     this.scrollTimer = setTimeout(() => {
-      this.updateElementHeight(this.props.timeline);
+      this.updateElementHeight();
     }, 100);
   }
 
   updateTimelineHeight() {
     const timeline = document.querySelector('.timeline');
-    const timelineHeight = timeline.clientHeight;
+    const timelineHeight = timeline.getBoundingClientRect().height;
     this.setState({ timelineHeight });
     console.log(timelineHeight);
   }
 
   updateElementHeight(timeline) {
-    const elementHeight = timeline.map((tweet, i) => {
+    const elementHeight = this.props.timeline.map((tweet, i) => {
       const el = document.getElementById(i);
       if (el) return el.clientHeight;
       if (this.state.elementHeight[i]) return this.state.elementHeight[i];
@@ -80,6 +80,7 @@ export default class Timeline extends Component {
 
   elementInfiniteLoad() {
     // if (this.props.feed[this.props.menu.activeKeyword].isPageEnd) return;
+    return null;
     return <div className="rect-spinner">spinner</div>;
   }
 
