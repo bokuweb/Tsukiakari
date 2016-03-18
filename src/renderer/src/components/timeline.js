@@ -1,17 +1,21 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import Infinite from 'react-infinite';
 import TweetItem from './tweetitem';
 
 const defaultElementHeight = 140;
 
 export default class Timeline extends Component {
+  static propTypes = {
+    timeline: PropTypes.array,
+  };
+
   constructor(props) {
     super(props);
     this.scrollTimer = null;
     this.isInitialized = false;
     this.state = {
       timelineHeight: 1000,
-      elementHeight: defaultElementHeight
+      elementHeight: defaultElementHeight,
     };
     this.onWindowResize = this.onWindowResize.bind(this);
     window.addEventListener('resize', this.onWindowResize);
@@ -24,7 +28,7 @@ export default class Timeline extends Component {
   }
 
   componentDidUpdate() {
-    if (this.props.timeline.length === 0 ) return;
+    if (this.props.timeline.length === 0) return;
     if (this.isInitialized) return;
     this.isInitialized = true;
     this.updateElementHeight(this.props.timeline);
@@ -48,35 +52,35 @@ export default class Timeline extends Component {
     }, 100);
   }
 
-  updateTimelineHeight () {
+  updateTimelineHeight() {
     const timeline = document.querySelector('.timeline');
     const timelineHeight = timeline.clientHeight;
-    this.setState({timelineHeight});
+    this.setState({ timelineHeight });
     console.log(timelineHeight);
   }
 
-  updateElementHeight (timeline) {
+  updateElementHeight(timeline) {
     const elementHeight = timeline.map((tweet, i) => {
       const el = document.getElementById(i);
       if (el) return el.clientHeight;
       if (this.state.elementHeight[i]) return this.state.elementHeight[i];
       return defaultElementHeight;
     });
-    this.setState({elementHeight});
+    this.setState({ elementHeight });
     console.dir(elementHeight);
   }
 
   onInfiniteLoad() {
     console.log('onload');
-    //if (this.props.menu.keywords.length === 0) return;
-    //if (this.props.feed[this.props.menu.acTivekeyword].isPageEnd) return;
-    //console.log("loading..");
-    //this.props.fetchFeed(this.props.feed, this.props.menu);
+    // if (this.props.menu.keywords.length === 0) return;
+    // if (this.props.feed[this.props.menu.acTivekeyword].isPageEnd) return;
+    // console.log("loading..");
+    // this.props.fetchFeed(this.props.feed, this.props.menu);
   }
 
   elementInfiniteLoad() {
-    //if (this.props.feed[this.props.menu.activeKeyword].isPageEnd) return;
-    return  <div className="rect-spinner">spinner</div>;
+    // if (this.props.feed[this.props.menu.activeKeyword].isPageEnd) return;
+    return <div className="rect-spinner">spinner</div>;
   }
 
   getTimeline() {
@@ -91,18 +95,19 @@ export default class Timeline extends Component {
   }
 
   render() {
-    const {timelineHeight, elementHeight} = this.state;
+    const { timelineHeight, elementHeight } = this.state;
     console.log(timelineHeight);
     return (
       <div className="timeline">
         <Infinite
-           elementHeight={elementHeight}
-           containerHeight={timelineHeight}
-           infiniteLoadBeginEdgeOffset={100}
-           onInfiniteLoad={::this.onInfiniteLoad}
-           loadingSpinnerDelegate={this.elementInfiniteLoad()}
-           isInfiniteLoading={true}
-           className={'timeline__infinite'}>
+          elementHeight={elementHeight}
+          containerHeight={timelineHeight}
+          infiniteLoadBeginEdgeOffset={100}
+          onInfiniteLoad={::this.onInfiniteLoad}
+          loadingSpinnerDelegate={this.elementInfiniteLoad()}
+          isInfiniteLoading
+          className={'timeline__infinite'}
+        >
           {this.getTimeline()}
         </Infinite>
       </div>
