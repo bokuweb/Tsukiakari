@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import SortablePane, {Pane} from 'react-sortable-pane';
+import {SortablePane, Pane} from 'react-sortable-pane';
 import TimelineBox from './timeline-box';
 
 export default class Contents extends Component {
