@@ -41,7 +41,7 @@ export default class Timeline extends Component {
   onWindowResize() {
     console.log('window resize');
     this.updateTimelineHeight();
-    this.updateElementHeight(this.props.timeline);
+    this.updateElementHeight();
   }
 
   onInfiniteScroll() {
@@ -56,7 +56,7 @@ export default class Timeline extends Component {
     const timeline = document.querySelector('.timeline');
     const timelineHeight = timeline.getBoundingClientRect().height;
     this.setState({ timelineHeight });
-    console.log(timelineHeight);
+    console.log(`timeline height = ${timelineHeight}`);
   }
 
   updateElementHeight(timeline) {
