@@ -19,6 +19,7 @@ export default class Contents extends Component {
   }
 
   onPaneResize(pane) {
+    console.dir(pane)
     this.refs[`${pane.id}Timeline`].update();
   }
 
@@ -26,21 +27,21 @@ export default class Contents extends Component {
     return (
       <SortablePane
         customClass="contents"
-        margin={10}
+        margin={0}
         onResize={this.onPaneResize}
+        onResizeStop={this.onPaneResize}
       >
        <Pane
          id="pane1"
          width={320}
          minWidth={320}
-         style={{ overflowX: 'hidden' }}
        >
          <TimelineBox ref="pane1Timeline" timeline={this.props.timeline} />
        </Pane>
-       <Pane id="pane2" ref="pane2" width={320} minWidth={320} style={{ overflowX: 'hidden' }}>
+       <Pane id="pane2" ref="pane2" width={320} minWidth={320} >
          <TimelineBox timeline={this.props.timeline} />
        </Pane>
-       <Pane id="pane3" ref="pane3" width={320} minWidth={320} style={{ overflowX: 'hidden' }}>
+       <Pane id="pane3" ref="pane3" width={320} minWidth={320} >
          <TimelineBox timeline={this.props.timeline} />
        </Pane>
       </SortablePane>
