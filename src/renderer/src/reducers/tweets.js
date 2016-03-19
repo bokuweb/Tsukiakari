@@ -5,7 +5,7 @@ const defaultState = {
 };
 
 export default handleActions({
-  FETCH_TIMELINE: (state, action) => ({timeline: action.payload.tweets})
+  FETCH_TIMELINE: (state, action) => ({ timeline: action.payload.tweets })
 }, defaultState);
 
 

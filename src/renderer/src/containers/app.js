@@ -5,7 +5,7 @@ import Tsukiakari from '../components/tsukiakari';
 import * as accounts from '../actions/accounts';
 import * as tweets from '../actions/tweets';
 
-function mapStateToProps(state)  {
+function mapStateToProps(state) {
   return state;
 }
 

@@ -6,7 +6,7 @@ export default class TimelineBox extends Component {
     super(props);
   }
 
-  update(){
+  update() {
     console.log('update');
     this.refs.timeline.updateElementHeight();
   }

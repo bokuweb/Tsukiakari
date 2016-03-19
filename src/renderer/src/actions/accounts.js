@@ -7,7 +7,7 @@ export const loadAccounts = () => {
     const path = remote.getGlobal('accountFilePath');
     jsonfile.readFile(path, (err, accounts) => {
       const action = createAction('LOAD_ACCOUNTS');
-      dispatch(action({accounts}));
+      dispatch(action({ accounts }));
     });
   };
 };

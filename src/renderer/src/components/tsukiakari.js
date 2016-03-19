@@ -9,14 +9,14 @@ export default class Tsukiakari extends Component {
   }
 
   componentWillMount() {
-    const {loadAccounts} = this.props.actions.accounts;
+    const { loadAccounts } = this.props.actions.accounts;
     loadAccounts();
   }
 
   render() {
-    const {accounts} = this.props.accounts;
-    const {fetchHomeTimeline} = this.props.actions.tweets;
-    const {timeline} = this.props.tweets;
+    const { accounts } = this.props.accounts;
+    const { fetchHomeTimeline } = this.props.actions.tweets;
+    const { timeline } = this.props.tweets;
     return (
       <div className="container">
         <Accounts accounts={accounts} />
@@ -24,9 +24,9 @@ export default class Tsukiakari extends Component {
         {
           (accounts.length !== 0)
             ? <Contents
-                   accounts={accounts}
-                   timeline={timeline}
-                   fetchHomeTimeline={fetchHomeTimeline} />
+              accounts={accounts}
+              timeline={timeline}
+              fetchHomeTimeline={fetchHomeTimeline} />
             : <div />
         }
       </div>

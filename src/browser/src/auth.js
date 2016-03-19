@@ -32,10 +32,10 @@ module.exports = class Auth {
           const matched = url.match(/\?oauth_token=([^&]*)&oauth_verifier=([^&]*)/);
           if (matched) {
             this.twitter.getAccessToken(requestToken, requestTokenSecret, matched[2], (error, accessToken, accessTokenSecret) => {
-              if(error) reject(error);
+              if (error) reject(error);
               else {
                 this.twitter.verifyCredentials(accessToken, accessTokenSecret, (error, profile, response) => {
-                  if(error) reject(error);
+                  if (error) reject(error);
                   else {
                     setTimeout(() => loginWindow.close(), 100);
                     profile.accessToken = accessToken;
@@ -54,7 +54,7 @@ module.exports = class Auth {
       });
     });
   }
-}
+};
 
 
 
