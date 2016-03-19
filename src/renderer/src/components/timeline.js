@@ -54,7 +54,7 @@ export default class Timeline extends Component {
 
   updateTimelineHeight() {
     const timeline = document.querySelector('.timeline');
-    const timelineHeight = timeline.getBoundingClientRect().height;
+    const timelineHeight = timeline.getBoundingClientRect().height - 5; // TODO: getComputedStyle
     this.setState({ timelineHeight });
     console.log(`timeline height = ${timelineHeight}`);
   }
