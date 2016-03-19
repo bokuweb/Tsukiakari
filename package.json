@@ -6,12 +6,13 @@
   "scripts": {
     "dev": "gulp serve & npm run watch",
     "start": "electron src/browser/src/main.js",
-    "watch:js": "babel --watch -d src/renderer/dist/ src/renderer/src/",
+    "watch:js": "babel --watch -d src/renderer/app/ src/renderer/src/",
     "build:js": "browserify --extension=js -o src/renderer/dist/bundle.js src/renderer/src/index.js",
     "build:lib": "browserify --extension=js -o lib/index.js src/index.js",
     "watch": "npm run watch:js & npm run watch:stylus",
     "watch:stylus": "stylus src/renderer/stylus/ --watch  --out src/renderer/stylesheets/",
     "build:stylus": "stylus src/renderer/stylus/ --out src/renderer/stylesheets/",
+    "package": "electron-packager . tsukiakari --platform darwin --arch x64",
     "lint": "eslint src/renderer/src --fix"
   },
   "repository": {
@@ -44,6 +45,7 @@
     "brfs": "^1.4.2",
     "browserify": "^12.0.1",
     "electron-connect": "^0.3.3",
+    "electron-packager": "^5.2.1",
     "electron-prebuilt": "^0.36.5",
     "eslint": "^2.4.0",
     "eslint-config-airbnb": "^6.1.0",

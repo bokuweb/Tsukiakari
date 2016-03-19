@@ -1,5 +1,6 @@
 'use strict';
 
+// import electron from 'electron';
 const electron = require('electron');
 const client = require('electron-connect').client;
 const app = electron.app;  // Module to control application life.
@@ -40,7 +41,6 @@ app.on('ready', function() {
       fullscreen: true,
       fullscreenable: true,
       'node-integration': true
-
     });
     // and load the index.html of the app.
     mainWindow.loadURL(`file://${__dirname}/../../renderer/index.html`);
