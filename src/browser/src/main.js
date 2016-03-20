@@ -38,8 +38,6 @@ app.on('ready', function() {
   const loadMainWindow = () => {
     // Create the browser window.
     mainWindow = new BrowserWindow({
-      fullscreen: true,
-      fullscreenable: true,
       'node-integration': true
     });
     // and load the index.html of the app.
