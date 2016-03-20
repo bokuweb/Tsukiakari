@@ -12,7 +12,7 @@
     "watch": "npm run watch:js & npm run watch:stylus",
     "watch:stylus": "stylus src/renderer/stylus/ --watch  --out src/renderer/stylesheets/",
     "build:stylus": "stylus src/renderer/stylus/ --out src/renderer/stylesheets/",
-    "package": "electron-packager . tsukiakari --platform darwin --arch x64",
+    "package": "electron-packager . tsukiakari --arch=x64 --out=packages/v0.0.1 --platform=darwin --version=0.37.2 --ignore={packages,screenshots}/* --overwrite",
     "lint": "eslint src/renderer/src --fix"
   },
   "repository": {
