@@ -1,11 +1,10 @@
 'use strict';
 
-const { BrowserWindow, app } = require('electron');
+const { BrowserWindow, app, ipcMain } = require('electron');
 const client = require('electron-connect').client;
 const Auth = require('./auth');
 const jsonfile = require('jsonfile');
 const _ = require('lodash');
-const ipc = require('ipc');
 const util = require('util');
 
 // be closed automatically when the JavaScript object is garbage collected.
@@ -17,12 +16,12 @@ app.on('window-all-closed', () => {
   if (process.platform != 'darwin') app.quit();
 });
 
-app.on('ready', function() {
+app.on('ready', () => {
   let accounts = [];
   global.consumerKey = "njiDlWzzRl1ReomcCmvhbarN7";
   global.consumerSecret = "rTOSMuY11adXXUxHHTlcNRWRZsutORnvgAl9eojb19Y77Ub78M";
-  global.accountFilePath = `${app.getPath('cache')}/accounts.json`;
-
+  const accountFilePath = `${app.getPath('cache')}/accounts.json`;
+  
   const loadMainWindow = () => {
     mainWindow = new BrowserWindow({
       'min-width': 640,
@@ -41,29 +40,27 @@ app.on('ready', function() {
     console.log(e);
   }
 
-  const authenticate = () => {
-    return new Promise((resolve, reject) => {
-      const auth = new Auth();
-      auth.request()
-        .then(resolve)
-        .catch(error => console.log(error));
-    });
-  };
+  const authenticate = () => new Promise(resolve => {
+    const auth = new Auth();
+    auth.request()
+      .then(resolve)
+      .catch(error => console.log(error));
+  });
 
   const addAccountUnlessExist = (account) => {
-    account._id = accounts.length;
-    if (!_.includes(_.map(accounts, 'id'), account.id)) accounts.push(account);
+    const newAccount = Object.assign({}, account, { id: accounts.length });
+    if (!_.includes(_.map(accounts, 'id'), newAccount.id)) accounts.push(newAccount);
     jsonfile.writeFile(accountFilePath, accounts,  err => console.log(err));
   };
 
-  ipc.on('authenticate-request', event => {
+  ipcMain.on('authenticate-request', event => {
     authenticate().then(account => {
       addAccountUnlessExist(account);
       event.sender.send('authenticate-request-reply', accounts);
     });
   });
 
-  ipc.on('accounts-request', event => event.sender.send('accounts-request-reply', accounts));
+  ipcMain.on('accounts-request', event => event.sender.send('accounts-request-reply', accounts));
 
   if (accounts[0] !== undefined) {
     loadMainWindow();
