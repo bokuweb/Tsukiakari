@@ -46,11 +46,11 @@ export default class Timeline extends Component {
   }
 
   onInfiniteScroll() {
-    console.log('scroll');
-    clearTimeout(this.scrollTimer);
-    // this.scrollTimer = setTimeout(() => {
+    if (this.scrollTimer) return;
+    this.scrollTimer = setTimeout(() => {
       this.updateElementHeight();
-    // }, 20);
+      this.scrollTimer = null;
+    }, 100);
   }
 
   updateTimelineHeight() {
