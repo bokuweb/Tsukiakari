@@ -25,8 +25,8 @@ app.on('ready', function() {
 
   const loadMainWindow = () => {
     mainWindow = new BrowserWindow({
-      'min-width': '600px',
-      'min-height': '400px',
+      'min-width': 640,
+      'min-height': 400,
     });
     mainWindow.loadURL(`file://${__dirname}/../../renderer/index.html`);
     client.create(mainWindow);
