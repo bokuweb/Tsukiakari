@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Infinite from 'react-infinite';
+import { isEmpty } from 'lodash';
 import TweetItem from './tweetitem';
 
 const defaultElementHeight = 140;
@@ -18,20 +19,20 @@ export default class Timeline extends Component {
       elementHeight: defaultElementHeight,
     };
     this.onWindowResize = ::this.onWindowResize;
-    window.addEventListener('resize', this.onWindowResize);
   }
 
   componentDidMount() {
     this.updateTimelineHeight();
     const infinite = document.querySelector('.timeline__infinite');
     infinite.addEventListener('scroll', ::this.onInfiniteScroll);
+    window.addEventListener('resize', this.onWindowResize);
   }
 
   componentDidUpdate() {
     if (this.props.timeline.length === 0) return;
     if (this.isInitialized) return;
     this.isInitialized = true;
-    this.updateElementHeight(this.props.timeline);
+    this.updateElementHeight();
   }
 
   componentWillUnmount() {
@@ -49,7 +50,7 @@ export default class Timeline extends Component {
     clearTimeout(this.scrollTimer);
     this.scrollTimer = setTimeout(() => {
       this.updateElementHeight();
-    }, 100);
+    }, 20);
   }
 
   updateTimelineHeight() {
@@ -61,7 +62,7 @@ export default class Timeline extends Component {
 
   updateElementHeight(timeline) {
     const elementHeight = this.props.timeline.map((tweet, i) => {
-      const el = document.getElementById(i);
+      const el = document.getElementById(i); // FIXME: not use id
       if (el) return el.clientHeight;
       if (this.state.elementHeight[i]) return this.state.elementHeight[i];
       return defaultElementHeight;
@@ -97,11 +98,10 @@ export default class Timeline extends Component {
 
   render() {
     const { timelineHeight, elementHeight } = this.state;
-    console.log(timelineHeight);
     return (
       <div className="timeline">
         <Infinite
-          elementHeight={elementHeight}
+          elementHeight={isEmpty(elementHeight) ? defaultElementHeight : elementHeight}
           containerHeight={timelineHeight}
           infiniteLoadBeginEdgeOffset={100}
           onInfiniteLoad={::this.onInfiniteLoad}
