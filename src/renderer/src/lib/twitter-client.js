@@ -1,13 +1,13 @@
-import Twitter from 'twitter';
+import Twit from 'twit';
 import remote from 'remote';
 
 export default class TwitterClient {
   constructor(accessToken, accessTokenSecret) {
-    this.client = new Twitter({
-      consumer_key        : remote.getGlobal('consumerKey'),
-      consumer_secret     : remote.getGlobal('consumerSecret'),
-      access_token_key    : accessToken,
-      access_token_secret : accessTokenSecret
+    this.client = new Twit({
+      consumer_key: remote.getGlobal('consumerKey'),
+      consumer_secret: remote.getGlobal('consumerSecret'),
+      access_token: accessToken,
+      access_token_secret: accessTokenSecret,
     });
   }
 
@@ -16,7 +16,7 @@ export default class TwitterClient {
       this.client.get(
         'statuses/home_timeline',
         params,
-        (error, tweets, response) => {
+        (error, tweets) => {
           if (error) reject(error);
           else resolve(tweets);
         });
