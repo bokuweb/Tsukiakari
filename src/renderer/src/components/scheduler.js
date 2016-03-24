@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-export default class TimelineScheduler extends Component {
+export default class Scheduler extends Component {
   static propTypes = {
     activePane: PropTypes.array,
   };

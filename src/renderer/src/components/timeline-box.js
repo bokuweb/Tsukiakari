@@ -11,6 +11,10 @@ export default class TimelineBox extends Component {
     this.refs.timeline.updateElementHeight();
   }
 
+  onClick(e) {
+    e.preventDefault();
+  }
+
   render() {
     return (
       <div className="timeline-box">

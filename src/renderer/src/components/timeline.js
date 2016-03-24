@@ -19,6 +19,7 @@ export default class Timeline extends Component {
       elementHeight: defaultElementHeight,
     };
     this.onWindowResize = ::this.onWindowResize;
+    this.onMouseDown = ::this.onMouseDown;
   }
 
   componentDidMount() {
@@ -37,6 +38,10 @@ export default class Timeline extends Component {
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.onWindowResize);
+  }
+
+  onMouseDown(e) {
+    e.stopPropagation();
   }
 
   onWindowResize() {
@@ -86,20 +91,17 @@ export default class Timeline extends Component {
   }
 
   getTimeline() {
-    return this.props.timeline.map((tweet, i) => {
-      // FIXME:
-      return (
-        <div className="timeline__item" id={i} key={tweet.id}>
-          <TweetItem tweet={tweet} />
-        </div>
-      );
-    });
+    return this.props.timeline.map((tweet, i) => ( // FIXME:
+      <div className="timeline__item" id={i} key={tweet.id}>
+        <TweetItem tweet={tweet} />
+      </div>
+    ));
   }
 
   render() {
     const { timelineHeight, elementHeight } = this.state;
     return (
-      <div className="timeline">
+      <div className="timeline" onMouseDown={this.onMouseDown}>
         <Infinite
           elementHeight={isEmpty(elementHeight) ? defaultElementHeight : elementHeight}
           containerHeight={timelineHeight}

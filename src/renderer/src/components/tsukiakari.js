@@ -1,34 +1,42 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import Accounts from './accounts';
 import Sidemenu from './sidemenu';
 import Contents from './contents';
+import Scheduler from './scheduler';
 
 export default class Tsukiakari extends Component {
-  constructor(props) {
-    super(props);
-  }
+  static propTypes = {
+    actions: PropTypes.object.isRequired,
+    accounts: PropTypes.object,
+    tweets: PropTypes.object,
+  };
 
   componentWillMount() {
-    const { loadAccounts } = this.props.actions.accounts;
-    loadAccounts();
+    this.props.actions.accounts.loadAccounts();
+  }
+
+  renderContents() {
+    const { accounts } = this.props.accounts;
+    const { fetchHomeTimeline } = this.props.actions.tweets;
+    const { timeline } = this.props.tweets;
+    if (accounts.length === 0) return null;
+    return (
+      <Contents
+        accounts={accounts}
+        timeline={timeline}
+        fetchHomeTimeline={fetchHomeTimeline}
+      />
+    );
   }
 
   render() {
     const { accounts } = this.props.accounts;
-    const { fetchHomeTimeline } = this.props.actions.tweets;
-    const { timeline } = this.props.tweets;
     return (
       <div className="container">
+        <Scheduler />
         <Accounts accounts={accounts} />
         <Sidemenu />
-        {
-          (accounts.length !== 0)
-            ? <Contents
-              accounts={accounts}
-              timeline={timeline}
-              fetchHomeTimeline={fetchHomeTimeline} />
-            : <div />
-        }
+        {this.renderContents()}
       </div>
     );
   }
