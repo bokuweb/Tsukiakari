@@ -14,10 +14,6 @@ export default class Contents extends Component {
     this.onPaneResize = ::this.onPaneResize;
   }
 
-  componentWillMount() {
-    this.props.fetchHomeTimeline(this.props.accounts[0]);
-  }
-
   onPaneResize(pane) {
     console.dir(pane);
     this.refs[`${pane.id}Timeline`].update();

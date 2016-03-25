@@ -36,6 +36,12 @@ export default class Timeline extends Component {
     this.updateElementHeight();
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.timeline.length !== nextProps.timeline.length) {
+      this.updateElementHeight(nextProps.timeline);
+    }
+  }
+
   componentWillUnmount() {
     window.removeEventListener('resize', this.onWindowResize);
   }
@@ -47,13 +53,13 @@ export default class Timeline extends Component {
   onWindowResize() {
     console.log('window resize');
     this.updateTimelineHeight();
-    this.updateElementHeight();
+    this.updateElementHeight(this.props.timeline);
   }
 
   onInfiniteScroll() {
     if (this.scrollTimer) return;
     this.scrollTimer = setTimeout(() => {
-      this.updateElementHeight();
+      this.updateElementHeight(this.props.timeline);
       this.scrollTimer = null;
     }, 100);
   }
@@ -66,14 +72,14 @@ export default class Timeline extends Component {
   }
 
   updateElementHeight(timeline) {
-    const elementHeight = this.props.timeline.map((tweet, i) => {
-      const el = document.getElementById(i); // FIXME: not use id
+    if (isEmpty(timeline)) return;
+    const elementHeight = timeline.map((tweet, i) => {
+      const el = document.getElementById(tweet.id); // FIXME: not use id
       if (el) return el.clientHeight;
       if (this.state.elementHeight[i]) return this.state.elementHeight[i];
       return defaultElementHeight;
     });
     this.setState({ elementHeight });
-    console.dir(elementHeight);
   }
 
   onInfiniteLoad() {
@@ -91,8 +97,8 @@ export default class Timeline extends Component {
   }
 
   getTimeline() {
-    return this.props.timeline.map((tweet, i) => ( // FIXME:
-      <div className="timeline__item" id={i} key={tweet.id}>
+    return this.props.timeline.map(tweet => ( // FIXME:
+      <div className="timeline__item" id={tweet.id} key={tweet.id}>
         <TweetItem tweet={tweet} />
       </div>
     ));
