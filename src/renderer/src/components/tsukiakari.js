@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import Accounts from './accounts';
 import Sidemenu from './sidemenu';
 import Contents from './contents';
-import Scheduler from './scheduler';
 
 export default class Tsukiakari extends Component {
   static propTypes = {
@@ -12,31 +11,23 @@ export default class Tsukiakari extends Component {
   };
 
   componentWillMount() {
-    this.props.actions.accounts.loadAccounts();
-  }
-
-  renderContents() {
-    const { accounts } = this.props.accounts;
     const { fetchHomeTimeline } = this.props.actions.tweets;
-    const { timeline } = this.props.tweets;
-    if (accounts.length === 0) return null;
-    return (
-      <Contents
-        accounts={accounts}
-        timeline={timeline}
-        fetchHomeTimeline={fetchHomeTimeline}
-      />
-    );
+    this.props.actions.accounts.loadAccounts();
+    setInterval(() => {
+      if (this.props.accounts.accounts[0]) fetchHomeTimeline(this.props.accounts.accounts[0]);
+    }, 60 * 1000);
   }
 
   render() {
-    const { accounts } = this.props.accounts;
+    const {
+      tweets: { timeline },
+      accounts: { accounts },
+    } = this.props;
     return (
       <div className="container">
-        <Scheduler />
         <Accounts accounts={accounts} />
         <Sidemenu />
-        {this.renderContents()}
+        <Contents timeline={timeline} />
       </div>
     );
   }
