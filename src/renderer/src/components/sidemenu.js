@@ -28,7 +28,7 @@ export default class Sidemenu extends Component {
           </ul>
           <div className="sidemenu__button--addcolumn">
             <i className="sidemenu__icon icon-plus" />
-            <span className="sidemenu__text--newtweet">Add column</span>
+            <a className="sidemenu__text--list">Add column</a>
           </div>
         </div>
         <div className="sidemenu__button--newtweet">
