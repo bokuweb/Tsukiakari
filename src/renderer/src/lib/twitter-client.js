@@ -23,19 +23,18 @@ export default class TwitterClient {
     });
   }
 
-  /*
-  getFavorites(params) {
-    var d = Q.defer();
-    this._client.get('favorites/list', params, (error, tweets, response) => {
-      if (error) {
-        console.log(util.inspect(error));
-        d.reject(error);
-      }
-      return d.resolve(tweets);
+  fetchFavorites(params) {
+    return new Promise((resolve, reject) => {
+      this.client.get(
+        'favorites/list',
+        params,
+        (error, tweets) => {
+          if (error) reject(error);
+          else resolve(tweets);
+        });
     });
-    return d.promise;
   }
-
+  /*
   getStatus(id) {
     var d = Q.defer();
     this._client.get('statuses/show', {id : id, include_my_retweet : true}, (error, status, response) => {
@@ -83,6 +82,7 @@ export default class TwitterClient {
     });
     return d.promise;
   }
+
 
   searchTweet(params) {
     var d = Q.defer();
