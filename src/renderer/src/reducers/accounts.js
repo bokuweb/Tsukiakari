@@ -5,6 +5,6 @@ const defaultState = {
 };
 
 export default handleActions({
-  LOAD_ACCOUNTS: (state, action) => ({accounts: action.payload.accounts})
+  LOAD_ACCOUNTS: (state, action) => ({ accounts: action.payload.accounts })
 }, defaultState);
 

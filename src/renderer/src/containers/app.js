@@ -1,20 +1,19 @@
-import _ from 'lodash';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Tsukiakari from '../components/tsukiakari';
 import * as accounts from '../actions/accounts';
 import * as tweets from '../actions/tweets';
 
-function mapStateToProps(state)  {
+function mapStateToProps(state) {
   return state;
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions :{
+    actions: {
       accounts: bindActionCreators(accounts, dispatch),
-      tweets: bindActionCreators(tweets, dispatch)
-    }
+      tweets: bindActionCreators(tweets, dispatch),
+    },
   };
 }
 

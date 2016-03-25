@@ -6,6 +6,15 @@ export default class TimelineBox extends Component {
     super(props);
   }
 
+  update() {
+    console.log('update');
+    this.refs.timeline.updateElementHeight();
+  }
+
+  onClick(e) {
+    e.preventDefault();
+  }
+
   render() {
     return (
       <div className="timeline-box">
@@ -14,7 +23,7 @@ export default class TimelineBox extends Component {
           <i className="timeline-box__icon lnr lnr-cog" />
           <i className="timeline-box__icon icon-remove" />
         </div>
-        <Timeline timeline={this.props.timeline} />
+        <Timeline ref="timeline" timeline={this.props.timeline} />
       </div>
     );
   }

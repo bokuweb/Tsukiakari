@@ -6,7 +6,7 @@ export default class Accounts extends Component {
   }
 
   render() {
-    const {accounts} = this.props;
+    const { accounts } = this.props;
     console.dir(accounts);
     return (
       <div className="accounts">
@@ -17,9 +17,10 @@ export default class Accounts extends Component {
                 return (
                   <div key={account.id}>
                     <img
-                       src={account.profile_image_url}
-                       className="accounts__avatar"/>
-                    <span className="accounts__name">{account.screen_name}</span>
+                      src={account.profile_image_url}
+                      className="accounts__avatar"
+                    />
+                    {/* <span className="accounts__name">{account.screen_name}</span> */ }
                   </div>
                 );
               });
@@ -27,7 +28,7 @@ export default class Accounts extends Component {
           }
         </div>
         <div className="accounts__add">
-        <i className="accounts__icon--add icon-plus"/>
+        <i className="accounts__icon--add icon-plus" />
         </div>
       </div>
     );

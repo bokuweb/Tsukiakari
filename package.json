@@ -1,17 +1,18 @@
 {
-  "name": "electron-quick-start",
-  "version": "1.0.0",
+  "name": "Tsukiakari",
+  "version": "0.1.0",
   "description": "A minimal Electron application",
   "main": "/src/browser/src/main.js",
   "scripts": {
     "dev": "gulp serve & npm run watch",
     "start": "electron src/browser/src/main.js",
-    "watch:js": "babel --watch -d src/renderer/dist/ src/renderer/src/",
-    "build:js": "browserify --extension=js -o src/renderer/dist/bundle.js src/renderer/src/index.js",
-    "build:lib": "browserify --extension=js -o lib/index.js src/index.js",
+    "watch:js": "watchify src/renderer/src/index.js -o src/renderer/dist/bundle.js --ignore-missing",
+    "build:js": "browserify --extension=js -o src/renderer/dist/bundle.js src/renderer/src/index.js --ignore-missing",
     "watch": "npm run watch:js & npm run watch:stylus",
     "watch:stylus": "stylus src/renderer/stylus/ --watch  --out src/renderer/stylesheets/",
-    "build:stylus": "stylus src/renderer/stylus/ --out src/renderer/stylesheets/"
+    "build:stylus": "stylus src/renderer/stylus/ --out src/renderer/stylesheets/",
+    "package": "electron-packager . tsukiakari --arch=x64 --out=packages/v0.0.1 --platform=darwin --version=0.37.2 --ignore={packages,screenshots}/* --overwrite",
+    "lint": "eslint src/renderer/src --fix"
   },
   "repository": {
     "type": "git",
@@ -23,8 +24,8 @@
     "start",
     "tutorial"
   ],
-  "author": "GitHub",
-  "license": "CC0-1.0",
+  "author": "bokuweb",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/atom/electron-quick-start/issues"
   },
@@ -32,6 +33,10 @@
   "devDependencies": {
     "babel": "^6.3.26",
     "babel-cli": "^6.3.17",
+    "babel-eslint": "^5.0.0",
+    "babel-plugin-syntax-do-expressions": "^6.3.13",
+    "babel-plugin-transform-class-properties": "^6.6.0",
+    "babel-plugin-transform-do-expressions": "^6.5.0",
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.3.13",
     "babel-preset-stage-0": "^6.3.13",
@@ -39,46 +44,35 @@
     "brfs": "^1.4.2",
     "browserify": "^12.0.1",
     "electron-connect": "^0.3.3",
+    "electron-packager": "^5.2.1",
     "electron-prebuilt": "^0.36.5",
+    "eslint": "^2.4.0",
+    "eslint-config-airbnb": "^6.1.0",
+    "eslint-plugin-react": "^4.2.3",
+    "estraverse": "^4.2.0",
+    "estraverse-fb": "^1.3.1",
     "gulp": "^3.9.0",
     "stylus": "^0.53.0",
     "watchify": "^3.6.1"
   },
   "dependencies": {
-    "babel-plugin-syntax-do-expressions": "^6.3.13",
-    "electron-prebuilt": "^0.36.5",
-    "jsonfile": "^2.2.3",
+    "electron-prebuilt": "^0.37.2",
     "lodash": "^3.10.1",
     "node-twitter-api": "^1.6.3",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
-    "react-infinite": "^0.7.3",
+    "react-infinite": "^0.8.0",
     "react-redux": "^4.0.3",
-    "react-sortable-pane": "^0.1.0",
+    "react-sortable-pane": "^0.2.2",
     "redux": "^3.0.5",
     "redux-actions": "^0.9.0",
     "redux-logger": "^2.3.1",
     "redux-thunk": "^1.0.3",
-    "twitter": "^1.2.5"
-  },
-  "babel": {
-    "presets": [
-      "es2015"
-    ]
+    "twit": "^2.2.3"
   },
   "browserify": {
-    "ignore-missing": true,
     "transform": [
-      "brfs",
-      [
-        "babelify",
-        {
-          "presets": [
-            "es2015",
-            "react"
-          ]
-        }
-      ]
+      "babelify"
     ]
   }
 }

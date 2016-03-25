@@ -1,13 +1,10 @@
-import jsonfile from 'jsonfile';
-import remote from 'remote';
 import { createAction } from 'redux-actions';
+import { ipcRenderer } from 'electron';
 
-export const loadAccounts = () => {
-  return dispatch => {
-    const path = remote.getGlobal('accountFilePath');
-    jsonfile.readFile(path, (err, accounts) => {
-      const action = createAction('LOAD_ACCOUNTS');
-      dispatch(action({accounts}));
-    });
-  };
+export const loadAccounts = () => dispatch => {
+  ipcRenderer.send('accounts-request');
+  ipcRenderer.on('accounts-request-reply', (_, accounts) => {
+    const action = createAction('LOAD_ACCOUNTS');
+    dispatch(action({ accounts }));
+  });
 };
