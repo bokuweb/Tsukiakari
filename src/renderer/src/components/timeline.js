@@ -29,17 +29,17 @@ export default class Timeline extends Component {
     window.addEventListener('resize', this.onWindowResize);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.timeline.length !== nextProps.timeline.length) {
+      this.updateElementHeight(nextProps.timeline);
+    }
+  }
+
   componentDidUpdate() {
     if (this.props.timeline.length === 0) return;
     if (this.isInitialized) return;
     this.isInitialized = true;
     this.updateElementHeight();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.timeline.length !== nextProps.timeline.length) {
-      this.updateElementHeight(nextProps.timeline);
-    }
   }
 
   componentWillUnmount() {
@@ -62,13 +62,6 @@ export default class Timeline extends Component {
       this.updateElementHeight(this.props.timeline);
       this.scrollTimer = null;
     }, 100);
-  }
-
-  updateTimelineHeight() {
-    const timeline = document.querySelector('.timeline');
-    const timelineHeight = timeline.getBoundingClientRect().height - 5; // TODO: getComputedStyle
-    this.setState({ timelineHeight });
-    console.log(`timeline height = ${timelineHeight}`);
   }
 
   updateElementHeight(timeline) {
@@ -97,11 +90,17 @@ export default class Timeline extends Component {
   }
 
   getTimeline() {
-    return this.props.timeline.map(tweet => ( // FIXME:
-      <div className="timeline__item" id={tweet.id} key={tweet.id}>
+    return this.props.timeline.map((tweet, i) => ( // FIXME:
+      <div className="timeline__item animated fadeIn" id={tweet.id} key={`${i}${tweet.id}`}>
         <TweetItem tweet={tweet} />
       </div>
     ));
+  }
+
+  updateTimelineHeight() {
+    const timeline = document.querySelector('.timeline');
+    const timelineHeight = timeline.getBoundingClientRect().height;
+    this.setState({ timelineHeight });
   }
 
   render() {

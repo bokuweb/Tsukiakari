@@ -15,7 +15,6 @@ export default class Contents extends Component {
   }
 
   onPaneResize(pane) {
-    console.dir(pane);
     this.refs[`${pane.id}Timeline`].update();
   }
 
