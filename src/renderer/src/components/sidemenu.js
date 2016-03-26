@@ -1,6 +1,42 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 export default class Sidemenu extends Component {
+  static propTypes = {
+    openAddColumnMenu: PropTypes.func,
+    closeAddColumnMenu: PropTypes.func,
+    isAddColumnMenuOpen: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    openAddColumnMenu: () => null,
+    closeAddColumnMenu: () => null,
+  }
+
+  constructor(props) {
+    super(props);
+    this.onAddColumnClick = ::this.onAddColumnClick;
+  }
+
+  onAddColumnClick() {
+    if (this.props.isAddColumnMenuOpen) {
+      this.props.closeAddColumnMenu();
+    } else {
+      this.props.openAddColumnMenu();
+    }
+  }
+
+  renderAddColumnButton() {
+    const isOpen = this.props.isAddColumnMenuOpen;
+    const text = isOpen ? 'Close menu' : 'Add new column';
+    const iconStyle = isOpen ? 'sidemenu__icon--is-open lnr lnr-cross' : 'sidemenu__icon icon-plus';
+    return (
+      <div className="sidemenu__button--addcolumn" onClick={this.onAddColumnClick}>
+        <i className={iconStyle} />
+        <a className="sidemenu__text--add">{text}</a>
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className="sidemenu">
@@ -26,10 +62,7 @@ export default class Sidemenu extends Component {
               <span className="sidemenu__text--list">List</span>
             </li>
           </ul>
-          <div className="sidemenu__button--addcolumn">
-            <i className="sidemenu__icon icon-plus" />
-            <a className="sidemenu__text--list">Add column</a>
-          </div>
+          {this.renderAddColumnButton()}
         </div>
         <div className="sidemenu__button--newtweet">
           <i className="sidemenu__icon icon-twitter" />

@@ -57,6 +57,7 @@
   },
   "dependencies": {
     "electron-prebuilt": "^0.37.2",
+    "jsonfile": "^2.2.3",
     "lodash": "^3.10.1",
     "node-twitter-api": "^1.6.3",
     "react": "^0.14.3",

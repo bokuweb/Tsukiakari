@@ -3,12 +3,14 @@ import { isEmpty } from 'lodash';
 import Accounts from './accounts';
 import Sidemenu from './sidemenu';
 import Contents from './contents';
+import AddColumnMenu from './add-column-menu';
 
 export default class Tsukiakari extends Component {
   static propTypes = {
     actions: PropTypes.object.isRequired,
     accounts: PropTypes.object,
     tweets: PropTypes.object,
+    sidemenu: PropTypes.object,
   };
 
   componentWillMount() {
@@ -30,12 +32,19 @@ export default class Tsukiakari extends Component {
     const {
       tweets: { timeline },
       accounts: { accounts },
+      sidemenu: { isAddColumnMenuOpen },
     } = this.props;
+    const { openAddColumnMenu, closeAddColumnMenu } = this.props.actions.sidemenu;
     return (
       <div className="container">
         <Accounts accounts={accounts} />
-        <Sidemenu />
+        <Sidemenu
+          openAddColumnMenu={openAddColumnMenu}
+          closeAddColumnMenu={closeAddColumnMenu}
+          isAddColumnMenuOpen={isAddColumnMenuOpen}
+        />
         <Contents timeline={timeline} />
+        <AddColumnMenu isOpen={isAddColumnMenuOpen} />
       </div>
     );
   }

@@ -1,10 +1,10 @@
 import { handleActions } from 'redux-actions';
 
 const defaultState = {
-  accounts: []
+  accounts: [],
 };
 
 export default handleActions({
-  LOAD_ACCOUNTS: (state, action) => ({ accounts: action.payload.accounts })
+  LOAD_ACCOUNTS: (state, action) => ({ accounts: action.payload.accounts }),
 }, defaultState);
 
