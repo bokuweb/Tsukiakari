@@ -4,6 +4,18 @@ import ColumnTitle from './column-title';
 import AccountSelector from './account-selector';
 import ItemSelector from './item-selector';
 
+const items = [
+  {
+    value: 'Home',
+    icon: 'lnr lnr-home',
+    checked: true,
+  }, {
+    value: 'Favorite',
+    icon: 'lnr lnr-heart',
+    checked: false,
+  },
+];
+
 export default class AddColumnMenu extends Component {
   static propTypes = {
     isOpen: PropTypes.bool,
@@ -19,7 +31,9 @@ export default class AddColumnMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      accountId: '',
       title: '',
+      items,
     };
     this.onTitleChange = ::this.onTitleChange;
     this.onAccountSelect = ::this.onAccountSelect;
@@ -31,12 +45,20 @@ export default class AddColumnMenu extends Component {
     this.setState({ title });
   }
 
-  onAccountSelect(id) {
-    console.dir(id);
+  onAccountSelect(accountId) {
+    console.dir(accountId);
+    this.setState({ accountId });
   }
 
   onItemChange(value) {
-    console.dir(value);
+    const items = this.state.items.map(item => {
+      if (item.value === value) {
+        return Object.assign({}, item, { checked: !item.checked });
+      }
+      return item;
+    });
+    this.setState({ items });
+    console.dir(items)
   }
 
   render() {
@@ -51,7 +73,7 @@ export default class AddColumnMenu extends Component {
         </div>
         <ColumnTitle onChange={this.onTitleChange} />
         <AccountSelector accounts={this.props.accounts} onSelect={this.onAccountSelect} />
-        <ItemSelector onChange={this.onItemChange} />
+        <ItemSelector onChange={this.onItemChange} items={this.state.items} />
         <div className="add-column-menu__bottons">
           <Button>Add</Button>
           <Button>Cancel</Button>

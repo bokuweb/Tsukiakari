@@ -1,17 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 
-const list = [
-  {
-    value: 'Home',
-    icon: 'lnr lnr-home',
-    checked: true,
-  }, {
-    value: 'Favorite',
-    icon: 'lnr lnr-heart',
-    checked: false,
-  },
-];
-
 export default class AccountSelector extends Component {
   static propTypes = {
     onChange: PropTypes.func,
@@ -22,13 +10,13 @@ export default class AccountSelector extends Component {
   }
 
   renderItems() {
-    return list.map(item => {
+    return this.props.items.map(item => {
       const onChange = this.props.onChange.bind(this, item.value);
       return (
         <li className="item-selector__li" key={item.value}>
           <input
             type="checkbox"
-            defaultChecked={item.checked}
+            checked={item.checked}
             name={item.value}
             value={item.value}
             onChange={onChange}
