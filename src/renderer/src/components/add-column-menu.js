@@ -17,10 +17,15 @@ export default class AddColumnMenu extends Component {
   constructor(props) {
     super(props);
     this.onAccountSelect = ::this.onAccountSelect;
+    this.onItemSelect = ::this.onItemSelect;
   }
 
   onAccountSelect(account) {
     console.dir(account);
+  }
+
+  onItemSelect(items) {
+    console.dir(items);
   }
 
   render() {
@@ -34,7 +39,7 @@ export default class AddColumnMenu extends Component {
           <i className="add-column-menu__icon--close lnr lnr-cross" onClick={this.props.close} />
         </div>
         <AccountSelector accounts={this.props.accounts} onSelect={this.onAccountSelect} />
-        <ItemSelector />
+        <ItemSelector onSelect={this.onItemSelect} />
       </div>
     );
   }
