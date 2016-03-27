@@ -22,11 +22,16 @@ export default class ColumnTitle extends Component {
     return (
       <div className="column-title" >
         <div className="column-title__title-wrapper" >
-          <i className="column-title__icon--title lnr lnr-file-add" />
+          <i className="column-title__icon--title fa fa-pencil-square-o" />
           <span className="column-title__title">Column title</span>
         </div>
         <div className="column-title__accounts" >
-          <input className="column-title__input" type="text" onChange={this.onChange} />
+          <input
+            className="column-title__input"
+            type="text"
+            onChange={this.onChange}
+            placeholder="new column title"
+          />
         </div>
       </div>
     );

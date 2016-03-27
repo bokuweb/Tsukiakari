@@ -17,6 +17,16 @@ const defaultItems = [
     value: 'Mention',
     icon: 'fa fa-at',
     checked: false,
+  }, {
+    value: 'Search',
+    icon: 'fa fa-search',
+    checked: false,
+    input: false,
+  }, {
+    value: 'User',
+    icon: 'lnr lnr-user',
+    checked: false,
+    input: false,
   },
 ];
 

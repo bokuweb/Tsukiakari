@@ -33,7 +33,7 @@ export default class AccountSelector extends Component {
     return (
       <div className="item-selector" >
         <div className="item-selector__title-wrapper" >
-          <i className="item-selector__icon--users lnr lnr-file-add" />
+          <i className="item-selector__icon--users fa fa-check-square-o" />
           <span className="item-selector__title">Item</span>
           <span className="item-selector__name">@selected_account</span>
         </div>
