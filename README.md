@@ -3,7 +3,7 @@
 Twitter Client built on Electron.
 This repository is heavily under development and unstable.
 
-[![Code Climate](https://codeclimate.com/github/bokuweb/tsukiakari/badges/gpa.svg)](https://codeclimate.com/github/bokuweb/tsukiakari)
+[![Code Climate](https://img.shields.io/codeclimate/github/bokuweb/tsukiakari/badges/gpa.svg?style=flat-square)](https://codeclimate.com/github/bokuweb/tsukiakari)
 
 ## LICENSE
 

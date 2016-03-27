@@ -28,10 +28,10 @@ export default class Sidemenu extends Component {
   renderAddColumnButton() {
     const isOpen = this.props.isAddColumnMenuOpen;
     const text = isOpen ? 'Close menu' : 'Add new column';
-    const iconStyle = isOpen ? 'sidemenu__icon--is-open fa fa-close' : 'sidemenu__icon fa fa-plus';
+    const icon = isOpen ? 'x' : '+';
     return (
       <div className="sidemenu__button--addcolumn" onClick={this.onAddColumnClick}>
-        <i className={iconStyle} />
+        <span>{icon}</span>
         <a className="sidemenu__text--add">{text}</a>
       </div>
     );

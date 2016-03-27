@@ -21,7 +21,7 @@ export default class TimelineBox extends Component {
         <div className="timeline-box__wrapper--title">
           <span className="timeline-box__title">title</span>
           <i className="timeline-box__icon lnr lnr-cog" />
-          <i className="timeline-box__icon icon-remove" />
+          <i className="timeline-box__icon lnr lnr-cross" />
         </div>
         <Timeline ref="timeline" timeline={this.props.timeline} />
       </div>
