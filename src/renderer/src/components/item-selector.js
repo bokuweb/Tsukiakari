@@ -10,6 +10,7 @@ export default class AccountSelector extends Component {
   }
 
   renderItems() {
+    if (!this.props.items) return null;
     return this.props.items.map(item => {
       const onChange = this.props.onChange.bind(this, item.value);
       return (
