@@ -9,13 +9,8 @@ This repository is heavily under development and unstable.
 
 ### Linearicons Free
 
-url : https://linearicons.com/free
-lisence : CC BY-SA 4.0
-
-### FLAT LINE ICONS WEBFONT
-
-url : http://www.thepetedesign.com/flatline_icons/
-lisence : 
+url : https://linearicons.com/free   
+lisence : CC BY-SA 4.0   
 
 ### Other
 

@@ -18,6 +18,10 @@ export default class Contents extends Component {
     this.refs[`${pane.id}Timeline`].update();
   }
 
+  renderPanes() {
+    
+  }
+  
   render() {
     return (
       <div className="contents">

@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux';
 import Tsukiakari from '../components/tsukiakari';
 import * as accounts from '../actions/accounts';
 import * as tweets from '../actions/tweets';
+import * as sidemenu from '../actions/sidemenu';
 
 function mapStateToProps(state) {
   return state;
@@ -13,6 +14,7 @@ function mapDispatchToProps(dispatch) {
     actions: {
       accounts: bindActionCreators(accounts, dispatch),
       tweets: bindActionCreators(tweets, dispatch),
+      sidemenu: bindActionCreators(sidemenu, dispatch),
     },
   };
 }
