@@ -28,7 +28,7 @@ export default class Sidemenu extends Component {
   renderAddColumnButton() {
     const isOpen = this.props.isAddColumnMenuOpen;
     const text = isOpen ? 'Close menu' : 'Add new column';
-    const iconStyle = isOpen ? 'sidemenu__icon--is-open lnr lnr-cross' : 'sidemenu__icon icon-plus';
+    const iconStyle = isOpen ? 'sidemenu__icon--is-open fa fa-close' : 'sidemenu__icon fa fa-plus';
     return (
       <div className="sidemenu__button--addcolumn" onClick={this.onAddColumnClick}>
         <i className={iconStyle} />
@@ -46,11 +46,11 @@ export default class Sidemenu extends Component {
           </div>
           <ul className="sidemenu__ul">
             <li className="sidemenu__list">
-              <i className="sidemenu__icon icon-home" />
+              <i className="sidemenu__icon lnr lnr-home" />
               <span className="sidemenu__text--list">Home</span>
             </li>
             <li className="sidemenu__list">
-              <i className="sidemenu__icon icon-heart-empty" />
+              <i className="sidemenu__icon lnr lnr-heart" />
               <span className="sidemenu__text--list">Favorite</span>
             </li>
             <li className="sidemenu__list">
@@ -58,14 +58,14 @@ export default class Sidemenu extends Component {
               <span className="sidemenu__text--list">Mentions</span>
             </li>
             <li className="sidemenu__list">
-              <i className="sidemenu__icon icon-list-alt" />
+              <i className="sidemenu__icon lnr lnr-list" />
               <span className="sidemenu__text--list">List</span>
             </li>
           </ul>
           {this.renderAddColumnButton()}
         </div>
         <div className="sidemenu__button--newtweet">
-          <i className="sidemenu__icon icon-twitter" />
+          <i className="sidemenu__icon lnr lnr-pencil" />
           <span className="sidemenu__text--newtweet">New Tweet</span>
         </div>
       </div>

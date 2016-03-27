@@ -28,7 +28,7 @@ export default class Accounts extends Component {
           {this.renderAccounts()}
         </div>
         <div className="accounts__add">
-        <i className="accounts__icon--add icon-plus" />
+        <span className="accounts__icon--add">+</span>
         </div>
       </div>
     );
