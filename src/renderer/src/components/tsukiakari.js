@@ -44,7 +44,11 @@ export default class Tsukiakari extends Component {
           isAddColumnMenuOpen={isAddColumnMenuOpen}
         />
         <Contents timeline={timeline} />
-        <AddColumnMenu isOpen={isAddColumnMenuOpen} />
+        <AddColumnMenu
+          accounts={accounts}
+          isOpen={isAddColumnMenuOpen}
+          close={closeAddColumnMenu}
+        />
       </div>
     );
   }
