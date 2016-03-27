@@ -1,16 +1,43 @@
 import React, { Component, PropTypes } from 'react';
 
+const list = [
+  {
+    value: 'Home',
+    icon: 'lnr lnr-home',
+    checked: true,
+  }, {
+    value: 'Favorite',
+    icon: 'lnr lnr-heart',
+    checked: false,
+  },
+];
+
 export default class AccountSelector extends Component {
   static propTypes = {
-    onSelect: PropTypes.func,
+    onChange: PropTypes.func,
   };
 
   static defaultProps = {
 
   }
 
-  constructor(props) {
-    super(props);
+  renderItems() {
+    return list.map(item => {
+      const onChange = this.props.onChange.bind(this, item.value);
+      return (
+        <li className="item-selector__li" key={item.value}>
+          <input
+            type="checkbox"
+            defaultChecked={item.checked}
+            name={item.value}
+            value={item.value}
+            onChange={onChange}
+          />
+          <i className={`item-selector__icon--list ${item.icon}`} />
+          <span className="item-selector__text">{item.value}</span>
+        </li>
+      );
+    });
   }
 
   render() {
@@ -23,11 +50,7 @@ export default class AccountSelector extends Component {
         </div>
         <div className="item-selector__items" >
           <ul className="item-selector__ul">
-            <li className="item-selector__li">
-              <input type="checkbox" name="home" value="home" />
-              <i className="item-selector__icon--list lnr lnr-home" />
-              <span className="item-selector__text">Home</span>
-            </li>
+            {this.renderItems()}
           </ul>
         </div>
       </div>

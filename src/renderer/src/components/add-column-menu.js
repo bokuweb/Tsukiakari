@@ -1,4 +1,6 @@
 import React, { Component, PropTypes } from 'react';
+import { Button } from 'react-bulma';
+import ColumnTitle from './column-title';
 import AccountSelector from './account-selector';
 import ItemSelector from './item-selector';
 
@@ -16,16 +18,25 @@ export default class AddColumnMenu extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      title: '',
+    };
+    this.onTitleChange = ::this.onTitleChange;
     this.onAccountSelect = ::this.onAccountSelect;
-    this.onItemSelect = ::this.onItemSelect;
+    this.onItemChange = ::this.onItemChange;
   }
 
-  onAccountSelect(account) {
-    console.dir(account);
+  onTitleChange(title) {
+    console.log(title)
+    this.setState({ title });
   }
 
-  onItemSelect(items) {
-    console.dir(items);
+  onAccountSelect(id) {
+    console.dir(id);
+  }
+
+  onItemChange(value) {
+    console.dir(value);
   }
 
   render() {
@@ -38,8 +49,13 @@ export default class AddColumnMenu extends Component {
           <span className="add-column-menu__title">Add new column</span>
           <i className="add-column-menu__icon--close lnr lnr-cross" onClick={this.props.close} />
         </div>
+        <ColumnTitle onChange={this.onTitleChange} />
         <AccountSelector accounts={this.props.accounts} onSelect={this.onAccountSelect} />
-        <ItemSelector onSelect={this.onItemSelect} />
+        <ItemSelector onChange={this.onItemChange} />
+        <div className="add-column-menu__bottons">
+          <Button>Add</Button>
+          <Button>Cancel</Button>
+        </div>
       </div>
     );
   }

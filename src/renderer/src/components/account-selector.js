@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { isEmpty } from 'lodash';
 
 export default class AccountSelector extends Component {
   static propTypes = {
@@ -13,24 +14,37 @@ export default class AccountSelector extends Component {
 
   constructor(props) {
     super(props);
+    // FIXME: use first instead of index 0
+    this.state = { selectedId: props.accounts[0] ? props.accounts[0].id : null };
     this.onSelect = ::this.onSelect;
   }
 
+  componentWillReceiveProps(next) {
+    if (isEmpty(this.props.accounts) && !isEmpty(next.accounts)) {
+      // FIXME: use first instead of index 0
+      this.setState({ selectedId: next.accounts[0].id });
+      this.onSelect(next.accounts[0]);
+    }
+  }
+
   onSelect(account) {
-    this.props.onSelect(account);
+    this.props.onSelect(account.id);
   }
 
   renderAccounts() {
-    if (!this.props.accounts[0]) return null;
-    return this.props.accounts.map(account => (
-      <div key={this.props.accounts[0].id} onClick={this.onSelect.bind(this, account)}>
-        <img
-          src={this.props.accounts[0].profile_image_url}
-          className="account-selector__avatar"
-        />
-        {/* <span className="accounts__name">{account.screen_name}</span> */ }
-      </div>
-    ));
+    if (isEmpty(this.props.accounts)) return null;
+    return this.props.accounts.map(account => {
+      const onClick = this.onSelect.bind(this, account);
+      return (
+        <div key={this.props.accounts[0].id} onClick={onClick}>
+          <img
+            src={this.props.accounts[0].profile_image_url}
+            className="account-selector__avatar"
+          />
+          {/* <span className="accounts__name">{account.screen_name}</span> */ }
+        </div>
+      );
+    });
   }
 
   render() {
