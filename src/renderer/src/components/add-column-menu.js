@@ -13,6 +13,10 @@ const defaultItems = [
     value: 'Favorite',
     icon: 'lnr lnr-heart',
     checked: false,
+  }, {
+    value: 'Mention',
+    icon: 'fa fa-at',
+    checked: false,
   },
 ];
 
