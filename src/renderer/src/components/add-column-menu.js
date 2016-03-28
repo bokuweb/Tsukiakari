@@ -19,7 +19,7 @@ const defaultItems = [
     checked: false,
   }, {
     value: 'Search',
-    icon: 'fa fa-search',
+    icon: 'lnr lnr-magnifier',
     checked: false,
     input: false,
   }, {

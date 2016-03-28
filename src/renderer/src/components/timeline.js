@@ -17,6 +17,7 @@ export default class Timeline extends Component {
     this.state = {
       timelineHeight: 1000,
       elementHeight: defaultElementHeight,
+      hasRendered: {},
     };
     this.onWindowResize = ::this.onWindowResize;
     this.onMouseDown = ::this.onMouseDown;
@@ -24,14 +25,14 @@ export default class Timeline extends Component {
 
   componentDidMount() {
     this.updateTimelineHeight();
-    const infinite = document.querySelector('.timeline__infinite');
+    const infinite = this.refs.infinite.refs.scrollable;
     infinite.addEventListener('scroll', ::this.onInfiniteScroll);
     window.addEventListener('resize', this.onWindowResize);
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.timeline.length !== nextProps.timeline.length) {
-      this.updateElementHeight(nextProps.timeline);
+      this.updateElementState(nextProps.timeline);
     }
   }
 
@@ -39,7 +40,7 @@ export default class Timeline extends Component {
     if (this.props.timeline.length === 0) return;
     if (this.isInitialized) return;
     this.isInitialized = true;
-    this.updateElementHeight();
+    this.updateElementState();
   }
 
   componentWillUnmount() {
@@ -53,26 +54,31 @@ export default class Timeline extends Component {
   onWindowResize() {
     console.log('window resize');
     this.updateTimelineHeight();
-    this.updateElementHeight(this.props.timeline);
+    this.updateElementState(this.props.timeline);
   }
 
   onInfiniteScroll() {
     if (this.scrollTimer) return;
     this.scrollTimer = setTimeout(() => {
-      this.updateElementHeight(this.props.timeline);
+      this.updateElementState(this.props.timeline);
       this.scrollTimer = null;
-    }, 100);
+    }, 16);
   }
 
-  updateElementHeight(timeline) {
+  updateElementState(timeline) {
     if (isEmpty(timeline)) return;
+    const { hasRendered } = this.state;
     const elementHeight = timeline.map((tweet, i) => {
-      const el = document.getElementById(tweet.id); // FIXME: not use id
-      if (el) return el.clientHeight;
+      const el = document.getElementById(tweet.id); // FIXME: not use id to avoid duplicate id
+      if (el) {
+        hasRendered[tweet.id] = true;
+        return el.clientHeight;
+      }
       if (this.state.elementHeight[i]) return this.state.elementHeight[i];
+      hasRendered[tweet.id] = false;
       return defaultElementHeight;
     });
-    this.setState({ elementHeight });
+    this.setState({ elementHeight, hasRendered });
   }
 
   onInfiniteLoad() {
@@ -90,8 +96,12 @@ export default class Timeline extends Component {
   }
 
   getTimeline() {
+    const { hasRendered } = this.state;
     return this.props.timeline.map((tweet, i) => ( // FIXME:
-      <div className="timeline__item animated fadeIn" id={tweet.id} key={`${i}${tweet.id}`}>
+      <div
+        className={`timeline__item ${hasRendered[tweet.id] ? '' : 'animated fadeIn'}`}
+        id={tweet.id} key={`${i}${tweet.id}`}
+      >
         <TweetItem tweet={tweet} />
       </div>
     ));
@@ -108,6 +118,7 @@ export default class Timeline extends Component {
     return (
       <div className="timeline" onMouseDown={this.onMouseDown}>
         <Infinite
+          ref="infinite"
           elementHeight={isEmpty(elementHeight) ? defaultElementHeight : elementHeight}
           containerHeight={timelineHeight}
           infiniteLoadBeginEdgeOffset={100}
