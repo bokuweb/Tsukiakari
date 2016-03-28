@@ -8,6 +8,7 @@ const defaultElementHeight = 140;
 export default class Timeline extends Component {
   static propTypes = {
     timeline: PropTypes.array,
+    id: PropTypes.string,
   };
 
   constructor(props) {
@@ -97,11 +98,10 @@ export default class Timeline extends Component {
 
   getTimeline() {
     const { hasRendered } = this.state;
-    console.dir(hasRendered)
     return this.props.timeline.map((tweet, i) => ( // FIXME:
       <div
-        className={`timeline__item ${hasRendered[tweet.id] ? '' : 'animated fadeIn'}`}
-        id={tweet.id} key={`${i}${tweet.id}`}
+        className={`timeline__item ${hasRendered[tweet.id] ? '' : 'timeline__item--animated'}`}
+        id={tweet.id} key={`${this.props.id}${tweet.id}`}
       >
         <TweetItem tweet={tweet} />
       </div>
