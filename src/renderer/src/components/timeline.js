@@ -25,7 +25,7 @@ export default class Timeline extends Component {
 
   componentDidMount() {
     this.updateTimelineHeight();
-    const infinite = this.refs.infinite.refs.scrollable;
+    const infinite = document.querySelector(`.timeline__infinite${this.props.id}`);
     infinite.addEventListener('scroll', ::this.onInfiniteScroll);
     window.addEventListener('resize', this.onWindowResize);
   }
@@ -97,6 +97,7 @@ export default class Timeline extends Component {
 
   getTimeline() {
     const { hasRendered } = this.state;
+    console.dir(hasRendered)
     return this.props.timeline.map((tweet, i) => ( // FIXME:
       <div
         className={`timeline__item ${hasRendered[tweet.id] ? '' : 'animated fadeIn'}`}
@@ -108,7 +109,7 @@ export default class Timeline extends Component {
   }
 
   updateTimelineHeight() {
-    const timeline = document.querySelector('.timeline');
+    const timeline = document.querySelector('.timeline'); // FIXME use props timelin height
     const timelineHeight = timeline.getBoundingClientRect().height;
     this.setState({ timelineHeight });
   }
@@ -118,14 +119,13 @@ export default class Timeline extends Component {
     return (
       <div className="timeline" onMouseDown={this.onMouseDown}>
         <Infinite
-          ref="infinite"
           elementHeight={isEmpty(elementHeight) ? defaultElementHeight : elementHeight}
           containerHeight={timelineHeight}
           infiniteLoadBeginEdgeOffset={100}
           onInfiniteLoad={::this.onInfiniteLoad}
           loadingSpinnerDelegate={this.elementInfiniteLoad()}
           isInfiniteLoading
-          className={'timeline__infinite'}
+          className={`timeline__infinite${this.props.id}`}
         >
           {this.getTimeline()}
         </Infinite>

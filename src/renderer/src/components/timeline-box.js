@@ -23,7 +23,7 @@ export default class TimelineBox extends Component {
           <i className="timeline-box__icon lnr lnr-cog" />
           <i className="timeline-box__icon lnr lnr-cross" />
         </div>
-        <Timeline ref="timeline" timeline={this.props.timeline} />
+        <Timeline ref="timeline" id={this.props.id} timeline={this.props.timeline} />
       </div>
     );
   }

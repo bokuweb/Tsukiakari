@@ -37,13 +37,13 @@ export default class Contents extends Component {
           minWidth={320}
           className="contents__pane"
         >
-          <TimelineBox ref="pane1Timeline" timeline={this.props.timeline} />
+          <TimelineBox id="pane1" ref="pane1Timeline" timeline={this.props.timeline} />
         </Pane>
         <Pane id="pane2" ref="pane2" width={320} minWidth={320} className="contents__pane">
-          <TimelineBox ref="pane2Timeline" timeline={this.props.timeline} />
+          <TimelineBox id="pane2" ref="pane2Timeline" timeline={this.props.timeline} />
         </Pane>
         <Pane id="pane3" ref="pane3" width={320} minWidth={320} className="contents__pane">
-          <TimelineBox ref="pane3Timeline" timeline={this.props.timeline} />
+          <TimelineBox id="pane3" ref="pane3Timeline" timeline={this.props.timeline} />
         </Pane>
       </SortablePane>
       </div>

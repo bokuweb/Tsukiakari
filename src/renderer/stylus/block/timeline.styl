@@ -6,11 +6,12 @@
   overflow-y hidden
   cursor default
 
-.timeline__infinite::-webkit-scrollbar
-  width 5px
-  height 5px
+for id in 0 ... 20
+  .timeline__infinitepane{id}::-webkit-scrollbar
+    width 5px
+    height 5px
 
-.timeline__infinite::-webkit-scrollbar-thumb
-  background #34495E
-  border-radius 2px
+  .timeline__infinitepane{id}::-webkit-scrollbar-thumb
+    background #34495E
+    border-radius 2px
 
