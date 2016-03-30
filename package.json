@@ -61,16 +61,17 @@
     "lodash": "^3.10.1",
     "node-twitter-api": "^1.6.3",
     "react": "^0.14.3",
+    "react-bulma": "https://github.com/bokuweb/react-bulma",
     "react-dom": "^0.14.3",
     "react-infinite": "^0.8.0",
     "react-redux": "^4.0.3",
+    "react-router": "^2.0.1",
     "react-sortable-pane": "^0.2.2",
     "redux": "^3.0.5",
     "redux-actions": "^0.9.0",
     "redux-logger": "^2.3.1",
     "redux-thunk": "^1.0.3",
-    "twit": "^2.2.3",
-    "react-bulma": "https://github.com/bokuweb/react-bulma"
+    "twit": "^2.2.3"
   },
   "browserify": {
     "transform": [

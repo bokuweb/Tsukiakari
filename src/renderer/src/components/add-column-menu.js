@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import { Button } from 'react-bulma';
 import ItemSelector from './item-selector';
+import AccountSelector from './account-selector';
 
 const defaultItems = [
   {
@@ -28,11 +28,18 @@ const defaultItems = [
   },
 ];
 
+const defaultState = {
+  columnType: null,
+  showItemSelector: true,
+  showAccount: false,
+};
+
 export default class AddColumnMenu extends Component {
   static propTypes = {
     isOpen: PropTypes.bool,
     close: PropTypes.func.isRequired,
     accounts: PropTypes.array,
+    onCreate: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -40,8 +47,45 @@ export default class AddColumnMenu extends Component {
     accounts: [],
   }
 
+  constructor(props) {
+    super(props);
+    this.state = defaultState;
+    this.onItemClick = ::this.onItemClick;
+    this.onCreate = ::this.onCreate;
+  }
+
+  onCreate(account) {
+    this.props.onCreate(account, this.state.columnType);
+  }
+
   onItemClick(value) {
-    console.log(value);
+    this.setState({
+      columnType: value,
+      showItemSelector: false,
+      showAccount: true,
+    })
+  }
+
+  renderItemSelector() {
+    if (!this.state.showItemSelector) return null;
+    return (
+      <ItemSelector
+        onClick={this.onItemClick}
+        items={defaultItems}
+        style={{ marginTop: '10px' }}
+      />
+    );
+  }
+
+  renderAccountSelector() {
+    if (!this.state.showAccount) return null;
+    return (
+      <AccountSelector
+        accounts={this.props.accounts}
+        onBackClick={() => this.setState(defaultState)}
+        onCreateClick={this.onCreate}
+      />
+    );
   }
 
   render() {
@@ -54,15 +98,8 @@ export default class AddColumnMenu extends Component {
           <span className="add-column-menu__title">Add new column</span>
           <i className="add-column-menu__icon--close lnr lnr-cross" onClick={this.props.close} />
         </div>
-        <ItemSelector
-          onClick={this.onItemClick}
-          items={defaultItems}
-          style={{ marginTop: '10px' }}
-        />
-        {/*<div className="add-column-menu__bottons">
-          <Button>Add</Button>
-          <Button>Cancel</Button>
-        </div> */}
+        {this.renderItemSelector()}
+        {this.renderAccountSelector()}
       </div>
     );
   }

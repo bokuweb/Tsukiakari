@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { isEmpty } from 'lodash';
+import { Button } from 'react-bulma';
 
 export default class AccountSelector extends Component {
   static propTypes = {
@@ -15,14 +16,14 @@ export default class AccountSelector extends Component {
   constructor(props) {
     super(props);
     // FIXME: use first instead of index 0
-    this.state = { selectedId: props.accounts[0] ? props.accounts[0].id : null };
+    this.state = { selected: props.accounts[0] };
     this.onSelect = ::this.onSelect;
   }
 
   componentWillReceiveProps(next) {
     if (isEmpty(this.props.accounts) && !isEmpty(next.accounts)) {
-      // FIXME: use first instead of index 0
-      this.setState({ selectedId: next.accounts[0].id });
+      // FIXME: use first instead of index
+      this.setState({ selected: next.accounts[0] });
       this.onSelect(next.accounts[0]);
     }
   }
@@ -36,10 +37,11 @@ export default class AccountSelector extends Component {
     return this.props.accounts.map(account => {
       const onClick = this.onSelect.bind(this, account);
       return (
-        <div key={this.props.accounts[0].id} onClick={onClick}>
+        <div key={account.id} onClick={onClick}>
           <img
-            src={this.props.accounts[0].profile_image_url}
+            src={account.profile_image_url}
             className="account-selector__avatar"
+            style={account.id === this.state.selected.id ? {border: 'solid 1px red'} : {}}
           />
           {/* <span className="accounts__name">{account.screen_name}</span> */ }
         </div>
@@ -52,10 +54,24 @@ export default class AccountSelector extends Component {
       <div className="account-selector" >
         <div className="account-selector__title-wrapper" >
           <i className="account-selector__icon--users lnr lnr-users" />
-          <span className="account-selector__title">Account</span>
+          <span className="account-selector__title">Choose account</span>
         </div>
         <div className="account-selector__accounts" >
           {this.renderAccounts()}
+        </div>
+        <div className="account-selector__buttons">
+          <Button
+            className="account-selector__button--back"
+            onClick={this.props.onBackClick}
+          >
+            Back
+          </Button>
+          <Button
+            style={{ marginLeft: '6px' }}
+            onClick={this.props.onCreateClick.bind(this, this.state.selected)}
+          >
+            Create
+          </Button>
         </div>
       </div>
     );

@@ -48,6 +48,7 @@ export default class Tsukiakari extends Component {
           accounts={accounts}
           isOpen={isAddColumnMenuOpen}
           close={closeAddColumnMenu}
+          onCreate={(account, type) => console.log(account)}
         />
       </div>
     );
