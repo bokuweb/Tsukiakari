@@ -63,7 +63,7 @@ export default class AddColumnMenu extends Component {
       columnType: value,
       showItemSelector: false,
       showAccount: true,
-    })
+    });
   }
 
   renderItemSelector() {

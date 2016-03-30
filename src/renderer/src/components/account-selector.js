@@ -68,7 +68,7 @@ export default class AccountSelector extends Component {
           </Button>
           <Button
             style={{ marginLeft: '6px' }}
-            onClick={this.props.onCreateClick.bind(this, this.state.selected)}
+            onClick={this.props.onCreateClick.bind(this, this.state.selected.id)}
           >
             Create
           </Button>
