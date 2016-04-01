@@ -1,5 +1,6 @@
 import { handleActions } from 'redux-actions';
 import { take, map } from 'lodash';
+import uuid from 'uuid';
 import * as config from '../constants/config';
 
 const defaultState = {
@@ -15,7 +16,11 @@ export default handleActions({
   },
   ADD_COLUMN: (state, action) => {
     const { account, type } = action.payload;
-    return { ...state, columns: state.columns.concat({ account, type }) };
+    const id = uuid.v4();
+    return {
+      ...state,
+      columns: state.columns.concat([{ id, data: [account, type] }]),
+    };
   },
 }, defaultState);
 

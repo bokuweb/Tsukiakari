@@ -40,7 +40,7 @@ export default class Tsukiakari extends Component {
 
   render() {
     const {
-      tweets: { timeline },
+      tweets: { timeline, columns },
       accounts: { accounts },
       sidemenu: { isAddColumnMenuOpen },
     } = this.props;
@@ -53,7 +53,7 @@ export default class Tsukiakari extends Component {
           closeAddColumnMenu={closeAddColumnMenu}
           isAddColumnMenuOpen={isAddColumnMenuOpen}
         />
-        <Contents timeline={timeline} />
+        <Contents timeline={timeline} columns={columns} />
         <AddColumnMenu
           accounts={accounts}
           isOpen={isAddColumnMenuOpen}
