@@ -22,5 +22,10 @@ export default handleActions({
       columns: state.columns.concat([{ id, data: [account, type] }]),
     };
   },
+  DELETE_COLUMN: (state, action) => {
+    const { id } = action.payload;
+    const columns = state.columns.filter(column => column.id !== id);
+    return { ...state, columns };
+  },
 }, defaultState);
 

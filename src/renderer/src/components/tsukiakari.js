@@ -16,6 +16,7 @@ export default class Tsukiakari extends Component {
   constructor(props) {
     super(props);
     this.onCreate = ::this.onCreate;
+    this.deleteRequest = ::this.deleteRequest;
   }
 
   componentWillMount() {
@@ -38,6 +39,10 @@ export default class Tsukiakari extends Component {
     this.props.actions.column.addColumn(account, type);
   }
 
+  deleteRequest(id) {
+    this.props.actions.column.deleteColumn(id);
+  }
+
   render() {
     const {
       tweets: { timeline, columns },
@@ -53,7 +58,7 @@ export default class Tsukiakari extends Component {
           closeAddColumnMenu={closeAddColumnMenu}
           isAddColumnMenuOpen={isAddColumnMenuOpen}
         />
-        <Contents timeline={timeline} columns={columns} />
+        <Contents timeline={timeline} columns={columns} deleteRequest={this.deleteRequest} />
         <AddColumnMenu
           accounts={accounts}
           isOpen={isAddColumnMenuOpen}

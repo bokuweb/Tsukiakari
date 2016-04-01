@@ -4,6 +4,7 @@ import Timeline from './timeline';
 export default class TimelineBox extends Component {
   constructor(props) {
     super(props);
+    this.onClose = ::this.onClose;
   }
 
   update() {
@@ -11,8 +12,12 @@ export default class TimelineBox extends Component {
     this.refs.timeline.updateElementState(this.props.timeline);
   }
 
-  onClick(e) {
-    e.preventDefault();
+  onMouseDown(e) {
+    e.stopPropagation();
+  }
+
+  onClose() {
+    this.props.deleteRequest(this.props.id);
   }
 
   render() {
@@ -21,7 +26,11 @@ export default class TimelineBox extends Component {
         <div className="timeline-box__wrapper--title">
           <span className="timeline-box__title">title</span>
           <i className="timeline-box__icon lnr lnr-cog" />
-          <i className="timeline-box__icon lnr lnr-cross" />
+          <i
+            className="timeline-box__icon lnr lnr-cross"
+            onMouseDown={this.onMouseDown}
+            onClick={this.onClose}
+          />
         </div>
         <Timeline ref="timeline" id={this.props.id} timeline={this.props.timeline} />
       </div>

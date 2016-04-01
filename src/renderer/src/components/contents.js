@@ -8,6 +8,7 @@ export default class Contents extends Component {
     fetchHomeTimeline: PropTypes.func,
     accounts: PropTypes.array,
     columns: PropTypes.array,
+    deleteRequest: PropTypes.func,
   };
 
   static defaultProps = {
@@ -32,7 +33,12 @@ export default class Contents extends Component {
         minWidth={320}
         className="contents__pane"
       >
-        <TimelineBox id={column.id} ref="pane1Timeline" timeline={this.props.timeline} />
+        <TimelineBox
+          id={column.id}
+          ref="pane1Timeline"
+          deleteRequest={this.props.deleteRequest}
+          timeline={this.props.timeline}
+        />
       </Pane>
     ));
   }
