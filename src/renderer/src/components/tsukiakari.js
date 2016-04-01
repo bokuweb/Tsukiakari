@@ -33,9 +33,9 @@ export default class Tsukiakari extends Component {
     }
   }
 
-  onCreate(id, type) {
+  onCreate(account, type) {
     this.props.actions.sidemenu.closeAddColumnMenu();
-    this.props.actions.column.addColumn(id, type);
+    this.props.actions.column.addColumn(account, type);
   }
 
   render() {

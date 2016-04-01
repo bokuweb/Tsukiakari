@@ -16,20 +16,20 @@ export default class AccountSelector extends Component {
   constructor(props) {
     super(props);
     // FIXME: use first instead of index 0
-    this.state = { selected: props.accounts[0] };
+    this.state = { selectedAccount: props.accounts[0] };
     this.onSelect = ::this.onSelect;
   }
 
   componentWillReceiveProps(next) {
     if (isEmpty(this.props.accounts) && !isEmpty(next.accounts)) {
       // FIXME: use first instead of index
-      this.setState({ selected: next.accounts[0] });
+      this.setState({ selectedAccount: next.accounts[0] });
       this.onSelect(next.accounts[0]);
     }
   }
 
   onSelect(account) {
-    this.props.onSelect(account.id);
+    this.props.onSelect(account);
   }
 
   renderAccounts() {
@@ -41,7 +41,7 @@ export default class AccountSelector extends Component {
           <img
             src={account.profile_image_url}
             className="account-selector__avatar"
-            style={account.id === this.state.selected.id ? {border: 'solid 1px red'} : {}}
+            style={account.id === this.state.selectedAccount.id ? { border: 'solid 1px red' } : {}}
           />
           {/* <span className="accounts__name">{account.screen_name}</span> */ }
         </div>
@@ -68,7 +68,7 @@ export default class AccountSelector extends Component {
           </Button>
           <Button
             style={{ marginLeft: '6px' }}
-            onClick={this.props.onCreateClick.bind(this, this.state.selected.id)}
+            onClick={this.props.onCreate.bind(this, this.state.selectedAccount)}
           >
             Create
           </Button>

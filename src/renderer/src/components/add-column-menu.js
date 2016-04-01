@@ -83,7 +83,7 @@ export default class AddColumnMenu extends Component {
       <AccountSelector
         accounts={this.props.accounts}
         onBackClick={() => this.setState(defaultState)}
-        onCreateClick={this.onCreate}
+        onCreate={this.onCreate}
       />
     );
   }
