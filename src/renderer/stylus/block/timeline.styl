@@ -6,11 +6,43 @@
   overflow-y hidden
   cursor default
 
-.timeline__infinite::-webkit-scrollbar
-  width 5px
-  height 5px
+for id in 0 ... 20
+  .timeline__infinitepane{id}::-webkit-scrollbar
+    width 5px
+    height 5px
 
-.timeline__infinite::-webkit-scrollbar-thumb
-  background #34495E
-  border-radius 2px
+  .timeline__infinitepane{id}::-webkit-scrollbar-thumb
+    background #34495E
+    border-radius 2px
 
+.timeline__item--animated
+  -webkit-animation-duration 1.5s
+  animation-duration 1.5s
+  -webkit-animation-fill-mode both
+  animation-fill-mode both  
+  -webkit-animation-name fadeInLeft
+  animation-name fadeInLeft
+
+// TODO: move to anim
+@-webkit-keyframes fadeInLeft
+  from
+    opacity 0
+    -webkit-transform translate3d(-2%, 0, 0)
+    transform translate3d(-2%, 0, 0)
+  
+  to 
+    opacity 1
+    -webkit-transform none
+    transform none
+
+
+@keyframes fadeInLeft 
+  from 
+    opacity 0
+    -webkit-transform translate3d(-2%, 0, 0)
+    transform translate3d(-2%, 0, 0)
+  
+  to
+    opacity 1
+    -webkit-transform none
+    transform none

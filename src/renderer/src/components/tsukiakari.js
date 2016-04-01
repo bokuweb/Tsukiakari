@@ -13,6 +13,11 @@ export default class Tsukiakari extends Component {
     sidemenu: PropTypes.object,
   };
 
+  constructor(props) {
+    super(props);
+    this.onCreate = ::this.onCreate;
+  }
+
   componentWillMount() {
     const { fetchHomeTimeline } = this.props.actions.tweets;
     this.props.actions.accounts.loadAccounts();
@@ -28,9 +33,14 @@ export default class Tsukiakari extends Component {
     }
   }
 
+  onCreate(account, type) {
+    this.props.actions.sidemenu.closeAddColumnMenu();
+    this.props.actions.column.addColumn(account, type);
+  }
+
   render() {
     const {
-      tweets: { timeline },
+      tweets: { timeline, columns },
       accounts: { accounts },
       sidemenu: { isAddColumnMenuOpen },
     } = this.props;
@@ -43,11 +53,12 @@ export default class Tsukiakari extends Component {
           closeAddColumnMenu={closeAddColumnMenu}
           isAddColumnMenuOpen={isAddColumnMenuOpen}
         />
-        <Contents timeline={timeline} />
+        <Contents timeline={timeline} columns={columns} />
         <AddColumnMenu
           accounts={accounts}
           isOpen={isAddColumnMenuOpen}
           close={closeAddColumnMenu}
+          onCreate={this.onCreate}
         />
       </div>
     );
