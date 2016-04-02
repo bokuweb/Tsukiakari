@@ -54,6 +54,7 @@ export default class Tsukiakari extends Component {
       <div className="container">
         <Accounts accounts={accounts} />
         <Sidemenu
+          columns={columns}
           openAddColumnMenu={openAddColumnMenu}
           closeAddColumnMenu={closeAddColumnMenu}
           isAddColumnMenuOpen={isAddColumnMenuOpen}

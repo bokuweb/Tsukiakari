@@ -37,6 +37,15 @@ export default class Sidemenu extends Component {
     );
   }
 
+  renderColumList() {
+    return this.props.columns.map(column => (
+      <li className="sidemenu__list">
+        <i className={`sidemenu__icon ${column.icon}`} />
+        <span className="sidemenu__text--list">{column.title}</span>
+      </li>
+    ));
+  }
+
   render() {
     return (
       <div className="sidemenu">
@@ -45,22 +54,7 @@ export default class Sidemenu extends Component {
             <img className="sidemenu__logo" src="images/logo.png" />
           </div>
           <ul className="sidemenu__ul">
-            <li className="sidemenu__list">
-              <i className="sidemenu__icon lnr lnr-home" />
-              <span className="sidemenu__text--list">Home</span>
-            </li>
-            <li className="sidemenu__list">
-              <i className="sidemenu__icon lnr lnr-heart" />
-              <span className="sidemenu__text--list">Favorite</span>
-            </li>
-            <li className="sidemenu__list">
-              <i className="sidemenu__icon fa fa-at" />
-              <span className="sidemenu__text--list">Mentions</span>
-            </li>
-            <li className="sidemenu__list">
-              <i className="sidemenu__icon lnr lnr-list" />
-              <span className="sidemenu__text--list">List</span>
-            </li>
+            {this.renderColumList()}
           </ul>
           {this.renderAddColumnButton()}
         </div>
