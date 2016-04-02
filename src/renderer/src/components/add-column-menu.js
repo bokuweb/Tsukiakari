@@ -52,10 +52,12 @@ export default class AddColumnMenu extends Component {
     this.state = defaultState;
     this.onItemClick = ::this.onItemClick;
     this.onCreate = ::this.onCreate;
+    this.onBack = ::this.onBack;
   }
 
   onCreate(account) {
     this.props.onCreate(account, this.state.columnType);
+    this.setState(defaultState);
   }
 
   onItemClick(value) {
@@ -64,6 +66,10 @@ export default class AddColumnMenu extends Component {
       showItemSelector: false,
       showAccount: true,
     });
+  }
+
+  onBack() {
+    this.setState(defaultState);
   }
 
   renderItemSelector() {
@@ -82,7 +88,7 @@ export default class AddColumnMenu extends Component {
     return (
       <AccountSelector
         accounts={this.props.accounts}
-        onBackClick={() => this.setState(defaultState)}
+        onBackClick={this.onBack}
         onCreate={this.onCreate}
       />
     );

@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { SortablePane, Pane } from 'react-sortable-pane';
+import { isEmpty } from 'lodash';
 import TimelineBox from './timeline-box';
 
 export default class Contents extends Component {
@@ -9,6 +10,7 @@ export default class Contents extends Component {
     accounts: PropTypes.array,
     columns: PropTypes.array,
     deleteRequest: PropTypes.func,
+    openAddColumnMenu: PropTypes.func,
   };
 
   static defaultProps = {
@@ -21,7 +23,20 @@ export default class Contents extends Component {
   }
 
   onPaneResize(pane) {
-    this.refs[`${pane.id}Timeline`].update();
+    this.refs[pane.id].update();
+  }
+
+  renserPane() {
+    return (
+      <SortablePane
+        margin={20}
+        onResize={this.onPaneResize}
+        onResizeStop={this.onPaneResize}
+        className="contents__sortable-pane"
+      >
+        {this.renderPanes()}
+      </SortablePane>
+    );
   }
 
   renderPanes() {
@@ -34,8 +49,8 @@ export default class Contents extends Component {
         className="contents__pane"
       >
         <TimelineBox
-          id={column.id}
-          ref="pane1Timeline"
+          ref={column.id}
+          column={column}
           deleteRequest={this.props.deleteRequest}
           timeline={this.props.timeline}
         />
@@ -43,17 +58,25 @@ export default class Contents extends Component {
     ));
   }
 
+  renderMessage() {
+    return (
+      <div
+        className="contents__message--no-contents"
+        onClick={this.props.openAddColumnMenu}
+      >
+        Please add new column.
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className="contents">
-        <SortablePane
-          margin={20}
-          onResize={this.onPaneResize}
-          onResizeStop={this.onPaneResize}
-          className="contents__sortable-pane"
-        >
-          {this.renderPanes()}
-        </SortablePane>
+          {
+            isEmpty(this.props.columns)
+              ? this.renderMessage()
+              : this.renserPane()
+          }
       </div>
     );
   }

@@ -8,6 +8,13 @@ const defaultState = {
   columns: [],
 };
 
+const iconSelector = type => {
+  switch (type) {
+    case 'Home': return 'lnr lnr-home';
+    default: return null;
+  }
+};
+
 export default handleActions({
   FETCH_TIMELINE_SUCCESS: (state, action) => {
     const ids = map(take(state.timeline, config.tweetCount), 'id');
@@ -17,9 +24,11 @@ export default handleActions({
   ADD_COLUMN: (state, action) => {
     const { account, type } = action.payload;
     const id = uuid.v4();
+    const title = type;
+    const icon = iconSelector(type);
     return {
       ...state,
-      columns: state.columns.concat([{ id, data: [account, type] }]),
+      columns: state.columns.concat([{ id, title, icon, contents: [{ account, type }] }]),
     };
   },
   DELETE_COLUMN: (state, action) => {

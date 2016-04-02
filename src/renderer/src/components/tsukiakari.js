@@ -58,7 +58,12 @@ export default class Tsukiakari extends Component {
           closeAddColumnMenu={closeAddColumnMenu}
           isAddColumnMenuOpen={isAddColumnMenuOpen}
         />
-        <Contents timeline={timeline} columns={columns} deleteRequest={this.deleteRequest} />
+        <Contents
+          timeline={timeline}
+          columns={columns}
+          openAddColumnMenu={openAddColumnMenu}
+          deleteRequest={this.deleteRequest}
+        />
         <AddColumnMenu
           accounts={accounts}
           isOpen={isAddColumnMenuOpen}
