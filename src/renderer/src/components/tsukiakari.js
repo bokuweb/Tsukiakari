@@ -20,17 +20,20 @@ export default class Tsukiakari extends Component {
   }
 
   componentWillMount() {
-    const { fetchHomeTimeline } = this.props.actions.tweets;
+    const { fetchHome, fetchFavorites } = this.props.actions.tweets;
     this.props.actions.accounts.loadAccounts();
     setInterval(() => {
-      if (this.props.accounts.accounts[0]) fetchHomeTimeline(this.props.accounts.accounts[0]);
+      if (this.props.accounts.accounts[0]) {
+        fetchHome(this.props.accounts.accounts[0], 'Home');
+        fetchFavorites(this.props.accounts.accounts[0], 'Favorite');
+      }
     }, 60 * 1000);
   }
 
   componentWillReceiveProps(nextProps) {
-    const { fetchHomeTimeline } = this.props.actions.tweets;
+    const { fetchHome } = this.props.actions.tweets;
     if (isEmpty(this.props.accounts.accounts) && !isEmpty(nextProps.accounts.accounts)) {
-      fetchHomeTimeline(nextProps.accounts.accounts[0]);
+      fetchHome(nextProps.accounts.accounts[0]);
     }
   }
 

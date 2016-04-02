@@ -5,11 +5,13 @@ export default class Sidemenu extends Component {
     openAddColumnMenu: PropTypes.func,
     closeAddColumnMenu: PropTypes.func,
     isAddColumnMenuOpen: PropTypes.bool,
+    columns: PropTypes.array,
   };
 
   static defaultProps = {
     openAddColumnMenu: () => null,
     closeAddColumnMenu: () => null,
+    columns: [],
   }
 
   constructor(props) {
