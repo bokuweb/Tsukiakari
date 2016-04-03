@@ -51,7 +51,7 @@ export default handleActions({
         title,
         icon,
         contents: [{ account, type }],
-        timeline: state.rawTimeline[`${account.id}${type}`] || [], // TODO: concat RAW timeline
+        timeline: state.rawTimeline[`${account.id}${type}`] || [],
       }]),
     };
   },
