@@ -21,7 +21,7 @@ export const fetchFavorites = (account, type) => dispatch => {
   const twitter = new Twitter(accessToken, accessTokenSecret);
   twitter.fetchFavorites({})
     .then(tweets => {
-      const action = createAction('FETCH_TIMELINE_FAVORITE_SUCCESS');
+      const action = createAction('FETCH_TIMELINE_SUCCESS');
       dispatch(action({ account, tweets, type }));
     })
     .catch(error => {

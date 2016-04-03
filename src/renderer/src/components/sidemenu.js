@@ -41,7 +41,7 @@ export default class Sidemenu extends Component {
 
   renderColumList() {
     return this.props.columns.map(column => (
-      <li className="sidemenu__list">
+      <li className="sidemenu__list" key={column.id}>
         <i className={`sidemenu__icon ${column.icon}`} />
         <span className="sidemenu__text--list">{column.title}</span>
       </li>

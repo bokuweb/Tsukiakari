@@ -33,7 +33,7 @@ export default class Tsukiakari extends Component {
   componentWillReceiveProps(nextProps) {
     const { fetchHome } = this.props.actions.tweets;
     if (isEmpty(this.props.accounts.accounts) && !isEmpty(nextProps.accounts.accounts)) {
-      fetchHome(nextProps.accounts.accounts[0]);
+      fetchHome(nextProps.accounts.accounts[0], 'Home');
     }
   }
 

@@ -4,7 +4,7 @@ import uuid from 'uuid';
 import * as config from '../constants/config';
 
 const defaultState = {
-  timeline: [],
+  rawTimeline: {},
   columns: [],
 };
 
@@ -18,35 +18,40 @@ const iconSelector = type => {
 
 export default handleActions({
   FETCH_TIMELINE_SUCCESS: (state, action) => {
-    const { account, tweets, type } = action.payload;
-
+    const { account: { id }, tweets, type } = action.payload;
     const ids = map(take(state.timeline, config.tweetCount), 'id');
     const filteredTweets = tweets.filter(tweet => ids.indexOf(tweet.id) === -1);
 
+    const { rawTimeline } = state;
+    const timeline = state.rawTimeline[`${id}${type}`] || [];
+    const newTimeline = filteredTweets.concat(timeline);
+    rawTimeline[`${id}${type}`] = newTimeline;
+
     // Search account.id from columns.contents
     const columns = state.columns.map(column => {
+      const newColumn = Object.assign({}, column);
       column.contents.forEach(content => {
-        if (content.account.id === account.id && content.type === type)
-          column.timeline = filteredTweets.concat(column.timeline); 
+        if (content.account.id === id && content.type === type) {
+          newColumn.timeline = newTimeline;
+        }
       });
-      return column;
+      return newColumn;
     });
-    console.dir(columns);
-    return { ...state, timeline: filteredTweets.concat(state.timeline), columns };
+    return { rawTimeline, columns };
   },
   ADD_COLUMN: (state, action) => {
     const { account, type } = action.payload;
-    const id = uuid.v4();
+    const columnId = uuid.v4();
     const title = type; // TODO: If mixed columns, custom timeline
     const icon = iconSelector(type);
     return {
       ...state,
       columns: state.columns.concat([{
-        id,
+        id: columnId,
         title,
         icon,
         contents: [{ account, type }],
-        timeline: [], // TODO: concat RAW timeline
+        timeline: state.rawTimeline[`${account.id}${type}`] || [], // TODO: concat RAW timeline
       }]),
     };
   },

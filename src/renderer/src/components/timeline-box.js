@@ -30,7 +30,7 @@ export default class TimelineBox extends Component {
   }
 
   render() {
-    const { id, title, icon, contents } = this.props.column;
+    const { id, title, icon, contents, timeline } = this.props.column;
     console.dir(contents)
     return (
       <div className="timeline-box">
@@ -49,7 +49,7 @@ export default class TimelineBox extends Component {
             onClick={this.onClose}
           />
         </div>
-        <Timeline ref="timeline" id={id} timeline={this.props.timeline} />
+        <Timeline ref="timeline" id={id} timeline={timeline} />
       </div>
     );
   }
