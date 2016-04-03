@@ -26,7 +26,7 @@ export default class Timeline extends Component {
 
   componentDidMount() {
     this.updateTimelineHeight();
-    const infinite = document.querySelector(`.timeline__infinite${this.props.id}`);
+    const infinite = document.querySelector(`.timeline__infinite--${this.props.id}`);
     infinite.addEventListener('scroll', ::this.onInfiniteScroll);
     window.addEventListener('resize', this.onWindowResize);
   }
@@ -125,7 +125,7 @@ export default class Timeline extends Component {
           onInfiniteLoad={::this.onInfiniteLoad}
           loadingSpinnerDelegate={this.elementInfiniteLoad()}
           isInfiniteLoading
-          className={`timeline__infinite${this.props.id}`}
+          className={`timeline__infinite timeline__infinite--${this.props.id}`}
         >
           {this.getTimeline()}
         </Infinite>
