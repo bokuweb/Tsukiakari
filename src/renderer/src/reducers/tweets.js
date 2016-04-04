@@ -18,15 +18,15 @@ const iconSelector = type => {
 
 export default handleActions({
   FETCH_TIMELINE_SUCCESS: (state, action) => {
+    // FIXME: refactor
     const { account: { id }, tweets, type } = action.payload;
-    const ids = map(take(state.timeline, config.tweetCount), 'id');
+    const timeline = (state.rawTimeline[id] && state.rawTimeline[id][type]) || [];
+    const ids = map(take(timeline, config.tweetCount), 'id');
     const filteredTweets = tweets.filter(tweet => ids.indexOf(tweet.id) === -1);
-
-    const { rawTimeline } = state;
-    const timeline = state.rawTimeline[`${id}${type}`] || [];
     const newTimeline = filteredTweets.concat(timeline);
-    rawTimeline[`${id}${type}`] = newTimeline;
-
+    const { rawTimeline } = state;
+    rawTimeline[id] = rawTimeline[id] || {};
+    rawTimeline[id][type] = newTimeline;
     // Search account.id from columns.contents
     const columns = state.columns.map(column => {
       const newColumn = Object.assign({}, column);
@@ -51,7 +51,7 @@ export default handleActions({
         title,
         icon,
         contents: [{ account, type }],
-        timeline: state.rawTimeline[`${account.id}${type}`] || [],
+        timeline: state.rawTimeline[account.id] && state.rawTimeline[account.id][type] || [],
       }]),
     };
   },

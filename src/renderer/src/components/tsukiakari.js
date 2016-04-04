@@ -20,22 +20,23 @@ export default class Tsukiakari extends Component {
   }
 
   componentWillMount() {
-    const { fetchHome, fetchFavorites } = this.props.actions.tweets;
+  //  const { fetchHome, fetchFavorites } = this.props.actions.tweets;
     this.props.actions.accounts.loadAccounts();
-    setInterval(() => {
-      if (this.props.accounts.accounts[0]) {
-        fetchHome(this.props.accounts.accounts[0], 'Home');
-        fetchFavorites(this.props.accounts.accounts[0], 'Favorite');
-      }
-    }, 60 * 1000);
+  //  setInterval(() => {
+  //    if (this.props.accounts.accounts[0]) {
+  //      fetchHome(this.props.accounts.accounts[0], 'Home');
+  //      fetchFavorites(this.props.accounts.accounts[0], 'Favorite');
+  //    }
+  //  }, 60 * 1000);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { fetchHome } = this.props.actions.tweets;
-    if (isEmpty(this.props.accounts.accounts) && !isEmpty(nextProps.accounts.accounts)) {
-      fetchHome(nextProps.accounts.accounts[0], 'Home');
-    }
-  }
+  //componentWillReceiveProps(nextProps) {
+  //  const { fetchHome, fetchFavorites } = this.props.actions.tweets;
+  //  if (isEmpty(this.props.accounts.accounts) && !isEmpty(nextProps.accounts.accounts)) {
+  //    fetchHome(nextProps.accounts.accounts[0], 'Home');
+  //    fetchFavorites(nextProps.accounts.accounts[0], 'Favorite');
+  //  }
+  //}
 
   onCreate(account, type) {
     this.props.actions.sidemenu.closeAddColumnMenu();
