@@ -23,10 +23,16 @@ const fetch = (store, account, type) => {
 
 const hooks = {
   ['ADD_COLUMN'](store, { payload: { account, type } }) {
+    // FIXME: storeから同一のaccount, typeがないか検索し、あったらtimerIdを返す
+    const { tweets: { timerIds } } = store.getState();
+    if (timerIds[account.id] && timerIds[account.id][type]) {
+      return timerIds[account.id][type].id;
+    }
     fetch(store, account, type);
     return setInterval(() => fetch(store, account, type), interval[type]);
   },
   ['DELETE_COLUMN'](store, { payload: { timerId } }) {
+    // TODO: clearするかどうかはtimerの参照カウンタで管理する必要あり？
     clearInterval(timerId);
   },
 };

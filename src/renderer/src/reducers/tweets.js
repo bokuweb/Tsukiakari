@@ -5,6 +5,7 @@ import * as config from '../constants/config';
 
 const defaultState = {
   rawTimeline: {},
+  timerIds: {},
   columns: [],
 };
 
@@ -45,6 +46,29 @@ export default handleActions({
     const id = uuid.v4();
     const title = type; // TODO: If mixed columns, custom timeline
     const icon = iconSelector(type);
+    const { timerIds } = state;
+    if (timerIds[account.id] && timerIds[account.id][type]) {
+      // FIXME: timerIds[`${account.id}/${type}]とかのが便利そう
+      // Refactor!!!!!!
+      timerIds[account.id][type].count += 1;
+    } else {
+      if (timerIds[account.id] && timerIds[account.id][type]) {
+        timerIds[account.id][type].id = timerId;
+      } else if (timerIds[account.id]) {
+        timerIds[account.id][type] = {
+          id: timerId,
+          count: 1,
+        };
+      } else {
+        timerIds[account.id] = {
+          type: {
+            id: timerId,
+            count: 1,
+          },
+        };
+      }
+    }
+
     return {
       ...state,
       columns: state.columns.concat([{
