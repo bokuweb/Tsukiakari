@@ -22,7 +22,8 @@ export default class TimelineBox extends Component {
   }
 
   onClose() {
-    this.props.deleteRequest(this.props.column.id);
+    const { column } = this.props;
+    this.props.deleteRequest(column.id, column.timerId);
   }
 
   update() {
@@ -31,7 +32,6 @@ export default class TimelineBox extends Component {
 
   render() {
     const { id, title, icon, contents, timeline } = this.props.column;
-    console.dir(contents)
     return (
       <div className="timeline-box">
         <div className="timeline-box__wrapper--title">
