@@ -12,6 +12,7 @@ const iconSelector = type => {
   switch (type) {
     case 'Home': return 'lnr lnr-home';
     case 'Favorite': return 'lnr lnr-heart';
+    case 'Mention': return 'fa fa-at';
     default : return 'lnr lnr-cog';
   }
 };
@@ -40,14 +41,15 @@ export default handleActions({
     return { rawTimeline, columns };
   },
   ADD_COLUMN: (state, action) => {
-    const { account, type } = action.payload;
-    const columnId = uuid.v4();
+    const { account, type, timerId } = action.payload;
+    const id = uuid.v4();
     const title = type; // TODO: If mixed columns, custom timeline
     const icon = iconSelector(type);
     return {
       ...state,
       columns: state.columns.concat([{
-        id: columnId,
+        id,
+        timerId,
         title,
         icon,
         contents: [{ account, type }],

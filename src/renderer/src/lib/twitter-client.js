@@ -11,10 +11,20 @@ export default class TwitterClient {
     });
   }
 
-  fetchHomeTimeline(params) {
+  getEndpoint(type) {
+    switch (type) {
+      case 'Home' : return 'statuses/home_timeline';
+      case 'Favorite' : return 'favorites/list';
+      case 'Mention' : return 'statuses/mentions_timeline';
+      default: throw new Error('Unknown fetch type');
+    }
+  }
+
+  fetch(type, params) {
+    const endpoint = this.getEndpoint(type);
     return new Promise((resolve, reject) => {
       this.client.get(
-        'statuses/home_timeline',
+        endpoint,
         params,
         (error, tweets) => {
           if (error) reject(error);
@@ -23,17 +33,6 @@ export default class TwitterClient {
     });
   }
 
-  fetchFavorites(params) {
-    return new Promise((resolve, reject) => {
-      this.client.get(
-        'favorites/list',
-        params,
-        (error, tweets) => {
-          if (error) reject(error);
-          else resolve(tweets);
-        });
-    });
-  }
   /*
   getStatus(id) {
     var d = Q.defer();
