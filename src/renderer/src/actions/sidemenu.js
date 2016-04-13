@@ -7,3 +7,11 @@ export const openAddColumnMenu = () => (
 export const closeAddColumnMenu = () => (
   createAction('CLOSE_ADD_COLUMN_MENU')()
 );
+
+export const openTweetWindow = () => (
+  createAction('OPEN_TWEET_WINDOW')()
+);
+
+export const closeTweetWindow = () => (
+  createAction('CLOSE_TWEET_WINDOW')()
+);

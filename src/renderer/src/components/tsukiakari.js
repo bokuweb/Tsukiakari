@@ -3,6 +3,7 @@ import Accounts from './accounts';
 import Sidemenu from './sidemenu';
 import Contents from './contents';
 import AddColumnMenu from './add-column-menu';
+import Window from './window';
 
 export default class Tsukiakari extends Component {
   static propTypes = {
@@ -35,9 +36,12 @@ export default class Tsukiakari extends Component {
     const {
       tweets: { timeline, columns },
       accounts: { accounts },
-      sidemenu: { isAddColumnMenuOpen },
+      sidemenu: { isAddColumnMenuOpen, isTweetWindowOpen },
     } = this.props;
-    const { openAddColumnMenu, closeAddColumnMenu } = this.props.actions.sidemenu;
+    const {
+      openAddColumnMenu, closeAddColumnMenu,
+      openTweetWindow, closeTweetWindow,
+    } = this.props.actions.sidemenu;
     return (
       <div className="container">
         <Accounts accounts={accounts} />
@@ -46,6 +50,7 @@ export default class Tsukiakari extends Component {
           openAddColumnMenu={openAddColumnMenu}
           closeAddColumnMenu={closeAddColumnMenu}
           isAddColumnMenuOpen={isAddColumnMenuOpen}
+          openTweetWindow={openTweetWindow}
         />
         <Contents
           timeline={timeline}
@@ -59,6 +64,9 @@ export default class Tsukiakari extends Component {
           close={closeAddColumnMenu}
           onCreate={this.onCreate}
         />
+        <Window isOpen={isTweetWindowOpen} >
+          hoge
+        </Window>
       </div>
     );
   }

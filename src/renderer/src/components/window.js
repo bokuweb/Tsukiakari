@@ -8,6 +8,11 @@ const styles = {
   borderRadius: '5px',
   backgroundColor: '#ccc',
   color: '#000',
+  zIndex: 9999,
+  position: 'absolute',
+  top: '0',
+  left: '0'
+
 };
 
 export default class ReactWindow extends Component {
@@ -25,12 +30,17 @@ export default class ReactWindow extends Component {
   render() {
     return (
       <div
-        style={this.props.isOpen ? {} : { display: 'none' }}
+         style={this.props.isOpen ? {           zIndex: 9999,
+                                                position: 'absolute',
+                                                top: '0',
+                                                left: '0',} : {
+           display: 'none',
+         }}
         className={this.props.className}
       >
         <ResizableAndMovable
-          x={window.innerWidth / 2 - 100}
-          y={window.innerHeight / 2 - 100}
+          x={100}
+          y={100}
           width={200}
           height={200}
           minWidth={200}
