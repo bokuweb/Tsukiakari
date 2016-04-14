@@ -39,7 +39,7 @@ export default handleActions({
       });
       return newColumn;
     });
-    return { rawTimeline, columns };
+    return { ...state, rawTimeline, columns };
   },
   ADD_COLUMN: (state, action) => {
     const { account, type, timerId } = action.payload;

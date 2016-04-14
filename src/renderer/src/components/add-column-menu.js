@@ -95,8 +95,9 @@ export default class AddColumnMenu extends Component {
   }
 
   render() {
-    const wrapperClass = this.props.isOpen ? 'add-column-menu add-column-menu--is-open'
-                                           : 'add-column-menu';
+    const wrapperClass = this.props.isOpen
+            ? 'add-column-menu add-column-menu--is-open'
+            : 'add-column-menu';
     return (
       <div className={wrapperClass}>
         <div className="add-column-menu__header" >

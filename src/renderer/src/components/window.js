@@ -1,18 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import ResizableAndMovable from 'react-resizable-and-movable';
 
-const styles = {
-  textAlign: 'center',
-  padding: '20px',
-  border: 'solid 3px #ccc',
-  borderRadius: '5px',
-  backgroundColor: '#ccc',
-  color: '#000',
-  zIndex: 9999,
+const style = {
+  backgroundColor: '#fff',
   position: 'absolute',
   top: '0',
-  left: '0'
-
+  left: '0',
 };
 
 export default class ReactWindow extends Component {
@@ -30,12 +23,18 @@ export default class ReactWindow extends Component {
   render() {
     return (
       <div
-         style={this.props.isOpen ? {           zIndex: 9999,
-                                                position: 'absolute',
-                                                top: '0',
-                                                left: '0',} : {
-           display: 'none',
-         }}
+        style={
+          this.props.isOpen ? {
+            //zIndex: 9999,
+            position: 'absolute',
+            top: '0',
+            left: '0',
+            width: '100%',
+            height: '100%',
+          } : {
+            display: 'none',
+          }
+        }
         className={this.props.className}
       >
         <ResizableAndMovable
@@ -47,7 +46,8 @@ export default class ReactWindow extends Component {
           minHeight={200}
           maxWidth={800}
           maxHeight={300}
-          style={styles}
+          style={style}
+          bounds="parent"
         >
           {this.props.children}
         </ResizableAndMovable>
