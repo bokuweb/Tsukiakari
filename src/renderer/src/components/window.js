@@ -50,8 +50,15 @@ export default class ReactWindow extends Component {
           maxHeight={300}
           style={style}
           bounds="parent"
+          className="tweet-window"
         >
-          {this.props.children}
+          <div className="timeline-box__wrapper--title">
+            <span className="timeline-box__title">
+              <i className={`timeline-box__icon--title`} />
+              New Tweet
+            </span>
+            <i className="timeline-box__icon lnr lnr-cross" />
+          </div>
         </ResizableAndMovable>
       </div>
     );
