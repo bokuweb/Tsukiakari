@@ -6,6 +6,7 @@ export default class Sidemenu extends Component {
     closeAddColumnMenu: PropTypes.func,
     isAddColumnMenuOpen: PropTypes.bool,
     columns: PropTypes.array,
+    openTweetWindow: PropTypes.func,
   };
 
   static defaultProps = {
@@ -60,7 +61,10 @@ export default class Sidemenu extends Component {
           </ul>
           {this.renderAddColumnButton()}
         </div>
-        <div className="sidemenu__button--newtweet">
+        <div
+          className="sidemenu__button--newtweet"
+          onClick={this.props.openTweetWindow}
+        >
           <i className="sidemenu__icon lnr lnr-pencil" />
           <span className="sidemenu__text--newtweet">New Tweet</span>
         </div>

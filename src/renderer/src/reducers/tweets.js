@@ -5,6 +5,7 @@ import * as config from '../constants/config';
 
 const defaultState = {
   rawTimeline: {},
+  timerIds: {},
   columns: [],
 };
 
@@ -12,6 +13,7 @@ const iconSelector = type => {
   switch (type) {
     case 'Home': return 'lnr lnr-home';
     case 'Favorite': return 'lnr lnr-heart';
+    case 'Mention': return 'fa fa-at';
     default : return 'lnr lnr-cog';
   }
 };
@@ -37,17 +39,41 @@ export default handleActions({
       });
       return newColumn;
     });
-    return { rawTimeline, columns };
+    return { ...state, rawTimeline, columns };
   },
   ADD_COLUMN: (state, action) => {
-    const { account, type } = action.payload;
-    const columnId = uuid.v4();
+    const { account, type, timerId } = action.payload;
+    const id = uuid.v4();
     const title = type; // TODO: If mixed columns, custom timeline
     const icon = iconSelector(type);
+    const { timerIds } = state;
+    if (timerIds[account.id] && timerIds[account.id][type]) {
+      // FIXME: timerIds[`${account.id}/${type}]とかのが便利そう
+      // Refactor!!!!!!
+      timerIds[account.id][type].count += 1;
+    } else {
+      if (timerIds[account.id] && timerIds[account.id][type]) {
+        timerIds[account.id][type].id = timerId;
+      } else if (timerIds[account.id]) {
+        timerIds[account.id][type] = {
+          id: timerId,
+          count: 1,
+        };
+      } else {
+        timerIds[account.id] = {
+          type: {
+            id: timerId,
+            count: 1,
+          },
+        };
+      }
+    }
+
     return {
       ...state,
       columns: state.columns.concat([{
-        id: columnId,
+        id,
+        timerId,
         title,
         icon,
         contents: [{ account, type }],
