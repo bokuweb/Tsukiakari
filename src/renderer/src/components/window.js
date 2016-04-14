@@ -6,6 +6,7 @@ const style = {
   position: 'absolute',
   top: '0',
   left: '0',
+  pointerEvents: 'auto', // HACK:
 };
 
 export default class ReactWindow extends Component {
@@ -25,7 +26,8 @@ export default class ReactWindow extends Component {
       <div
         style={
           this.props.isOpen ? {
-            //zIndex: 9999,
+            zIndex: 9999,
+            pointerEvents: 'none', // HACK:
             position: 'absolute',
             top: '0',
             left: '0',
