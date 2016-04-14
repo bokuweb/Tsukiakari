@@ -6,6 +6,7 @@ const style = {
   position: 'absolute',
   top: '0',
   left: '0',
+  pointerEvents: 'auto', // HACK:
 };
 
 export default class ReactWindow extends Component {
@@ -25,7 +26,8 @@ export default class ReactWindow extends Component {
       <div
         style={
           this.props.isOpen ? {
-            //zIndex: 9999,
+            zIndex: 9999,
+            pointerEvents: 'none', // HACK:
             position: 'absolute',
             top: '0',
             left: '0',
@@ -48,8 +50,15 @@ export default class ReactWindow extends Component {
           maxHeight={300}
           style={style}
           bounds="parent"
+          className="tweet-window"
         >
-          {this.props.children}
+          <div className="timeline-box__wrapper--title">
+            <span className="timeline-box__title">
+              <i className={`timeline-box__icon--title`} />
+              New Tweet
+            </span>
+            <i className="timeline-box__icon lnr lnr-cross" />
+          </div>
         </ResizableAndMovable>
       </div>
     );
