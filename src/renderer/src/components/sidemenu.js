@@ -65,7 +65,7 @@ export default class Sidemenu extends Component {
           className="sidemenu__button--newtweet"
           onClick={this.props.openTweetWindow}
         >
-          <i className="sidemenu__icon lnr lnr-pencil" />
+          <i className="sidemenu__icon fa fa-twitter" />
           <span className="sidemenu__text--newtweet">New Tweet</span>
         </div>
       </div>

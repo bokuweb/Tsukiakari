@@ -27,7 +27,7 @@ export default class Timeline extends Component {
   componentDidMount() {
     this.updateTimelineHeight();
     const infinite = document.querySelector(`.timeline__infinite--${this.props.id}`);
-    infinite.addEventListener('scroll', ::this.onInfiniteScroll);
+    infinite.addEventListener('scroll', ::this.onScroll);
     window.addEventListener('resize', this.onWindowResize);
   }
 
@@ -53,17 +53,16 @@ export default class Timeline extends Component {
   }
 
   onWindowResize() {
-    console.log('window resize');
     this.updateTimelineHeight();
     this.updateElementState(this.props.timeline);
   }
 
-  onInfiniteScroll() {
+  onScroll() {
     if (this.scrollTimer) return;
     this.scrollTimer = setTimeout(() => {
       this.updateElementState(this.props.timeline);
       this.scrollTimer = null;
-    }, 16);
+    }, 100);
   }
 
   updateElementState(timeline) {

@@ -1,9 +1,14 @@
 import React, { Component, PropTypes } from 'react';
+import { isEqual } from 'lodash';
 
 export default class TweetItem extends Component {
   static propTypes = {
     tweet: PropTypes.object,
   };
+
+  shouldComponentUpdate(nextProps) {
+    return !isEqual(this.props.tweet, nextProps.tweet);
+  }
 
   render() {
     const { tweet } = this.props;

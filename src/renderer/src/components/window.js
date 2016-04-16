@@ -26,7 +26,6 @@ export default class ReactWindow extends Component {
       <div
         style={
           this.props.isOpen ? {
-            zIndex: 9999,
             pointerEvents: 'none', // HACK:
             position: 'absolute',
             top: '0',
@@ -52,12 +51,12 @@ export default class ReactWindow extends Component {
           bounds="parent"
           className="tweet-window"
         >
-          <div className="timeline-box__wrapper--title">
-            <span className="timeline-box__title">
-              <i className={`timeline-box__icon--title`} />
+          <div className="tweet-window__title-wrapper">
+            <span className="tweet-window__title">
+              <i className="tweet-window__icon fa fa-twitter" />
               New Tweet
             </span>
-            <i className="timeline-box__icon lnr lnr-cross" />
+            <i className="tweet-window__icon lnr lnr-cross" />
           </div>
         </ResizableAndMovable>
       </div>
