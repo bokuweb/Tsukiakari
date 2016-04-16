@@ -33,6 +33,7 @@ export default class Contents extends Component {
         onResize={this.onPaneResize}
         onResizeStop={this.onPaneResize}
         className="contents__sortable-pane"
+        order={[]}
       >
         {this.renderPanes()}
       </SortablePane>

@@ -41,7 +41,7 @@ export default class Timeline extends Component {
     if (this.props.timeline.length === 0) return;
     if (this.isInitialized) return;
     this.isInitialized = true;
-    this.updateElementState();
+    // this.updateElementState();
   }
 
   componentWillUnmount() {
