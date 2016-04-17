@@ -47,6 +47,7 @@ export default class Contents extends Component {
         key={column.id}
         width={320}
         minWidth={320}
+        height={400}
         className="contents__pane"
       >
         <TimelineBox

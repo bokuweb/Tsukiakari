@@ -62,7 +62,7 @@ export default class Timeline extends Component {
     this.scrollTimer = setTimeout(() => {
       this.updateElementState(this.props.timeline);
       this.scrollTimer = null;
-    }, 100);
+    }, 160);
   }
 
   updateElementState(timeline) {
