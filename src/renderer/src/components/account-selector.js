@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { isEmpty } from 'lodash';
 import { Button } from 'react-bulma';
+import AccountList from './account-list';
 
 export default class AccountSelector extends Component {
   static propTypes = {
@@ -57,7 +58,7 @@ export default class AccountSelector extends Component {
           <span className="account-selector__title">Choose account</span>
         </div>
         <div className="account-selector__accounts" >
-          {this.renderAccounts()}
+          <AccountList accounts={this.props.accounts} />
         </div>
         <div className="account-selector__buttons">
           <Button
