@@ -27,7 +27,7 @@ export default class TimelineBox extends Component {
   }
 
   update() {
-    this.refs.timeline.updateElementState(this.props.timeline);
+    // this.refs.timeline.updateElementState(this.props.timeline);
   }
 
   render() {

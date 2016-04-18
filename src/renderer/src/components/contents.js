@@ -17,21 +17,10 @@ export default class Contents extends Component {
     columns: [],
   };
 
-  constructor(props) {
-    super(props);
-    this.onPaneResize = ::this.onPaneResize;
-  }
-
-  onPaneResize(pane) {
-    this.refs[pane.id].update();
-  }
-
   renserPane() {
     return (
       <SortablePane
         margin={20}
-        onResize={this.onPaneResize}
-        onResizeStop={this.onPaneResize}
         className="contents__sortable-pane"
         order={[]}
       >
