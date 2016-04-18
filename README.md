@@ -5,6 +5,11 @@ This repository is heavily under development and unstable.
 
 [![Code Climate](https://img.shields.io/codeclimate/github/bokuweb/tsukiakari/badges/gpa.svg?style=flat-square)](https://codeclimate.com/github/bokuweb/tsukiakari)
 
+## TODO
+
+- [ ] Support instagram photo
+- [ ] Support twitter card
+
 ## LICENSE
 
 ### Linearicons Free

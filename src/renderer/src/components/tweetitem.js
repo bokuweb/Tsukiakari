@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-
+import { decodeHtml } from '../utils/utils'
 export default class TweetItem extends Component {
   static propTypes = {
     tweet: PropTypes.object,
@@ -22,7 +22,26 @@ export default class TweetItem extends Component {
             @{tweet.quoted_status.user.screen_name}
           </span>
         </div>
-        <span className="tweetitem__text--tweet">{tweet.quoted_status.text}</span>
+        <span className="tweetitem__text--tweet">
+          {decodeHtml(tweet.quoted_status.text)}
+        </span>
+      </div>
+    );
+  }
+
+  renderMedia() {
+    const entities = this.props.tweet.extended_entities;
+    if (!entities || !entities.media) return null;
+    return (
+      <div className="tweetitem__media">
+        {
+          entities.media.map(media => (
+            <img
+              className="tweetitem__media-image"
+              src={media.media_url_https}
+            />
+          ))
+        }
       </div>
     );
   }
@@ -58,8 +77,11 @@ export default class TweetItem extends Component {
               @{user.screen_name}
             </span>
           </div>
-          <span className="tweetitem__text--tweet">{text}</span>
+          <span className="tweetitem__text--tweet">
+            {decodeHtml(text)}
+          </span>
           {this.renderQuotedTweet()}
+          {this.renderMedia()}
         </div>
       </div>
     );
