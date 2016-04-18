@@ -59,7 +59,7 @@ export default class Tsukiakari extends Component {
           deleteRequest={this.deleteRequest}
         />
         <AddColumnMenu
-           accounts={accounts}
+          accounts={accounts}
           isOpen={isAddColumnMenuOpen}
           close={closeAddColumnMenu}
           onCreate={this.onCreate}
@@ -67,8 +67,8 @@ export default class Tsukiakari extends Component {
         <TweetWindow
           isOpen={isTweetWindowOpen}
           accounts={accounts}
-        >
-        </TweetWindow>
+          close={closeTweetWindow}
+        />
       </div>
     );
   }

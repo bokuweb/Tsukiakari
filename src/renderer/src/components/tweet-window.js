@@ -17,11 +17,13 @@ export default class TweetWindow extends Component {
     children: PropTypes.any,
     className: PropTypes.string,
     accounts: PropTypes.array,
+    close: PropTypes.func,
   };
 
   static defaultProps = {
     className: '',
     accounts: [],
+    close: () => null,
   };
 
   constructor(props) {
@@ -69,10 +71,13 @@ export default class TweetWindow extends Component {
         >
           <div className="tweet-window__title-wrapper">
             <span className="tweet-window__title">
-              <i className="tweet-window__icon fa fa-twitter" />
+              <i className="tweet-window__icon icon-tweet" />
               New Tweet
             </span>
-            <i className="tweet-window__icon lnr lnr-cross" />
+            <i
+              className="tweet-window__icon lnr lnr-cross"
+              onClick={this.props.close}
+            />
           </div>
           <div className="tweet-window__body">
             {
@@ -83,18 +88,17 @@ export default class TweetWindow extends Component {
             <div className="tweet-window__textarea-wrapper">
               <textarea
                 style={{ height: this.state.height - 96 }}
-                defaultValue="aa"
+                defaultValue=""
                 placeholder="What's happening?"
                 readOnly={false}
                 className="tweet-window__textarea"
               />
               <Button
-                style={{ margin: '10px 10px 0 auto', width: '80px', display: 'block' }}
+                style={{ margin: '10px 14px 0 auto', width: '80px', display: 'block' }}
               >
-                Tweet
+                <i className="icon-tweet" /> Tweet
               </Button>
             </div>
-
           </div>
         </ResizableAndMovable>
       </div>

@@ -5,27 +5,26 @@ import _ from 'lodash';
 import util from 'util';
 
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow;
+let mainWindow = null;
 
 app.on('window-all-closed', () => {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform != 'darwin') app.quit();
+  if (process.platform !== 'darwin') app.quit();
 });
 
 app.on('ready', () => {
   let accounts = [];
-  global.consumerKey = "njiDlWzzRl1ReomcCmvhbarN7";
-  global.consumerSecret = "rTOSMuY11adXXUxHHTlcNRWRZsutORnvgAl9eojb19Y77Ub78M";
+  global.consumerKey = 'njiDlWzzRl1ReomcCmvhbarN7';
+  global.consumerSecret = 'rTOSMuY11adXXUxHHTlcNRWRZsutORnvgAl9eojb19Y77Ub78M';
   const accountFilePath = `${app.getPath('cache')}/accounts.json`;
-  
   const loadMainWindow = () => {
     mainWindow = new BrowserWindow({
       minWidth: 640,
       minHeight: 400,
     });
     mainWindow.loadURL(`file://${__dirname}/../../renderer/index.html`);
-    //client.create(mainWindow);
+    // client.create(mainWindow);
     // Open the DevTools.
     mainWindow.webContents.openDevTools();
   };
@@ -47,7 +46,7 @@ app.on('ready', () => {
   const addAccountUnlessExist = (account) => {
     const newAccount = Object.assign({}, account, { id: accounts.length });
     if (!_.includes(_.map(accounts, 'id'), newAccount.id)) accounts.push(newAccount);
-    jsonfile.writeFile(accountFilePath, accounts,  err => console.log(err));
+    jsonfile.writeFile(accountFilePath, accounts, err => console.log(err));
   };
 
   ipcMain.on('authenticate-request', event => {
