@@ -121,17 +121,11 @@ export default class Timeline extends Component {
     const { timelineHeight, elementHeight } = this.state;
     return (
       <div className="timeline" onMouseDown={this.onMouseDown}>
-        <Infinite
-          elementHeight={isEmpty(elementHeight) ? defaultElementHeight : elementHeight}
-          containerHeight={timelineHeight}
-          infiniteLoadBeginEdgeOffset={100}
-          onInfiniteLoad={::this.onInfiniteLoad}
-          loadingSpinnerDelegate={this.elementInfiniteLoad()}
-          isInfiniteLoading
+        <div
           className={`timeline__infinite timeline__infinite--${this.props.id}`}
         >
           {this.getTimeline()}
-        </Infinite>
+        </div>
       </div>
     );
   }
