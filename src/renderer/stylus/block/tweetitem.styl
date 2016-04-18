@@ -1,7 +1,9 @@
 .tweetitem
-  display -webkit-flex
   padding 20px 15px 15px 10px
   border-bottom 1px solid #e7eaec
+
+.tweetitem__body
+  display -webkit-flex
 
 .tweetitem__wrapper--avatar
   width 42px
@@ -21,6 +23,11 @@
   font-size 1rem
   margin 0 0 0 10px
 
+.tweetitem__name-wrapper
+  overflow hidden
+  white-space nowrap
+  text-overflow ellipsis
+
 .tweetitem__wrapper--text
   width 80%
   padding 0
@@ -31,5 +38,32 @@
   margin 20px 0 0 0
   color #34495E
   font-size 1.3rem
-  
 
+.tweetitem__retweeted
+  padding 0 0 0 54px
+  overflow hidden
+  white-space nowrap
+  text-overflow ellipsis
+
+.tweetitem__icon
+  font-size 1.4rem
+  font-weight bold
+  color #2C3E50
+
+.tweetitem__message
+  color #95A5A6
+  font-size 1rem  
+
+.tweetitem__message--retweeted
+  color #95A5A6
+  font-size 1rem
+  width 200px
+
+.tweetitem__icon--retweet
+  margin 0 5px 0 0
+
+.tweetitem__quoted
+  margin 15px 0 10px 0
+  border solid 1px #e7eaec
+  border-radius 3px
+  padding 15px
