@@ -1,11 +1,8 @@
-'use strict';
-
-const { BrowserWindow, app, ipcMain } = require('electron');
-const client = require('electron-connect').client;
-const Auth = require('./auth');
-const jsonfile = require('jsonfile');
-const _ = require('lodash');
-const util = require('util');
+import { BrowserWindow, app, ipcMain } from 'electron';
+import Auth from './auth';
+import jsonfile from 'jsonfile';
+import _ from 'lodash';
+import util from 'util';
 
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
@@ -24,11 +21,11 @@ app.on('ready', () => {
   
   const loadMainWindow = () => {
     mainWindow = new BrowserWindow({
-      'min-width': 640,
-      'min-height': 400,
+      minWidth: 640,
+      minHeight: 400,
     });
     mainWindow.loadURL(`file://${__dirname}/../../renderer/index.html`);
-    client.create(mainWindow);
+    //client.create(mainWindow);
     // Open the DevTools.
     mainWindow.webContents.openDevTools();
   };

@@ -24,6 +24,14 @@ export default class TweetWindow extends Component {
     accounts: [],
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      width: 380,
+      height: 180,
+    };
+  }
+
   onSelect() {
 
   }
@@ -48,15 +56,16 @@ export default class TweetWindow extends Component {
         <ResizableAndMovable
           x={100}
           y={100}
-          width={200}
-          height={200}
-          minWidth={200}
-          minHeight={200}
+          width={this.state.width}
+          height={this.state.height}
+          minWidth={280}
+          minHeight={150}
           maxWidth={800}
-          maxHeight={300}
+          maxHeight={600}
           style={style}
           bounds="parent"
           className="tweet-window"
+          onResize={(_, size) => this.setState({ height: size.height })}
         >
           <div className="tweet-window__title-wrapper">
             <span className="tweet-window__title">
@@ -66,19 +75,26 @@ export default class TweetWindow extends Component {
             <i className="tweet-window__icon lnr lnr-cross" />
           </div>
           <div className="tweet-window__body">
-            <span className="tweet-window__item-title">From</span>
             {
               this.props.accounts.length === 0
                 ? <div>loading</div>
                 : <AccountList accounts={this.props.accounts} />
             }
-            <span className="tweet-window__item-title">Tweet</span>
-            <div><textarea className="tweet-window__textarea" /></div>
-            <Button
-               style={{ marginLeft: 'auto', width: '100px', display: 'block' }}
-            >
-              Tweet
-            </Button>
+            <div className="tweet-window__textarea-wrapper">
+              <textarea
+                style={{ height: this.state.height - 96 }}
+                defaultValue="aa"
+                placeholder="What's happening?"
+                readOnly={false}
+                className="tweet-window__textarea"
+              />
+              <Button
+                style={{ margin: '10px 10px 0 auto', width: '80px', display: 'block' }}
+              >
+                Tweet
+              </Button>
+            </div>
+
           </div>
         </ResizableAndMovable>
       </div>

@@ -2,16 +2,18 @@
   "name": "Tsukiakari",
   "version": "0.1.0",
   "description": "A minimal Electron application",
-  "main": "/src/browser/src/main.js",
+  "main": "/src/browser/dist/bundle.js",
   "scripts": {
-    "dev": "gulp serve & npm run watch",
-    "start": "electron src/browser/src/main.js",
+    "dev": "electron src/browser/src/main.js & npm run watch",
+    "start": "electron src/browser/dist/bundle.js",
     "watch:js": "watchify src/renderer/src/index.js -o src/renderer/dist/bundle.js --ignore-missing",
-    "build:js": "browserify --extension=js -o src/renderer/dist/bundle.js src/renderer/src/index.js --ignore-missing",
+    "build:js": "npm run build:renderer & npm run build:main",
+    "build:renderer": "browserify --extension=js -o src/renderer/dist/bundle.js src/renderer/src/index.js --ignore-missing",
+    "build:main": "browserify --extension=js -o src/browser/dist/bundle.js src/browser/src/main.js --im --no-detect-globals --node",
     "watch": "npm run watch:js & npm run watch:stylus",
     "watch:stylus": "stylus src/renderer/stylus/ --watch  --out src/renderer/stylesheets/",
     "build:stylus": "stylus src/renderer/stylus/ --out src/renderer/stylesheets/",
-    "package": "electron-packager . tsukiakari --arch=x64 --out=packages/v0.0.1 --platform=darwin --version=0.37.2 --ignore={packages,screenshots}/* --overwrite",
+    "package": "npm run build:js && electron-packager . tsukiakari --arch=x64 --out=packages/v0.0.1 --platform=darwin --version=0.37.5 --ignore={packages,screenshots,node_modules}/* --overwrite",
     "lint": "eslint src/renderer/src --fix"
   },
   "repository": {
@@ -57,7 +59,7 @@
     "watchify": "^3.6.1"
   },
   "dependencies": {
-    "electron-prebuilt": "^0.37.2",
+    "electron-prebuilt": "^0.37.5",
     "jsonfile": "^2.2.3",
     "lodash": "^3.10.1",
     "node-twitter-api": "^1.6.3",
@@ -67,7 +69,6 @@
     "react-infinite": "^0.9.1",
     "react-redux": "^4.0.3",
     "react-resizable-and-movable": "^1.1.0",
-    "react-router": "^2.0.1",
     "react-sortable-pane": "^0.2.10",
     "redux": "^3.0.5",
     "redux-actions": "^0.9.0",
