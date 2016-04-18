@@ -3,7 +3,7 @@ import Accounts from './accounts';
 import Sidemenu from './sidemenu';
 import Contents from './contents';
 import AddColumnMenu from './add-column-menu';
-import Window from './window';
+import TweetWindow from './tweet-window';
 
 export default class Tsukiakari extends Component {
   static propTypes = {
@@ -64,9 +64,11 @@ export default class Tsukiakari extends Component {
           close={closeAddColumnMenu}
           onCreate={this.onCreate}
         />
-        <Window isOpen={isTweetWindowOpen} >
-          hoge
-        </Window>
+        <TweetWindow
+          isOpen={isTweetWindowOpen}
+          accounts={accounts}
+          close={closeTweetWindow}
+        />
       </div>
     );
   }
