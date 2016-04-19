@@ -31,4 +31,32 @@ export const fetchFavorites = (account, type) => dispatch => {
     });
 };
 
+export const createFavorite = (account, id) => dispatch => {
+  const { accessToken, accessTokenSecret } = account;
+  const twitter = new Twitter(accessToken, accessTokenSecret);
+  twitter.createFavorite({ id })
+    .then(tweet => {
+      const action = createAction('CREATE_FAVORITE_SUCCESS');
+      dispatch(action({ account, tweet }));
+    })
+    .catch(error => {
+      console.error(error);
+      const action = createAction('CREATE_FAVORITE_FAIL');
+      dispatch(action({ error }));
+    });
+};
 
+export const postTweet = (account, status) => dispatch => {
+  const { accessToken, accessTokenSecret } = account;
+  const twitter = new Twitter(accessToken, accessTokenSecret);
+  twitter.postTweet({ status })
+    .then(tweet => {
+      const action = createAction('POST_TWEET_SUCCESS');
+      dispatch(action({ account, tweet }));
+    })
+    .catch(error => {
+      console.error(error);
+      const action = createAction('POST_TWEET_FAIL');
+      dispatch(action({ error }));
+    });
+};

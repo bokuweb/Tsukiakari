@@ -6,6 +6,7 @@ export default class TimelineBox extends Component {
     timeline: PropTypes.array,
     column: PropTypes.object,
     deleteRequest: PropTypes.func,
+    createFavorite: PropTypes.func,
   };
 
   static defaultProps = {
@@ -17,6 +18,11 @@ export default class TimelineBox extends Component {
     this.onClose = ::this.onClose;
   }
 
+  shouldComponentUpdate(nextProps) {
+    // TODO: return this.props.timeline.length !== nextProps.timeline.length;
+    return true;
+  }
+
   onMouseDown(e) {
     e.stopPropagation();
   }
@@ -24,10 +30,6 @@ export default class TimelineBox extends Component {
   onClose() {
     const { column } = this.props;
     this.props.deleteRequest(column.id, column.timerId);
-  }
-
-  update() {
-    this.refs.timeline.updateElementState(this.props.timeline);
   }
 
   render() {
@@ -49,7 +51,13 @@ export default class TimelineBox extends Component {
             onClick={this.onClose}
           />
         </div>
-        <Timeline ref="timeline" id={id} timeline={timeline} />
+        <Timeline
+          ref="timeline"
+          id={id}
+          timeline={timeline}
+          createFavorite={this.props.createFavorite}
+          accounts={this.props.accounts}
+        />
       </div>
     );
   }

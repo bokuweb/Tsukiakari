@@ -16,6 +16,7 @@ export default class TwitterClient {
       case 'Home' : return 'statuses/home_timeline';
       case 'Favorite' : return 'favorites/list';
       case 'Mention' : return 'statuses/mentions_timeline';
+      case 'Seacrh' : return 'search/tweets';
       default: throw new Error('Unknown fetch type');
     }
   }
@@ -25,6 +26,42 @@ export default class TwitterClient {
     return new Promise((resolve, reject) => {
       this.client.get(
         endpoint,
+        params,
+        (error, tweets) => {
+          if (error) reject(error);
+          else resolve(tweets);
+        });
+    });
+  }
+
+  postTweet(params) {
+    return new Promise((resolve, reject) => {
+      this.client.post(
+        'statuses/update',
+        params,
+        (error, tweet) => {
+          if (error) reject(error);
+          else resolve(tweet);
+        });
+    });
+  }
+
+  createFavorite(params) {
+    return new Promise((resolve, reject) => {
+      this.client.post(
+        'favorites/create',
+        params,
+        (error, tweets) => {
+          if (error) reject(error);
+          else resolve(tweets);
+        });
+    });
+  }
+
+  destroyFavorite(params) {
+    return new Promise((resolve, reject) => {
+      this.client.post(
+        'favorites/destroy',
         params,
         (error, tweets) => {
           if (error) reject(error);
@@ -57,31 +94,6 @@ export default class TwitterClient {
     });
     return d.promise;
   }
-
-  crateFavorite(params) {
-    var d = Q.defer();
-    this._client.post('favorites/create', params, (error) => {
-      if (error) {
-        console.log(util.inspect(error));
-        d.reject(error);
-      }
-      return d.resolve();
-    });
-    return d.promise;
-  }
-
-  destroyFavorite(params) {
-    var d = Q.defer();
-    this._client.post('favorites/destroy', params, (error) => {
-      if (error) {
-        console.log(util.inspect(error));
-        d.reject(error);
-      }
-      return d.resolve();
-    });
-    return d.promise;
-  }
-
 
   searchTweet(params) {
     var d = Q.defer();
