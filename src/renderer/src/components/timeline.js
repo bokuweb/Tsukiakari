@@ -6,6 +6,7 @@ export default class Timeline extends Component {
   static propTypes = {
     timeline: PropTypes.array,
     id: PropTypes.string,
+    createFavorite: PropTypes.func,
   };
 
   constructor(props) {
@@ -57,7 +58,11 @@ export default class Timeline extends Component {
         className="timeline__item timeline__item--animated"
         id={tweet.id} key={`${this.props.id}${tweet.id}`}
       >
-        <TweetItem tweet={tweet} />
+        <TweetItem
+          tweet={tweet}
+          createFavorite={this.props.createFavorite}
+          accounts={this.props.accounts}
+        />
       </div>
     ));
   }

@@ -11,6 +11,7 @@ export default class Contents extends Component {
     columns: PropTypes.array,
     deleteRequest: PropTypes.func,
     openAddColumnMenu: PropTypes.func,
+    createFavorite: PropTypes.func,
   };
 
   static defaultProps = {
@@ -44,6 +45,8 @@ export default class Contents extends Component {
           column={column}
           deleteRequest={this.props.deleteRequest}
           timeline={this.props.timeline}
+          createFavorite={this.props.createFavorite}
+          accounts={this.props.accounts}
         />
       </Pane>
     ));

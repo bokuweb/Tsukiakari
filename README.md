@@ -7,6 +7,7 @@ This repository is heavily under development and unstable.
 
 ## TODO
 
+- [ ] Add favorite animation
 - [ ] Support instagram photo
 - [ ] Support twitter card
 
