@@ -11,21 +11,35 @@ export default class Timeline extends Component {
   constructor(props) {
     super(props);
     this.onMouseDown = ::this.onMouseDown;
+    this.onScroll = ::this.onScroll;
+    this.scrollTimer = null;
   }
 
   componentDidMount() {
-    this.refs.scroll.addEventListener('scroll', ::this.onScroll);
+    this.refs.scroll.addEventListener('scroll', this.onScroll);
   }
 
-  onScroll() {
+  componentWillUnmount() {
+    this.refs.scroll.removeEventListener('scroll', this.onScroll);
+  }
+
+  onScrollEnd() {
+    this.scrollTimer = null;
     const infinite = this.refs.scroll;
     const scrollHeight = infinite.scrollHeight;
     const offset = infinite.offsetHeight;
     const scrollTop = infinite.scrollTop;
-    const proximity = 50;
+    const proximity = 140;
     if (scrollHeight - scrollTop - offset <= proximity) {
       console.log('scroll end')
     }
+  }
+
+  onScroll() {
+    if (this.scrollTimer) clearTimeout(this.scrollTimer);
+    this.scrollTimer = setTimeout(() => {
+      this.onScrollEnd();
+    }, 500);
   }
 
   onMouseDown(e) {

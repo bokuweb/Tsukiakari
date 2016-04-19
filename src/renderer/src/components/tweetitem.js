@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { decodeHtml } from '../utils/utils'
+import { decodeHtml } from '../utils/utils';
 export default class TweetItem extends Component {
   static propTypes = {
     tweet: PropTypes.object,
