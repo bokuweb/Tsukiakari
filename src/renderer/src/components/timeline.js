@@ -53,10 +53,10 @@ export default class Timeline extends Component {
 
 
   getTimeline() {
-    return this.props.timeline.map(tweet => ( // FIXME:
+    return this.props.timeline.map(tweet => (
       <div
         className="timeline__item timeline__item--animated"
-        id={tweet.id} key={`${this.props.id}${tweet.id}`}
+        key={`${this.props.id}:${tweet.id_str}`}
       >
         <TweetItem
           tweet={tweet}

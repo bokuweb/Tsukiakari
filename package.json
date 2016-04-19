@@ -7,7 +7,7 @@
     "dev": "electron src/browser/dist/bundle.js & npm run watch",
     "start": "electron src/browser/dist/bundle.js",
     "watch:js": "watchify src/renderer/src/index.js -o src/renderer/dist/bundle.js --ignore-missing",
-    "build:js": "npm run build:renderer & npm run build:main",
+    "build:js": "npm run build:renderer && npm run build:main",
     "build:renderer": "browserify --extension=js -o src/renderer/dist/bundle.js src/renderer/src/index.js --ignore-missing",
     "build:main": "browserify --extension=js -o src/browser/dist/bundle.js src/browser/src/main.js --im --no-detect-globals --node",
     "watch": "npm run watch:js & npm run watch:stylus",
