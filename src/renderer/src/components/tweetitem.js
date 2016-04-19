@@ -1,4 +1,6 @@
 import React, { Component, PropTypes } from 'react';
+import TweetItemFooter from './tweetitem-footer';
+import { decodeHtml } from '../utils/utils';
 
 export default class TweetItem extends Component {
   static propTypes = {
@@ -22,7 +24,26 @@ export default class TweetItem extends Component {
             @{tweet.quoted_status.user.screen_name}
           </span>
         </div>
-        <span className="tweetitem__text--tweet">{tweet.quoted_status.text}</span>
+        <span className="tweetitem__text--tweet">
+          {decodeHtml(tweet.quoted_status.text)}
+        </span>
+      </div>
+    );
+  }
+
+  renderMedia() {
+    const entities = this.props.tweet.extended_entities;
+    if (!entities || !entities.media) return null;
+    return (
+      <div className="tweetitem__media">
+        {
+          entities.media.map(media => (
+            <img
+              className="tweetitem__media-image"
+              src={media.media_url_https}
+            />
+          ))
+        }
       </div>
     );
   }
@@ -32,7 +53,7 @@ export default class TweetItem extends Component {
     if (!tweet.retweeted_status) return null;
     return (
       <div className="tweetitem__retweeted">
-        <i className="tweetitem__icon tweetitem__icon--retweet icon-retweet" />
+        <i className="tweetitem__icon tweetitem__icon--retweet fa fa-retweet" />
         <span className="tweetitem__message tweetitem__message--retweeted">
           {tweet.user.name} Retweeted
         </span>
@@ -40,7 +61,7 @@ export default class TweetItem extends Component {
     );
   }
 
-  renderTweet(user, text) {
+  renderTweet(tweet, user, text) {
     return (
       <div className="tweetitem__body">
         <div className="tweetitem__wrapper tweetitem__wrapper--avatar">
@@ -58,8 +79,16 @@ export default class TweetItem extends Component {
               @{user.screen_name}
             </span>
           </div>
-          <span className="tweetitem__text--tweet">{text}</span>
+          <span className="tweetitem__text--tweet">
+            {decodeHtml(text)}
+          </span>
           {this.renderQuotedTweet()}
+          {this.renderMedia()}
+          <TweetItemFooter
+            tweet={tweet}
+            createFavorite={this.props.createFavorite}
+            accounts={this.props.accounts}
+          />
         </div>
       </div>
     );
@@ -68,9 +97,9 @@ export default class TweetItem extends Component {
   renderTweetBody() {
     const { tweet } = this.props;
     if (tweet.retweeted_status) {
-      return this.renderTweet(tweet.retweeted_status.user, tweet.retweeted_status.text);
+      return this.renderTweet(tweet, tweet.retweeted_status.user, tweet.retweeted_status.text);
     }
-    return this.renderTweet(tweet.user, tweet.text);
+    return this.renderTweet(tweet, tweet.user, tweet.text);
   }
 
   render() {
