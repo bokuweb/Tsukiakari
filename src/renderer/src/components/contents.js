@@ -11,27 +11,17 @@ export default class Contents extends Component {
     columns: PropTypes.array,
     deleteRequest: PropTypes.func,
     openAddColumnMenu: PropTypes.func,
+    createFavorite: PropTypes.func,
   };
 
   static defaultProps = {
     columns: [],
   };
 
-  constructor(props) {
-    super(props);
-    this.onPaneResize = ::this.onPaneResize;
-  }
-
-  onPaneResize(pane) {
-    this.refs[pane.id].update();
-  }
-
   renserPane() {
     return (
       <SortablePane
         margin={20}
-        onResize={this.onPaneResize}
-        onResizeStop={this.onPaneResize}
         className="contents__sortable-pane"
         order={[]}
       >
@@ -55,6 +45,8 @@ export default class Contents extends Component {
           column={column}
           deleteRequest={this.props.deleteRequest}
           timeline={this.props.timeline}
+          createFavorite={this.props.createFavorite}
+          accounts={this.props.accounts}
         />
       </Pane>
     ));

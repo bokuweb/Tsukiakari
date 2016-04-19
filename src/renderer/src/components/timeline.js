@@ -1,137 +1,81 @@
 import React, { Component, PropTypes } from 'react';
-import Infinite from 'react-infinite';
 import { isEmpty, isEqual } from 'lodash';
 import TweetItem from './tweetitem';
-
-const defaultElementHeight = 140;
 
 export default class Timeline extends Component {
   static propTypes = {
     timeline: PropTypes.array,
     id: PropTypes.string,
+    createFavorite: PropTypes.func,
   };
 
   constructor(props) {
     super(props);
-    this.scrollTimer = null;
-    this.isInitialized = false;
-    this.state = {
-      timelineHeight: 1000,
-      elementHeight: defaultElementHeight,
-      hasRendered: {},
-    };
-    this.onWindowResize = ::this.onWindowResize;
     this.onMouseDown = ::this.onMouseDown;
+    this.onScroll = ::this.onScroll;
+    this.scrollTimer = null;
   }
 
   componentDidMount() {
-    this.updateTimelineHeight();
-    const infinite = document.querySelector(`.timeline__infinite--${this.props.id}`);
-    infinite.addEventListener('scroll', ::this.onScroll);
-    window.addEventListener('resize', this.onWindowResize);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.timeline.length !== nextProps.timeline.length) {
-      this.updateElementState(nextProps.timeline);
-    }
-  }
-
-  componentDidUpdate() {
-    if (this.props.timeline.length === 0) return;
-    if (this.isInitialized) return;
-    this.isInitialized = true;
-    // this.updateElementState();
+    this.refs.scroll.addEventListener('scroll', this.onScroll);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.onWindowResize);
+    this.refs.scroll.removeEventListener('scroll', this.onScroll);
+  }
+
+  onScrollEnd() {
+    this.scrollTimer = null;
+    const infinite = this.refs.scroll;
+    const scrollHeight = infinite.scrollHeight;
+    const offset = infinite.offsetHeight;
+    const scrollTop = infinite.scrollTop;
+    const proximity = 140;
+    if (scrollHeight - scrollTop - offset <= proximity) {
+      console.log('scroll end')
+    }
+  }
+
+  onScroll() {
+    if (this.scrollTimer) clearTimeout(this.scrollTimer);
+    this.scrollTimer = setTimeout(() => {
+      this.onScrollEnd();
+    }, 500);
   }
 
   onMouseDown(e) {
     e.stopPropagation();
   }
 
-  onWindowResize() {
-    this.updateTimelineHeight();
-    this.updateElementState(this.props.timeline);
-  }
-
-  onScroll() {
-    if (this.scrollTimer) return;
-    this.scrollTimer = setTimeout(() => {
-      this.updateElementState(this.props.timeline);
-      this.scrollTimer = null;
-    }, 160);
-  }
-
   onInfiniteLoad() {
-    console.log('onload');
-    // if (this.props.menu.keywords.length === 0) return;
-    // if (this.props.feed[this.props.menu.acTivekeyword].isPageEnd) return;
-    // console.log("loading..");
-    // this.props.fetchFeed(this.props.feed, this.props.menu);
+
   }
 
-  elementInfiniteLoad() {
-    // if (this.props.feed[this.props.menu.activeKeyword].isPageEnd) return;
-    return null;
-    return <div className="rect-spinner">spinner</div>;
-  }
 
   getTimeline() {
-    const { hasRendered } = this.state;
-    return this.props.timeline.map(tweet => ( // FIXME:
+    return this.props.timeline.map(tweet => (
       <div
-        className={`timeline__item ${hasRendered[tweet.id] ? '' : 'timeline__item--animated'}`}
-        id={tweet.id} key={`${this.props.id}${tweet.id}`}
+        className="timeline__item timeline__item--animated"
+        key={`${this.props.id}:${tweet.id_str}`}
       >
-        <TweetItem tweet={tweet} />
+        <TweetItem
+          tweet={tweet}
+          createFavorite={this.props.createFavorite}
+          accounts={this.props.accounts}
+        />
       </div>
     ));
   }
 
-  updateElementState(timeline) {
-    if (isEmpty(timeline)) return;
-    const { hasRendered } = this.state;
-    const elementHeight = timeline.map((tweet, i) => {
-      const el = document.getElementById(tweet.id); // FIXME: not use id to avoid duplicate id
-      if (el) {
-        hasRendered[tweet.id] = true;
-        return el.clientHeight;
-      }
-      if (this.state.elementHeight[i]) return this.state.elementHeight[i];
-      hasRendered[tweet.id] = false;
-      return defaultElementHeight;
-    });
-    console.time('compare');
-    if (isEqual(elementHeight, this.state.elementHeight) &&
-        isEqual(hasRendered, this.state.hasRendered)) return;
-    console.timeEnd('compare');
-    this.setState({ elementHeight, hasRendered });
-  }
-
-  updateTimelineHeight() {
-    const timeline = document.querySelector('.timeline'); // FIXME use props timelin height
-    const timelineHeight = timeline.getBoundingClientRect().height;
-    this.setState({ timelineHeight });
-  }
-
   render() {
-    const { timelineHeight, elementHeight } = this.state;
     return (
       <div className="timeline" onMouseDown={this.onMouseDown}>
-        <Infinite
-          elementHeight={isEmpty(elementHeight) ? defaultElementHeight : elementHeight}
-          containerHeight={timelineHeight}
-          infiniteLoadBeginEdgeOffset={100}
-          onInfiniteLoad={::this.onInfiniteLoad}
-          loadingSpinnerDelegate={this.elementInfiniteLoad()}
-          isInfiniteLoading
+        <div
           className={`timeline__infinite timeline__infinite--${this.props.id}`}
+          ref="scroll"
         >
           {this.getTimeline()}
-        </Infinite>
+        </div>
       </div>
     );
   }
