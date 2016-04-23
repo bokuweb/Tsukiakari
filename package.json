@@ -58,7 +58,7 @@
     "watchify": "^3.6.1"
   },
   "dependencies": {
-    "electron-prebuilt": "^0.37.5",
+    "electron-prebuilt": "^0.37.7",
     "jsonfile": "^2.2.3",
     "lodash": "^3.10.1",
     "node-twitter-api": "^1.6.3",
@@ -67,7 +67,7 @@
     "react-dom": "^15.0.1",
     "react-redux": "^4.0.3",
     "react-resizable-and-movable": "^1.1.0",
-    "react-sortable-pane": "^0.2.10",
+    "react-sortable-pane": "^0.2.11",
     "redux": "^3.0.5",
     "redux-actions": "^0.9.0",
     "redux-logger": "^2.3.1",

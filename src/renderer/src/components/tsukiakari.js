@@ -42,7 +42,7 @@ export default class Tsukiakari extends Component {
       openAddColumnMenu, closeAddColumnMenu,
       openTweetWindow, closeTweetWindow,
     } = this.props.actions.sidemenu;
-    const { createFavorite } = this.props.actions.tweets;
+    const { createFavorite, postTweet } = this.props.actions.tweets;
     return (
       <div className="container">
         <Accounts accounts={accounts} />
@@ -70,6 +70,7 @@ export default class Tsukiakari extends Component {
         <TweetWindow
           isOpen={isTweetWindowOpen}
           accounts={accounts}
+          post={postTweet}
           close={closeTweetWindow}
         />
       </div>
