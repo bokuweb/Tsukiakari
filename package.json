@@ -13,7 +13,7 @@
     "watch": "npm run watch:js & npm run watch:stylus",
     "watch:stylus": "stylus src/renderer/stylus/ --watch  --out src/renderer/stylesheets/",
     "build:stylus": "stylus src/renderer/stylus/ --out src/renderer/stylesheets/",
-    "package": "npm run build:stylus && npm run build:js && electron-packager . tsukiakari --arch=x64 --icon=icon/tsukiakari.icns --out=packages/v0.0.1 --platform=darwin --version=0.37.7 --ignore={packages,screenshots,node_modules}/* --overwrite",
+    "package": "npm run build:stylus && npm run build:js && electron-packager ./ --platform=darwin --arch=x64 --icon=icon/tsukiakari.icns --ignore={packages,screenshots,node_modules}/* --out=packages/v0.0.1 --overwrite",
     "lint": "eslint src/renderer/src --fix"
   },
   "repository": {
@@ -46,7 +46,7 @@
     "babelify": "^7.2.0",
     "brfs": "^1.4.2",
     "browserify": "^12.0.1",
-    "electron-packager": "^5.2.1",
+    "electron-packager": "^7.0.1",
     "envify": "^3.4.0",
     "eslint": "^2.8.0",
     "eslint-config-airbnb": "^6.1.0",
