@@ -57,7 +57,7 @@
     "watchify": "^3.6.1"
   },
   "dependencies": {
-    "bemmer": "^1.1.0",
+    "b_": "^1.3.3",
     "electron-prebuilt": "^0.37.7",
     "jsonfile": "^2.2.3",
     "lodash": "^3.10.1",

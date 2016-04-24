@@ -1,7 +1,16 @@
 import React, { Component, PropTypes } from 'react';
+import { B as b_ } from 'b_';
 import ResizableAndMovable from 'react-resizable-and-movable';
 import AccountList from './account-list';
 import { Button } from 'react-bulma';
+
+const b = b_({
+  tailSpace: ' ',
+  elementSeparator: '__',
+  modSeparator: '--',
+  modValueSeparator: '-',
+  classSeparator: ' ',
+}).with('tweet-window');
 
 const style = {
   backgroundColor: '#fff',
@@ -74,7 +83,6 @@ export default class TweetWindow extends Component {
             display: 'none',
           }
         }
-        className={this.props.className}
       >
         <ResizableAndMovable
           x={100}
@@ -87,33 +95,33 @@ export default class TweetWindow extends Component {
           maxHeight={600}
           style={style}
           bounds="parent"
-          className="tweet-window"
+          className={b()}
           onResize={this.onResize}
         >
-          <div className="tweet-window__title-wrapper">
-            <span className="tweet-window__title">
-              <i className="tweet-window__icon icon-tweet" />
+          <div className={b('title-wrapper')}>
+            <span className={b('title')}>
+              <i className={`${b('icon')} icon-tweet`} />
               New Tweet
             </span>
             <i
-              className="tweet-window__icon lnr lnr-cross"
+              className={`${b('icon')} lnr lnr-cross`}
               onClick={this.props.close}
             />
           </div>
-          <div className="tweet-window__body">
+          <div className={b('body')}>
             {
               this.props.accounts.length === 0
                 ? <div>loading</div>
                 : <AccountList accounts={this.props.accounts} />
             }
-            <div className="tweet-window__textarea-wrapper">
+            <div className={b('textarea-wrapper')}>
               <textarea
                 onChange={this.onChange}
                 style={{ height: this.state.height - 96 }}
                 value={this.state.status}
                 placeholder="What's happening?"
                 readOnly={false}
-                className="tweet-window__textarea"
+                className={b('textarea')}
               />
               <Button
                 onClick={this.onClick}
