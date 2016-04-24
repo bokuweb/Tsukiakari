@@ -24,7 +24,8 @@ export default handleActions({
     console.time('reducer')
     const { account: { id }, tweets, type } = action.payload;
     const timeline = (state.rawTimeline[id] && state.rawTimeline[id][type]) || [];
-    const ids = map(take(timeline, config.tweetCount), 'id_str');
+    //const ids = map(take(timeline, config.tweetCount), 'id_str');
+    const ids = map(timeline, 'id_str');
     const filteredTweets = tweets.filter(tweet => ids.indexOf(tweet.id_str) === -1);
     const newTimeline = filteredTweets.concat(timeline);
     const { rawTimeline } = state;

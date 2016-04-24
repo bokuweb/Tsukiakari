@@ -13,7 +13,7 @@
     "watch": "npm run watch:js & npm run watch:stylus",
     "watch:stylus": "stylus src/renderer/stylus/ --watch  --out src/renderer/stylesheets/",
     "build:stylus": "stylus src/renderer/stylus/ --out src/renderer/stylesheets/",
-    "package": "npm run build:stylus && npm run build:js && electron-packager . tsukiakari --arch=x64 --out=packages/v0.0.1 --platform=darwin --version=0.37.5 --ignore={packages,screenshots,node_modules}/* --overwrite",
+    "package": "npm run build:stylus && npm run build:js && electron-packager . tsukiakari --arch=x64 --out=packages/v0.0.1 --platform=darwin --version=0.37.7 --ignore={packages,screenshots,node_modules}/* --overwrite --icon=tsukiakari.icns",
     "lint": "eslint src/renderer/src --fix"
   },
   "repository": {
@@ -58,6 +58,7 @@
     "watchify": "^3.6.1"
   },
   "dependencies": {
+    "bemmer": "^1.1.0",
     "electron-prebuilt": "^0.37.7",
     "jsonfile": "^2.2.3",
     "lodash": "^3.10.1",
