@@ -18,9 +18,9 @@ export default class TimelineBox extends Component {
     this.onClose = ::this.onClose;
   }
 
-  shouldComponentUpdate(nextProps) {
-    // TODO: return this.props.timeline.length !== nextProps.timeline.length;
-    return true;
+  shouldComponentUpdate(next) {
+    const { timeline } = this.props.column;
+    return timeline.length !== next.column.timeline.length;
   }
 
   onMouseDown(e) {

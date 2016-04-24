@@ -12,6 +12,7 @@ export const openTweetWindow = () => (
   createAction('OPEN_TWEET_WINDOW')()
 );
 
-export const closeTweetWindow = () => (
-  createAction('CLOSE_TWEET_WINDOW')()
-);
+export const closeTweetWindow = () => {
+  console.time('close');
+  return createAction('CLOSE_TWEET_WINDOW')();
+};

@@ -21,10 +21,11 @@ const iconSelector = type => {
 export default handleActions({
   FETCH_TIMELINE_SUCCESS: (state, action) => {
     // FIXME: refactor
+    console.time('reducer')
     const { account: { id }, tweets, type } = action.payload;
     const timeline = (state.rawTimeline[id] && state.rawTimeline[id][type]) || [];
-    const ids = map(take(timeline, config.tweetCount), 'id');
-    const filteredTweets = tweets.filter(tweet => ids.indexOf(tweet.id) === -1);
+    const ids = map(take(timeline, config.tweetCount), 'id_str');
+    const filteredTweets = tweets.filter(tweet => ids.indexOf(tweet.id_str) === -1);
     const newTimeline = filteredTweets.concat(timeline);
     const { rawTimeline } = state;
     rawTimeline[id] = rawTimeline[id] || {};
@@ -39,6 +40,7 @@ export default handleActions({
       });
       return newColumn;
     });
+    console.timeEnd('reducer')
     return { ...state, rawTimeline, columns };
   },
   ADD_COLUMN: (state, action) => {

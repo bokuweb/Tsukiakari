@@ -7,6 +7,9 @@ This repository is heavily under development and unstable.
 
 ## TODO
 
+- [ ] Support gif
+- [ ] Support vine
+- [ ] Support photo gallery
 - [ ] Add favorite animation
 - [ ] Support instagram photo
 - [ ] Support twitter card

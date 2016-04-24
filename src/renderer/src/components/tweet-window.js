@@ -18,12 +18,14 @@ export default class TweetWindow extends Component {
     className: PropTypes.string,
     accounts: PropTypes.array,
     close: PropTypes.func,
+    post: PropTypes.func,
   };
 
   static defaultProps = {
     className: '',
     accounts: [],
     close: () => null,
+    post: () => null,
   };
 
   constructor(props) {
@@ -31,14 +33,33 @@ export default class TweetWindow extends Component {
     this.state = {
       width: 380,
       height: 180,
+      status: '',
     };
+    this.onResize = ::this.onResize;
+    this.onClick = ::this.onClick;
+    this.onChange = ::this.onChange;
   }
 
   onSelect() {
 
   }
 
+  onResize(_, size) {
+    this.setState({ height: size.height });
+  }
+
+  onClick() {
+    // FIXME: select account
+    this.setState({ status: '' });
+    this.props.post(this.props.accounts[0], this.state.status);
+  }
+
+  onChange({ target: { value } }) {
+    this.setState({ status: value });
+  }
+
   render() {
+    console.timeEnd('close');
     return (
       <div
         style={
@@ -67,7 +88,7 @@ export default class TweetWindow extends Component {
           style={style}
           bounds="parent"
           className="tweet-window"
-          onResize={(_, size) => this.setState({ height: size.height })}
+          onResize={this.onResize}
         >
           <div className="tweet-window__title-wrapper">
             <span className="tweet-window__title">
@@ -87,13 +108,15 @@ export default class TweetWindow extends Component {
             }
             <div className="tweet-window__textarea-wrapper">
               <textarea
+                onChange={this.onChange}
                 style={{ height: this.state.height - 96 }}
-                defaultValue=""
+                value={this.state.status}
                 placeholder="What's happening?"
                 readOnly={false}
                 className="tweet-window__textarea"
               />
               <Button
+                onClick={this.onClick}
                 style={{ margin: '10px 14px 0 auto', width: '80px', display: 'block' }}
               >
                 <i className="icon-tweet" /> Tweet
