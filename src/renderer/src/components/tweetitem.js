@@ -1,49 +1,126 @@
 import React, { Component, PropTypes } from 'react';
+import { B as b_ } from 'b_';
 import TweetItemFooter from './tweetitem-footer';
 import { decodeHtml } from '../utils/utils';
 
+const b = b_({
+  tailSpace: ' ',
+  elementSeparator: '__',
+  modSeparator: '--',
+  modValueSeparator: '-',
+  classSeparator: ' ',
+}).with('tweetitem');
+
 export default class TweetItem extends Component {
   static propTypes = {
+    accounts: PropTypes.array,
     tweet: PropTypes.object,
+    createFavorite: PropTypes.func,
   };
 
   shouldComponentUpdate(nextProps) {
-    return this.props.tweet.id !== nextProps.tweet.id;
+    return this.props.tweet.id_str !== nextProps.tweet.id_str;
+  }
+
+  renderUser(userName, screenName) {
+    return (
+      <div className={b('name-wrapper')}>
+        <span className={b('username')}>
+          {userName}
+        </span>
+        <span className={b('screenname')}>
+          @{screenName}
+        </span>
+      </div>
+    );
   }
 
   renderQuotedTweet() {
     const { tweet } = this.props;
     if (!tweet.quoted_status) return null;
+    const userName = tweet.quoted_status.user.name;
+    const screenName = tweet.quoted_status.user.screen_name;
     return (
-      <div className="tweetitem__quoted">
-        <div className="tweetitem__name-wrapper">
-          <span className="tweetitem__username">
-            {tweet.quoted_status.user.name}
-          </span>
-          <span className="tweetitem__screenname">
-            @{tweet.quoted_status.user.screen_name}
-          </span>
-        </div>
-        <span className="tweetitem__text--tweet">
+      <div className={b('quoted')}>
+        {this.renderUser(userName, screenName)}
+        <span className={b('text', { tweet: true })}>
           {decodeHtml(tweet.quoted_status.text)}
         </span>
       </div>
     );
   }
 
-  renderMedia() {
+  renderFirstMedia(url, id) {
+    return (
+      <div className={b('media-wrapper', { [id]: true })}>
+        <img
+          className={b('media-image')}
+          src={url}
+        />
+      </div>
+    );
+  }
+
+  renderFirstMedia(url, id) {
+    return (
+      <div className={b('media-wrapper', { [id]: true })}>
+        <img
+          className={b('media-image')}
+          src={url}
+        />
+      </div>
+    );
+  }
+
+  renderMediaContents() {
     const entities = this.props.tweet.extended_entities;
     if (!entities || !entities.media) return null;
+    if (entities.media.length === 1) {
+      return (
+        <div className={b('media')}>
+          {this.renderFirstMedia(entities.media[0].media_url_https, 'single')}
+        </div>
+      );
+    }
+    if (entities.media.length === 2) {
+      return (
+        <div className={b('media')}>
+          {this.renderFirstMedia(entities.media[0].media_url_https, 'double')}
+          <div
+            className={b('media-wrapper', { double: true })}
+            style={{
+              borderRadius: '0 3px 3px 0',
+              background: `url(${entities.media[1].media_url_https})`,
+              backgroundSize: 'cover',
+            }}
+          />
+        </div>
+      );
+    }
+    const first = entities.media.shift();
     return (
-      <div className="tweetitem__media">
-        {
-          entities.media.map(media => (
-            <img
-              className="tweetitem__media-image"
-              src={media.media_url_https}
-            />
-          ))
-        }
+      <div className={b('media')}>
+        <div className={b('media-wrapper', { left: true })}>
+          <img
+            className={b('media-image')}
+            src={first.media_url_https}
+          />
+        </div>
+        <div className={b('media-wrapper', { right: true })}>
+          {
+            entities.media.map(media => (
+              <div
+                style={{
+                  width: '100%',
+                  height: `calc(100% / ${entities.media.length})`,
+                  flex: 1,
+                  background: `url(${media.media_url_https})`,
+                  backgroundSize: 'cover',
+                }}
+              />
+            ))
+          }
+        </div>
       </div>
     );
   }
@@ -52,9 +129,9 @@ export default class TweetItem extends Component {
     const { tweet } = this.props;
     if (!tweet.retweeted_status) return null;
     return (
-      <div className="tweetitem__retweeted">
-        <i className="tweetitem__icon tweetitem__icon--retweet fa fa-retweet" />
-        <span className="tweetitem__message tweetitem__message--retweeted">
+      <div className={b('retweeted')}>
+        <i className={`${b('icon', { retweet: true })} fa fa-retweet`} />
+        <span className={b('message', { retweeted: true })}>
           {tweet.user.name} Retweeted
         </span>
       </div>
@@ -63,27 +140,20 @@ export default class TweetItem extends Component {
 
   renderTweet(tweet, user, text) {
     return (
-      <div className="tweetitem__body">
-        <div className="tweetitem__wrapper tweetitem__wrapper--avatar">
+      <div className={b('body')}>
+        <div className={b('wrapper', { avatar: true })}>
           <img
-            className="tweetitem__image tweetitem__image--avatar"
+            className={b('image', { avatar: true })}
             src={user.profile_image_url}
           />
         </div>
-        <div className="tweetitem__wrapper tweetitem__wrapper--text">
-          <div className="tweetitem__name-wrapper">
-            <span className="tweetitem__username">
-              {user.name}
-            </span>
-            <span className="tweetitem__screenname">
-              @{user.screen_name}
-            </span>
-          </div>
-          <span className="tweetitem__text--tweet">
+        <div className={b('wrapper', { text: true })}>
+          {this.renderUser(user.name, user.screen_name)}
+          <span className={b('text', { tweet: true })}>
             {decodeHtml(text)}
           </span>
           {this.renderQuotedTweet()}
-          {this.renderMedia()}
+          {this.renderMediaContents()}
           <TweetItemFooter
             tweet={tweet}
             createFavorite={this.props.createFavorite}
@@ -96,15 +166,14 @@ export default class TweetItem extends Component {
 
   renderTweetBody() {
     const { tweet } = this.props;
-    if (tweet.retweeted_status) {
-      return this.renderTweet(tweet, tweet.retweeted_status.user, tweet.retweeted_status.text);
-    }
-    return this.renderTweet(tweet, tweet.user, tweet.text);
+    return tweet.retweeted_status
+      ? this.renderTweet(tweet, tweet.retweeted_status.user, tweet.retweeted_status.text)
+      : this.renderTweet(tweet, tweet.user, tweet.text);
   }
 
   render() {
     return (
-      <div className="tweetitem">
+      <div className={b()}>
         {this.renderRetweetedMessage()}
         {this.renderTweetBody()}
       </div>
