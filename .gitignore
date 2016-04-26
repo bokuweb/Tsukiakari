@@ -3,3 +3,4 @@ bundle.js
 npm-debug.log.*
 main.css
 packages/
+npm-debug.log
