@@ -89,7 +89,7 @@ export default class TweetItem extends Component {
           <div
             className={b('media-wrapper', { double: true })}
             style={{
-              borderRadius: '0 3px 3px 0',
+              borderRadius: '0px 3px 3px 0px',
               background: `url(${entities.media[1].media_url_https})`,
               backgroundSize: 'cover',
             }}

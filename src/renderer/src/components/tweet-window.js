@@ -15,8 +15,8 @@ const b = b_({
 const style = {
   backgroundColor: '#fff',
   position: 'absolute',
-  top: '0',
-  left: '0',
+  top: '0px',
+  left: '0px',
   pointerEvents: 'auto', // HACK:
 };
 

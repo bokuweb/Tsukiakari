@@ -7,10 +7,11 @@ This repository is heavily under development and unstable.
 
 ## TODO
 
+- [ ] Add timeline filtering
+- [ ] Add favorite animation
 - [ ] Support gif
 - [ ] Support vine
 - [ ] Support photo gallery
-- [ ] Add favorite animation
 - [ ] Support instagram photo
 - [ ] Support twitter card
 
