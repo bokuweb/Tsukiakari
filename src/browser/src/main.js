@@ -25,7 +25,6 @@ app.on('ready', () => {
     });
 
     mainWindow.webContents.on('new-window', (event, url) => {
-      console.log('aaaaa')
       event.preventDefault();
       shell.openExternal(url);
     });

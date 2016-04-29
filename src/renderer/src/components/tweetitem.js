@@ -23,6 +23,24 @@ export default class TweetItem extends Component {
     return this.props.tweet.id_str !== nextProps.tweet.id_str;
   }
 
+  replaceLink(linker, match) {
+    switch (match.getType()) {
+      case 'url' :
+        return true;
+      case 'email':
+      case 'phone': return false;
+      case 'twitter' :
+        console.log('Twitter Handle: ', match.getTwitterHandle());
+        // return '<a href="http://newplace.to.link.twitter.handles.to/">' + match.getTwitterHandle() + '</a>';
+        return false;
+      case 'hashtag' :
+        console.log('Hashtag: ', match.getHashtag());
+        // return '<a href="http://newplace.to.link.hashtag.handles.to/">' + match.getHashtag() + '</a>';
+        return false;
+      default: return false;
+    }
+  }
+
   renderUser(userName, screenName) {
     return (
       <div className={b('name-wrapper')}>
@@ -48,7 +66,8 @@ export default class TweetItem extends Component {
         <span className={b('text', { tweet: true })}>
           <span
             dangerouslySetInnerHTML={{
-              __html: link(htmlEscape(text), { className: b('link') }),
+              __html: link(htmlEscape(text),
+              { className: b('link'), replaceFn: this.replaceLink }),
             }}
           />
         </span>
@@ -158,7 +177,8 @@ export default class TweetItem extends Component {
           <span className={b('text', { tweet: true })}>
             <span
               dangerouslySetInnerHTML={{
-                __html: link(htmlEscape(text), { className: b('link') }),
+                __html: link(htmlEscape(text),
+                { className: b('link'), replaceFn: this.replaceLink }),
               }}
             />
           </span>
