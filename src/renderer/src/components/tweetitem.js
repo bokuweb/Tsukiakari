@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { B as b_ } from 'b_';
 import TweetItemFooter from './tweetitem-footer';
-import { decodeHtml } from '../utils/utils';
+import { link } from  'autolinker';
+import { htmlEscape } from 'twitter-text';
 
 const b = b_({
   tailSpace: ' ',
@@ -40,11 +41,16 @@ export default class TweetItem extends Component {
     if (!tweet.quoted_status) return null;
     const userName = tweet.quoted_status.user.name;
     const screenName = tweet.quoted_status.user.screen_name;
+    const { text } = tweet.quoted_status;
     return (
       <div className={b('quoted')}>
         {this.renderUser(userName, screenName)}
         <span className={b('text', { tweet: true })}>
-          {decodeHtml(tweet.quoted_status.text)}
+          <span
+            dangerouslySetInnerHTML={{
+              __html: link(htmlEscape(text), { className: b('link') }),
+            }}
+          />
         </span>
       </div>
     );
@@ -89,7 +95,7 @@ export default class TweetItem extends Component {
           <div
             className={b('media-wrapper', { double: true })}
             style={{
-              borderRadius: '0 3px 3px 0',
+              borderRadius: '0px 3px 3px 0px',
               background: `url(${entities.media[1].media_url_https})`,
               backgroundSize: 'cover',
             }}
@@ -150,7 +156,11 @@ export default class TweetItem extends Component {
         <div className={b('wrapper', { text: true })}>
           {this.renderUser(user.name, user.screen_name)}
           <span className={b('text', { tweet: true })}>
-            {decodeHtml(text)}
+            <span
+              dangerouslySetInnerHTML={{
+                __html: link(htmlEscape(text), { className: b('link') }),
+              }}
+            />
           </span>
           {this.renderQuotedTweet()}
           {this.renderMediaContents()}
