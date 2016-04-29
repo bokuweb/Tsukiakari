@@ -1,4 +1,4 @@
-import { BrowserWindow, app, ipcMain } from 'electron';
+import { BrowserWindow, app, ipcMain, shell } from 'electron';
 import Auth from './auth';
 import jsonfile from 'jsonfile';
 import _ from 'lodash';
@@ -23,6 +23,13 @@ app.on('ready', () => {
       minWidth: 640,
       minHeight: 400,
     });
+
+    mainWindow.webContents.on('new-window', (event, url) => {
+      console.log('aaaaa')
+      event.preventDefault();
+      shell.openExternal(url);
+    });
+
     mainWindow.loadURL(`file://${__dirname}/../../renderer/index.html`);
     // client.create(mainWindow);
     // Open the DevTools.

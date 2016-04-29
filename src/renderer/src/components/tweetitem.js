@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { B as b_ } from 'b_';
 import TweetItemFooter from './tweetitem-footer';
-import { decodeHtml } from '../utils/utils';
+import { link } from  'autolinker';
+import twitter from 'twitter-text';
 
 const b = b_({
   tailSpace: ' ',
@@ -44,7 +45,11 @@ export default class TweetItem extends Component {
       <div className={b('quoted')}>
         {this.renderUser(userName, screenName)}
         <span className={b('text', { tweet: true })}>
-          {decodeHtml(tweet.quoted_status.text)}
+          <span
+            dangerouslySetInnerHTML={{
+              __html: twitter.autoLink(twitter.htmlEscape(tweet.quoted_status.text)),
+            }}
+          />
         </span>
       </div>
     );
@@ -150,7 +155,11 @@ export default class TweetItem extends Component {
         <div className={b('wrapper', { text: true })}>
           {this.renderUser(user.name, user.screen_name)}
           <span className={b('text', { tweet: true })}>
-            {decodeHtml(text)}
+            <span
+              dangerouslySetInnerHTML={{
+                __html: link(twitter.htmlEscape(text)),
+              }}
+            />
           </span>
           {this.renderQuotedTweet()}
           {this.renderMediaContents()}
