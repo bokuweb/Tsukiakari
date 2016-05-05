@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { B as b_ } from 'b_';
 import TweetItemFooter from './tweetitem-footer';
-import { link } from  'autolinker';
+import { link } from 'autolinker';
 import { htmlEscape } from 'twitter-text';
 
 const b = b_({
@@ -98,6 +98,7 @@ export default class TweetItem extends Component {
   }
 
   renderMediaContents() {
+    // TODO: Refactor
     const entities = this.props.tweet.extended_entities;
     if (!entities || !entities.media) return null;
     if (entities.media.length === 1) {
@@ -186,7 +187,11 @@ export default class TweetItem extends Component {
           {this.renderMediaContents()}
           <TweetItemFooter
             tweet={tweet}
+            createReply={this.props.createReply}
             createFavorite={this.props.createFavorite}
+            createRetweet={this.props.createRetweet}
+            destroyFavorite={this.props.destroyFavorite}
+            destroyRetweet={this.props.destroyRetweet}
             accounts={this.props.accounts}
           />
         </div>

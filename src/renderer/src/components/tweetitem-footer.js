@@ -13,6 +13,7 @@ export default class TweetItemFooter extends Component {
   static propTypes = {
     tweet: PropTypes.object,
     createFavorite: PropTypes.object,
+    createRetweet: PropTypes.object,
     accounts: PropTypes.array,
   };
 
@@ -33,8 +34,7 @@ export default class TweetItemFooter extends Component {
 
   onRetweet() {
     const { tweet } = this.props;
-    console.log('retweet')
-    // this.props.createFavorite(this.props.accounts[0], tweet.id_str);
+    this.props.createRetweet(this.props.accounts[0], tweet.id_str);
   }
 
   onFavorite() {
