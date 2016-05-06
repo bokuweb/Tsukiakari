@@ -5,25 +5,30 @@ import { eventChannel, takeEvery } from 'redux-saga';
 import { fork, take, call, put, cancel } from 'redux-saga/effects';
 import { recieveTweet } from '../actions/tweets';
 
-const subscribe = account => (
+const subscribe = (stream, account) => (
   eventChannel(emit => {
-    const { accessToken, accessTokenSecret } = account;
-    const t = new T(accessToken, accessTokenSecret);
-    t.client.stream('user', stream => {
-      stream.on('data', data => {
-        if (data.friends) {
+    console.dir('Subscribe user stream')
+    stream.on('data', data => {
+      if (data.friends) {
 
-        } else if (data.event) {
+      } else if (data.event) {
 
-        } else if (data.delete) {
+      } else if (data.delete) {
 
-        } else if (data.created_at) {
-          //if (data.retweeted_status && data.retweeted_status.user.id_str === user.id_str) {
-            // eventEmitter.emit('retweet', data);
-          //}
-          emit(recieveTweet({ tweet: data, account, type: 'Home' }));
-        }
-      });
+      } else if (data.created_at) {
+        //if (data.retweeted_status && data.retweeted_status.user.id_str === user.id_str) {
+        // eventEmitter.emit('retweet', data);
+        //}
+        emit(recieveTweet({ tweet: data, account, type: 'Home' }));
+      }
+    });
+    stream.on('error', error => {
+      console.error('Error occurred on stream', error);
+      stream.removeAllListeners('data');
+      stream.removeAllListeners('error');
+      stream.removeAllListeners('end');
+      stream.destroy();
+      console.log('Stream destoried');
     });
   })
 );
@@ -65,18 +70,63 @@ export function* watchDisconnect() {
   yield* takeEvery('DELETE_COLUMN', () => console.log('delete column saga!!!'));
 }
 
-export function* watchTweet(channel) {
+export function* watchTweet(account) {
+  console.log(account)
+  const stream = yield connectUserStream(account);
+  console.log('stream!!!!!!!!!!!')
+  const channel = yield call(subscribe, stream, account);
+  // yield fork(watchTweet, channel);
+  console.log('mmmmmmmmmmm!!!!!!!!!!!');
+
+  stream.on('error', error => {
+    console.error('Error occurred on stream', error);
+    stream.removeAllListeners('data');
+    stream.removeAllListeners('error');
+    // stream.removeAllListeners('end');
+    stream.destroy();
+    console.log('Stream destoried');
+  });
+
   while (true) {
     const action = yield take(channel);
     yield put(action);
   }
 }
 
+function connectUserStream({ accessToken, accessTokenSecret }) {
+  const t = new T(accessToken, accessTokenSecret);
+  return new Promise(resolve => {
+    t.client.stream('user', stream => {
+      console.log('aaadasdsadsad')
+      resolve(stream);
+    });
+  });
+}
+
+
+
 export function* watchConnect() {
   while (true) {
-    const action = yield take('ADD_COLUMN');
-    const channel = yield call(subscribe, action.payload.account);
-    yield fork(watchTweet, channel);
+    const { payload: { account } } = yield take('ADD_COLUMN');
+    // should bellow sequence separarte to another saga and fork?
+
+    yield fork(watchTweet, account);
+
+    //const stream = yield connectUserStream(account);
+    //console.log('stream!!!!!!!!!!!')
+    //const channel = yield call(subscribe, stream, account);
+    //yield fork(watchTweet, channel);
+    //console.log('mmmmmmmmmmm!!!!!!!!!!!');
+//
+//    stream.on('error', error => {
+//      console.error('Error occurred on stream', error);
+//      stream.removeAllListeners('data');
+//      stream.removeAllListeners('error');
+//      // stream.removeAllListeners('end');
+//      stream.destroy();
+//      console.log('Stream destoried');
+//    });
+
   }
 }
 

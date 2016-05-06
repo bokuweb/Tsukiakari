@@ -1,16 +1,11 @@
 import React, { Component, PropTypes } from 'react';
-import { B as b_ } from 'b_';
+import B from '../lib/bem';
+import { decodeHtml } from '../utils/utils';
 import TweetItemFooter from './tweetitem-footer';
 import { link } from 'autolinker';
 import { htmlEscape } from 'twitter-text';
 
-const b = b_({
-  tailSpace: ' ',
-  elementSeparator: '__',
-  modSeparator: '--',
-  modValueSeparator: '-',
-  classSeparator: ' ',
-}).with('tweetitem');
+const b = B.with('tweetitem');
 
 export default class TweetItem extends Component {
   static propTypes = {
@@ -66,7 +61,7 @@ export default class TweetItem extends Component {
         <span className={b('text', { tweet: true })}>
           <span
             dangerouslySetInnerHTML={{
-              __html: link(htmlEscape(text),
+              __html: link(htmlEscape(decodeHtml(text)),
               { className: b('link'), replaceFn: this.replaceLink }),
             }}
           />
@@ -178,7 +173,7 @@ export default class TweetItem extends Component {
           <span className={b('text', { tweet: true })}>
             <span
               dangerouslySetInnerHTML={{
-                __html: link(htmlEscape(text),
+                __html: link(htmlEscape(decodeHtml(text)),
                 { className: b('link'), replaceFn: this.replaceLink }),
               }}
             />
