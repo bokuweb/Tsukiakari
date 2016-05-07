@@ -70,11 +70,19 @@ export function* watchDisconnect() {
   yield* takeEvery('DELETE_COLUMN', () => console.log('delete column saga!!!'));
 }
 
+function connectUserStream({ accessToken, accessTokenSecret }) {
+  const t = new T(accessToken, accessTokenSecret);
+  return new Promise(resolve => {
+    t.client.stream('user', stream => {
+      resolve(stream);
+    });
+  });
+}
+
 export function* watchTweet(account) {
-  console.log(account)
   const stream = yield connectUserStream(account);
   console.log('stream!!!!!!!!!!!')
-  const channel = yield call(subscribe, stream, account);
+  let channel = yield call(subscribe, stream, account);
   // yield fork(watchTweet, channel);
   console.log('mmmmmmmmmmm!!!!!!!!!!!');
 
@@ -85,6 +93,10 @@ export function* watchTweet(account) {
     // stream.removeAllListeners('end');
     stream.destroy();
     console.log('Stream destoried');
+    const stream = yield connectUserStream(account).then(stream => {
+      let channel = yield call(subscribe, stream, account);
+    });
+    console.log('stream!!!!!!!!!!!')
   });
 
   while (true) {
@@ -93,23 +105,10 @@ export function* watchTweet(account) {
   }
 }
 
-function connectUserStream({ accessToken, accessTokenSecret }) {
-  const t = new T(accessToken, accessTokenSecret);
-  return new Promise(resolve => {
-    t.client.stream('user', stream => {
-      console.log('aaadasdsadsad')
-      resolve(stream);
-    });
-  });
-}
-
-
-
 export function* watchConnect() {
   while (true) {
     const { payload: { account } } = yield take('ADD_COLUMN');
     // should bellow sequence separarte to another saga and fork?
-
     yield fork(watchTweet, account);
 
     //const stream = yield connectUserStream(account);
