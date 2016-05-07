@@ -1,16 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import { B as b_ } from 'b_';
+import B from '../lib/bem';
 import ResizableAndMovable from 'react-resizable-and-movable';
 import AccountList from './account-list';
 import { Button } from 'react-bulma';
 
-const b = b_({
-  tailSpace: ' ',
-  elementSeparator: '__',
-  modSeparator: '--',
-  modValueSeparator: '-',
-  classSeparator: ' ',
-}).with('tweet-window');
+const b = B.with('tweet-window');
 
 const style = {
   backgroundColor: '#fff',
@@ -75,8 +69,8 @@ export default class TweetWindow extends Component {
           this.props.isOpen ? {
             pointerEvents: 'none', // HACK:
             position: 'absolute',
-            top: '0',
-            left: '0',
+            top: '0px',
+            left: '0px',
             width: '100%',
             height: '100%',
           } : {

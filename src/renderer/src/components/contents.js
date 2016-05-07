@@ -11,6 +11,7 @@ export default class Contents extends Component {
     columns: PropTypes.array,
     deleteRequest: PropTypes.func,
     openAddColumnMenu: PropTypes.func,
+    openLightBox: PropTypes.func,
     createFavorite: PropTypes.func,
   };
 
@@ -50,6 +51,7 @@ export default class Contents extends Component {
           createRetweet={this.props.createRetweet}
           destroyFavorite={this.props.destroyFavorite}
           destroyRetweet={this.props.destroyRetweet}
+          openLightBox={this.props.openLightBox}
           accounts={this.props.accounts}
         />
       </Pane>

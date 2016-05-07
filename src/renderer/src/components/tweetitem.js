@@ -12,10 +12,18 @@ export default class TweetItem extends Component {
     accounts: PropTypes.array,
     tweet: PropTypes.object,
     createFavorite: PropTypes.func,
+    openLightBox: PropTypes.func,
   };
 
   shouldComponentUpdate(nextProps) {
     return this.props.tweet.id_str !== nextProps.tweet.id_str;
+  }
+
+  onImageClick(index) {
+    const entities = this.props.tweet.extended_entities;
+    if (!entities || !entities.media) return null;
+    const images = entities.media.map(media => ({ src: media.media_url_https }));
+    return this.props.openLightBox(images, index);
   }
 
   replaceLink(linker, match) {
@@ -71,8 +79,9 @@ export default class TweetItem extends Component {
   }
 
   renderFirstMedia(url, id) {
+    const onClick = this.onImageClick.bind(this, 0);
     return (
-      <div className={b('media-wrapper', { [id]: true })}>
+      <div className={b('media-wrapper', { [id]: true })} onClick={onClick}>
         <img
           className={b('media-image')}
           src={url}
@@ -81,13 +90,27 @@ export default class TweetItem extends Component {
     );
   }
 
-  renderFirstMedia(url, id) {
+  renderRestMedias(media) {
     return (
-      <div className={b('media-wrapper', { [id]: true })}>
-        <img
-          className={b('media-image')}
-          src={url}
-        />
+      <div className={b('media-wrapper', { right: true })}>
+        {
+          media.map((m, i) => {
+            const onClick = this.onImageClick.bind(this, i + 1);
+            return (
+              <div
+                key={i}
+                onClick={onClick}
+                style={{
+                  width: '100%',
+                  height: `calc(100% / ${m.length})`,
+                  flex: 1,
+                  background: `url(${m.media_url_https})`,
+                  backgroundSize: 'cover',
+                }}
+              />
+            );
+          })
+        }
       </div>
     );
   }
@@ -104,11 +127,13 @@ export default class TweetItem extends Component {
       );
     }
     if (entities.media.length === 2) {
+      const onClick = this.onImageClick.bind(this, 1);
       return (
         <div className={b('media')}>
           {this.renderFirstMedia(entities.media[0].media_url_https, 'double')}
           <div
             className={b('media-wrapper', { double: true })}
+            onClick={onClick}
             style={{
               borderRadius: '0px 3px 3px 0px',
               background: `url(${entities.media[1].media_url_https})`,
@@ -118,30 +143,19 @@ export default class TweetItem extends Component {
         </div>
       );
     }
-    const first = entities.media.shift();
+    const media = [].slice.call(entities.media);
+    const first = media.shift();
+    const onClick = this.onImageClick.bind(this, 0);
     return (
       <div className={b('media')}>
         <div className={b('media-wrapper', { left: true })}>
           <img
+            onClick={onClick}
             className={b('media-image')}
             src={first.media_url_https}
           />
         </div>
-        <div className={b('media-wrapper', { right: true })}>
-          {
-            entities.media.map(media => (
-              <div
-                style={{
-                  width: '100%',
-                  height: `calc(100% / ${entities.media.length})`,
-                  flex: 1,
-                  background: `url(${media.media_url_https})`,
-                  backgroundSize: 'cover',
-                }}
-              />
-            ))
-          }
-        </div>
+        {this.renderRestMedias(media)}
       </div>
     );
   }

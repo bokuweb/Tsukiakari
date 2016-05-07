@@ -2,7 +2,6 @@ import { handleActions } from 'redux-actions';
 import { take, map } from 'lodash';
 import uuid from 'uuid';
 // import * as config from '../constants/config';
-import { recieveTweet } from '../actions/tweets';
 
 const defaultState = {
   rawTimeline: {},
@@ -77,7 +76,6 @@ export default handleActions({
     const key = `${account.id}:${type}`;
     const { timerIds } = state;
     if (timerIds[key]) {
-      // FIXME: timerIds[`${account.id}/${type}]とかのが便利そう
       // Refactor!!!!!!
       timerIds[key].count += 1;
     } else {

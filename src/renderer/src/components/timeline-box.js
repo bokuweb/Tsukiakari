@@ -17,6 +17,7 @@ export default class TimelineBox extends Component {
     column: PropTypes.object,
     deleteRequest: PropTypes.func,
     createFavorite: PropTypes.func,
+    openLightBox: PropTypes.func,
   };
 
   static defaultProps = {
@@ -71,6 +72,7 @@ export default class TimelineBox extends Component {
           destroyFavorite={this.props.destroyFavorite}
           destroyRetweet={this.props.destroyRetweet}
           accounts={this.props.accounts}
+          openLightBox={this.props.openLightBox}
         />
       </div>
     );
