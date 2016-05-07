@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import Lightbox from 'react-images';
 import Accounts from './accounts';
 import Sidemenu from './sidemenu';
 import Contents from './contents';
@@ -11,6 +12,7 @@ export default class Tsukiakari extends Component {
     accounts: PropTypes.object,
     tweets: PropTypes.object,
     sidemenu: PropTypes.object,
+    lightbox: PropTypes.object,
   };
 
   constructor(props) {
@@ -38,12 +40,24 @@ export default class Tsukiakari extends Component {
       tweets: { timeline, columns },
       accounts: { accounts },
       sidemenu: { isAddColumnMenuOpen, isTweetWindowOpen },
+      lightbox: { isLightBoxOpen, images, currentImage },
     } = this.props;
+
     const {
-      openAddColumnMenu, closeAddColumnMenu,
-      openTweetWindow, closeTweetWindow,
+      openAddColumnMenu,
+      closeAddColumnMenu,
+      openTweetWindow,
+      closeTweetWindow,
     } = actions.sidemenu;
+
     const tweetActions = actions.tweets;
+    const {
+      openLightBox,
+      closeLightBox,
+      showNextImage,
+      showPrevImage,
+    } = actions.lightbox;
+
     return (
       <div className="container">
         <Accounts accounts={accounts} />
@@ -59,6 +73,7 @@ export default class Tsukiakari extends Component {
           timeline={timeline}
           columns={columns}
           openAddColumnMenu={openAddColumnMenu}
+          openLightBox={openLightBox}
           deleteRequest={this.deleteRequest}
           {...tweetActions}
         />
@@ -67,6 +82,15 @@ export default class Tsukiakari extends Component {
           isOpen={isAddColumnMenuOpen}
           close={closeAddColumnMenu}
           onCreate={this.onCreate}
+        />
+        <Lightbox
+          images={images}
+          isOpen={isLightBoxOpen}
+          showImageCount={false}
+          onClickPrev={showPrevImage}
+          onClickNext={showNextImage}
+          onClose={closeLightBox}
+          currentImage={currentImage}
         />
         <TweetWindow
           isOpen={isTweetWindowOpen}

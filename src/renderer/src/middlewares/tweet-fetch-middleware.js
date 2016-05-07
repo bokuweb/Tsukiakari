@@ -7,6 +7,15 @@ const interval = {
   Mention: 60 * 1000,
 };
 
+const connectUserStream = ({ accessToken, accessTokenSecret }) => {
+  const t = new Twitter(accessToken, accessTokenSecret);
+  return new Promise(resolve => {
+    t.client.stream('user', stream => {
+      resolve(stream);
+    });
+  });
+};
+
 const fetch = (store, account, type) => {
   const { accessToken, accessTokenSecret } = account;
   const twitter = new Twitter(accessToken, accessTokenSecret);
@@ -22,27 +31,28 @@ const fetch = (store, account, type) => {
 };
 
 const hooks = {
-  ['ADD_COLUMN'](store, { payload: { account, type } }) {
+  ['CONNECT_STREAM'](store, action) {
+
+  },
+  ['ADD_COLUMN'](store, action) {
     // FIXME: storeから同一のaccount, typeがないか検索し、あったらtimerIdを返す
+    const { account, type } = action.payload;
     const { tweets: { timerIds } } = store.getState();
     const key = `${account.id}:${type}`;
     if (timerIds[key]) return timerIds[key].id;
     fetch(store, account, type);
-    return setInterval(() => fetch(store, account, type), interval[type]);
+    const timerId = setInterval(() => fetch(store, account, type), interval[type]);
+    return { ...action, payload: { ...action.payload, timerId } };
   },
-  ['DELETE_COLUMN'](store, { payload: { timerId } }) {
+  ['DELETE_COLUMN'](store, action) {
     // TODO: clearするかどうかはtimerの参照カウンタで管理する必要あり？
-    clearInterval(timerId);
+    clearInterval(action.payload.timerId);
+    return action;
   },
 };
 
 export default store => next => action => {
   const hook = hooks[action.type];
-  if (hook) {
-     const timerId = hook(store, action);
-     const newAction = Object.assign({}, action);
-     newAction.payload.timerId = timerId;
-     return next(newAction);
-   }
-  return next(action);
+  if (!hook) return next(action);
+  return next(hook(store, action));
 };
