@@ -25,9 +25,8 @@ const hooks = {
   ['ADD_COLUMN'](store, { payload: { account, type } }) {
     // FIXME: storeから同一のaccount, typeがないか検索し、あったらtimerIdを返す
     const { tweets: { timerIds } } = store.getState();
-    if (timerIds[account.id] && timerIds[account.id][type]) {
-      return timerIds[account.id][type].id;
-    }
+    const key = `${account.id}:${type}`;
+    if (timerIds[key]) return timerIds[key].id;
     fetch(store, account, type);
     return setInterval(() => fetch(store, account, type), interval[type]);
   },
@@ -40,10 +39,10 @@ const hooks = {
 export default store => next => action => {
   const hook = hooks[action.type];
   if (hook) {
-    const timerId = hook(store, action);
-    const newAction = Object.assign({}, action);
-    newAction.payload.timerId = timerId;
-    return next(newAction);
-  }
+     const timerId = hook(store, action);
+     const newAction = Object.assign({}, action);
+     newAction.payload.timerId = timerId;
+     return next(newAction);
+   }
   return next(action);
 };

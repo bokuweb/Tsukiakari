@@ -34,6 +34,7 @@ export default class Tsukiakari extends Component {
 
   render() {
     const {
+      actions,
       tweets: { timeline, columns },
       accounts: { accounts },
       sidemenu: { isAddColumnMenuOpen, isTweetWindowOpen },
@@ -41,8 +42,8 @@ export default class Tsukiakari extends Component {
     const {
       openAddColumnMenu, closeAddColumnMenu,
       openTweetWindow, closeTweetWindow,
-    } = this.props.actions.sidemenu;
-    const { createFavorite, postTweet } = this.props.actions.tweets;
+    } = actions.sidemenu;
+    const tweetActions = actions.tweets;
     return (
       <div className="container">
         <Accounts accounts={accounts} />
@@ -59,7 +60,7 @@ export default class Tsukiakari extends Component {
           columns={columns}
           openAddColumnMenu={openAddColumnMenu}
           deleteRequest={this.deleteRequest}
-          createFavorite={createFavorite}
+          {...tweetActions}
         />
         <AddColumnMenu
           accounts={accounts}
@@ -70,7 +71,7 @@ export default class Tsukiakari extends Component {
         <TweetWindow
           isOpen={isTweetWindowOpen}
           accounts={accounts}
-          post={postTweet}
+          post={tweetActions.postTweet}
           close={closeTweetWindow}
         />
       </div>

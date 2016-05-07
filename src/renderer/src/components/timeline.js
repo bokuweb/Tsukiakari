@@ -60,7 +60,11 @@ export default class Timeline extends Component {
       >
         <TweetItem
           tweet={tweet}
+          createReply={this.props.createReply}
           createFavorite={this.props.createFavorite}
+          createRetweet={this.props.createRetweet}
+          destroyFavorite={this.props.destroyFavorite}
+          destroyRetweet={this.props.destroyRetweet}
           accounts={this.props.accounts}
         />
       </div>

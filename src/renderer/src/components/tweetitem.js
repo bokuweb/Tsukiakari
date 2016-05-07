@@ -1,16 +1,11 @@
 import React, { Component, PropTypes } from 'react';
-import { B as b_ } from 'b_';
+import B from '../lib/bem';
+import { decodeHtml } from '../utils/utils';
 import TweetItemFooter from './tweetitem-footer';
-import { link } from  'autolinker';
+import { link } from 'autolinker';
 import { htmlEscape } from 'twitter-text';
 
-const b = b_({
-  tailSpace: ' ',
-  elementSeparator: '__',
-  modSeparator: '--',
-  modValueSeparator: '-',
-  classSeparator: ' ',
-}).with('tweetitem');
+const b = B.with('tweetitem');
 
 export default class TweetItem extends Component {
   static propTypes = {
@@ -21,6 +16,24 @@ export default class TweetItem extends Component {
 
   shouldComponentUpdate(nextProps) {
     return this.props.tweet.id_str !== nextProps.tweet.id_str;
+  }
+
+  replaceLink(linker, match) {
+    switch (match.getType()) {
+      case 'url' :
+        return true;
+      case 'email':
+      case 'phone': return false;
+      case 'twitter' :
+        console.log('Twitter Handle: ', match.getTwitterHandle());
+        // return '<a href="http://newplace.to.link.twitter.handles.to/">' + match.getTwitterHandle() + '</a>';
+        return false;
+      case 'hashtag' :
+        console.log('Hashtag: ', match.getHashtag());
+        // return '<a href="http://newplace.to.link.hashtag.handles.to/">' + match.getHashtag() + '</a>';
+        return false;
+      default: return false;
+    }
   }
 
   renderUser(userName, screenName) {
@@ -48,7 +61,8 @@ export default class TweetItem extends Component {
         <span className={b('text', { tweet: true })}>
           <span
             dangerouslySetInnerHTML={{
-              __html: link(htmlEscape(text), { className: b('link') }),
+              __html: link(htmlEscape(decodeHtml(text)),
+              { className: b('link'), replaceFn: this.replaceLink }),
             }}
           />
         </span>
@@ -79,6 +93,7 @@ export default class TweetItem extends Component {
   }
 
   renderMediaContents() {
+    // TODO: Refactor
     const entities = this.props.tweet.extended_entities;
     if (!entities || !entities.media) return null;
     if (entities.media.length === 1) {
@@ -158,7 +173,8 @@ export default class TweetItem extends Component {
           <span className={b('text', { tweet: true })}>
             <span
               dangerouslySetInnerHTML={{
-                __html: link(htmlEscape(text), { className: b('link') }),
+                __html: link(htmlEscape(decodeHtml(text)),
+                { className: b('link'), replaceFn: this.replaceLink }),
               }}
             />
           </span>
@@ -166,7 +182,11 @@ export default class TweetItem extends Component {
           {this.renderMediaContents()}
           <TweetItemFooter
             tweet={tweet}
+            createReply={this.props.createReply}
             createFavorite={this.props.createFavorite}
+            createRetweet={this.props.createRetweet}
+            destroyFavorite={this.props.destroyFavorite}
+            destroyRetweet={this.props.destroyRetweet}
             accounts={this.props.accounts}
           />
         </div>

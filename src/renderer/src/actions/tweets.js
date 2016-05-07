@@ -1,6 +1,8 @@
 import Twitter from '../lib/twitter-client';
 import { createAction } from 'redux-actions';
 
+export const recieveTweet = createAction('RECIEVE_TWEET');
+
 export const fetchHome = (account, type) => dispatch => {
   const { accessToken, accessTokenSecret } = account;
   const twitter = new Twitter(accessToken, accessTokenSecret);
@@ -42,6 +44,21 @@ export const createFavorite = (account, id) => dispatch => {
     .catch(error => {
       console.error(error);
       const action = createAction('CREATE_FAVORITE_FAIL');
+      dispatch(action({ error }));
+    });
+};
+
+export const createRetweet = (account, id) => dispatch => {
+  const { accessToken, accessTokenSecret } = account;
+  const twitter = new Twitter(accessToken, accessTokenSecret);
+  twitter.createRetweet({ id })
+    .then(tweet => {
+      const action = createAction('CREATE_RETWEET_SUCCESS');
+      dispatch(action({ account, tweet }));
+    })
+    .catch(error => {
+      console.error(error);
+      const action = createAction('CREATE_RETWEET_FAIL');
       dispatch(action({ error }));
     });
 };

@@ -65,7 +65,11 @@ export default class TimelineBox extends Component {
           ref="timeline"
           id={id}
           timeline={timeline}
+          createReply={this.props.createReply}
           createFavorite={this.props.createFavorite}
+          createRetweet={this.props.createRetweet}
+          destroyFavorite={this.props.destroyFavorite}
+          destroyRetweet={this.props.destroyRetweet}
           accounts={this.props.accounts}
         />
       </div>

@@ -1,14 +1,25 @@
-import Twit from 'twit';
+import T from 'twitter';
 import remote from 'remote';
 
 export default class TwitterClient {
   constructor(accessToken, accessTokenSecret) {
-    this.client = new Twit({
+    this.client = new T({
       consumer_key: remote.getGlobal('consumerKey'),
       consumer_secret: remote.getGlobal('consumerSecret'),
-      access_token: accessToken,
+      access_token_key: accessToken,
       access_token_secret: accessTokenSecret,
     });
+    //this.stream = this.client.stream('user', stream => {
+    //  stream.on('data', (data) => {
+    //    console.log(data);
+    //    // if (data.text) {
+    //    //  this.pushTweet(data)
+    //    // }
+    //  });
+    //});
+    // this.stream.on('tweet', tweet => {
+    //   console.log(tweet)
+    // });
   }
 
   getEndpoint(type) {
@@ -50,6 +61,18 @@ export default class TwitterClient {
     return new Promise((resolve, reject) => {
       this.client.post(
         'favorites/create',
+        params,
+        (error, tweets) => {
+          if (error) reject(error);
+          else resolve(tweets);
+        });
+    });
+  }
+
+  createRetweet(params) {
+    return new Promise((resolve, reject) => {
+      this.client.post(
+        'statuses/retweet',
         params,
         (error, tweets) => {
           if (error) reject(error);
