@@ -6,7 +6,7 @@ import { recieveTweet } from '../actions/tweets';
 
 const defaultState = {
   rawTimeline: {},
-  // timerIds: {},
+  timerIds: {},
   columns: [],
   idTable: {}, // TODO: [id_str] = [{[`${id}:${type}`] : index}, [`${id}:${type}`] : index}, ....}]
 };
@@ -69,22 +69,23 @@ export default handleActions({
     return { ...state, columns };
   },
   ADD_COLUMN: (state, action) => {
-    const { account, type } = action.payload;
+    const { account, type, timerId } = action.payload;
     const id = uuid.v4();
     const title = type; // TODO: If mixed columns, custom timeline
     const icon = iconSelector(type);
     const { idTable } = state;
     const key = `${account.id}:${type}`;
-    // if (timerIds[key]) {
-    //   // FIXME: timerIds[`${account.id}/${type}]とかのが便利そう
-    //   // Refactor!!!!!!
-    //   timerIds[key].count += 1;
-    // } else {
-    //   timerIds[key] = {
-    //     id: timerId,
-    //     count: 1,
-    //   };
-    // }
+    const { timerIds } = state;
+    if (timerIds[key]) {
+      // FIXME: timerIds[`${account.id}/${type}]とかのが便利そう
+      // Refactor!!!!!!
+      timerIds[key].count += 1;
+    } else {
+      timerIds[key] = {
+        id: timerId,
+        count: 1,
+      };
+    }
 
     const timeline = state.rawTimeline[key] || []; // TODO: implement mixed timeline
     // TODO: check perfirmance
@@ -98,7 +99,7 @@ export default handleActions({
       idTable,
       columns: state.columns.concat([{
         id,
-        // timerId,
+        timerId,
         title,
         icon,
         contents: [{ account, type }],

@@ -24,11 +24,11 @@ const fetch = (store, account, type) => {
 const hooks = {
   ['ADD_COLUMN'](store, { payload: { account, type } }) {
     // FIXME: storeから同一のaccount, typeがないか検索し、あったらtimerIdを返す
-    //const { tweets: { timerIds } } = store.getState();
+    const { tweets: { timerIds } } = store.getState();
     const key = `${account.id}:${type}`;
-    //if (timerIds[key]) return timerIds[key].id;
+    if (timerIds[key]) return timerIds[key].id;
     fetch(store, account, type);
-    //return setInterval(() => fetch(store, account, type), interval[type]);
+    return setInterval(() => fetch(store, account, type), interval[type]);
   },
   ['DELETE_COLUMN'](store, { payload: { timerId } }) {
     // TODO: clearするかどうかはtimerの参照カウンタで管理する必要あり？
