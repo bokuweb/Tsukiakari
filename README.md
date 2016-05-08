@@ -5,13 +5,15 @@ This repository is heavily under development and unstable.
 
 [![Code Climate](https://img.shields.io/codeclimate/github/bokuweb/tsukiakari/badges/gpa.svg?style=flat-square)](https://codeclimate.com/github/bokuweb/tsukiakari)
 
-## TODO
+## TASK
 
+- [ ] Support mixed timeline
+- [ ] Support notifiation
 - [ ] Add timeline filtering
 - [ ] Add favorite animation
 - [ ] Support gif
 - [ ] Support vine
-- [ ] Support photo gallery
+- [x] Support photo gallery
 - [ ] Support instagram photo
 - [ ] Support twitter card
 

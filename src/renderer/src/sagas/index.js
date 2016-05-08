@@ -81,10 +81,8 @@ function connectUserStream({ accessToken, accessTokenSecret }) {
 
 export function* watchTweet(account) {
   const stream = yield connectUserStream(account);
-  console.log('stream!!!!!!!!!!!')
   let channel = yield call(subscribe, stream, account);
   // yield fork(watchTweet, channel);
-  console.log('mmmmmmmmmmm!!!!!!!!!!!');
 
   stream.on('error', error => {
     console.error('Error occurred on stream', error);
@@ -92,11 +90,9 @@ export function* watchTweet(account) {
     stream.removeAllListeners('error');
     // stream.removeAllListeners('end');
     stream.destroy();
-    console.log('Stream destoried');
-    const stream = yield connectUserStream(account).then(stream => {
-      let channel = yield call(subscribe, stream, account);
-    });
-    console.log('stream!!!!!!!!!!!')
+    // const stream = yield connectUserStream(account).then(stream => {
+    //   let channel = yield call(subscribe, stream, account);
+    // });
   });
 
   while (true) {
@@ -112,10 +108,8 @@ export function* watchConnect() {
     yield fork(watchTweet, account);
 
     //const stream = yield connectUserStream(account);
-    //console.log('stream!!!!!!!!!!!')
     //const channel = yield call(subscribe, stream, account);
     //yield fork(watchTweet, channel);
-    //console.log('mmmmmmmmmmm!!!!!!!!!!!');
 //
 //    stream.on('error', error => {
 //      console.error('Error occurred on stream', error);
