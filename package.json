@@ -63,6 +63,7 @@
     "electron-prebuilt": "^0.37.7",
     "jsonfile": "^2.2.3",
     "lodash": "^3.10.1",
+    "moment": "^2.13.0",
     "node-twitter-api": "^1.6.3",
     "react": "^15.0.1",
     "react-bulma": "https://github.com/bokuweb/react-bulma",

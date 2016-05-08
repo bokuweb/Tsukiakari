@@ -2,6 +2,7 @@ import { handleActions } from 'redux-actions';
 import { take, map } from 'lodash';
 import uuid from 'uuid';
 // import * as config from '../constants/config';
+import { fromNow } from '../lib/formatTime';
 
 const defaultState = {
   rawTimeline: {},
@@ -50,7 +51,9 @@ export default handleActions({
     //const ids = map(take(timeline, config.tweetCount), 'id_str');
     const ids = map(timeline, 'id_str');
     const filteredTweets = tweets.filter(tweet => ids.indexOf(tweet.id_str) === -1);
-    const newTimeline = filteredTweets.concat(timeline);
+    const newTimeline = filteredTweets
+            .concat(timeline)
+            .map(tweet => ({ ...tweet, timeAgo: fromNow(tweet.created_at) }));
     const { rawTimeline } = state;
     // rawTimeline[id] = rawTimeline[id] || {};
     rawTimeline[`${id}:${type}`] = newTimeline;

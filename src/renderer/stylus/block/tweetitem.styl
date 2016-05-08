@@ -29,7 +29,7 @@
     text-overflow ellipsis
 
   &__wrapper--text
-    width 80%
+    width 100%
     padding 0
     font-size 1.3rem
     color #333
@@ -100,12 +100,17 @@
       flex-direction column
       align-items stretch
       border-radius 0 3px 3px 0
+      border-left solid 1px #fff
+
+      div
+        border-bottom solid 1px #fff
 
       div:first-child 
         border-radius 0 3px 0 0
 
       div:last-child 
         border-radius 0 0 3px 0
+        border none
 
   &__media-image
     width 100%

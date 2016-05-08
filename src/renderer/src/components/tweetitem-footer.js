@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { B as b_ } from 'b_';
+import { fromNow } from '../lib/formatTime';
 
 const b = b_({
   tailSpace: ' ',
@@ -22,10 +23,6 @@ export default class TweetItemFooter extends Component {
     this.onReply = ::this.onReply;
     this.onRetweet = ::this.onRetweet;
     this.onFavorite = ::this.onFavorite;
-  }
-
-  shouldComponentUpdate(nextProps) {
-    return this.props.tweet.id !== nextProps.tweet.id;
   }
 
   onReply() {
@@ -65,6 +62,9 @@ export default class TweetItemFooter extends Component {
             onClick={this.onFavorite}
           />
           {tweet.favorite_count || ''}
+        </span>
+        <span className={b('time')}>
+          {tweet.timeAgo}
         </span>
       </div>
     );

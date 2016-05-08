@@ -16,7 +16,7 @@ export default class TweetItem extends Component {
   };
 
   shouldComponentUpdate(nextProps) {
-    return this.props.tweet.id_str !== nextProps.tweet.id_str;
+    return this.props.tweet.timeAgo !== nextProps.tweet.timeAgo;
   }
 
   onImageClick(index) {
