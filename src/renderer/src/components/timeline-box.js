@@ -1,14 +1,8 @@
 import React, { Component, PropTypes } from 'react';
-import { B as b_ } from 'b_';
 import Timeline from './timeline';
+import B from '../lib/bem';
 
-const b = b_({
-  tailSpace: ' ',
-  elementSeparator: '__',
-  modSeparator: '--',
-  modValueSeparator: '-',
-  classSeparator: ' ',
-}).with('timeline-box');
+const b = B.with('timeline-box');
 
 export default class TimelineBox extends Component {
   static propTypes = {
