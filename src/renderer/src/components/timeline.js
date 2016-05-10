@@ -1,6 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import { isEmpty, isEqual } from 'lodash';
+import ReactList from 'react-list';
 import TweetItem from './tweetitem';
+import B from '../lib/bem';
+
+const b = B.with('timeline');
 
 export default class Timeline extends Component {
   static propTypes = {
@@ -52,15 +55,15 @@ export default class Timeline extends Component {
 
   }
 
-
-  getTimeline() {
-    return this.props.timeline.map(tweet => (
+  renderItems(index, ref) {
+    return (
       <div
-        className="timeline__item timeline__item--animated"
-        key={`${this.props.id}:${tweet.id_str}`}
+        className={b('item', { animated: true })}
+        key={this.props.timeline[index].id_str}
+        ref={ref}
       >
         <TweetItem
-          tweet={tweet}
+          tweet={this.props.timeline[index]}
           createReply={this.props.createReply}
           createFavorite={this.props.createFavorite}
           createRetweet={this.props.createRetweet}
@@ -70,17 +73,22 @@ export default class Timeline extends Component {
           openLightBox={this.props.openLightBox}
         />
       </div>
-    ));
+    );
   }
 
   render() {
     return (
-      <div className="timeline" onMouseDown={this.onMouseDown}>
+      <div className={b()} onMouseDown={this.onMouseDown}>
         <div
-          className={`timeline__infinite timeline__infinite--${this.props.id}`}
+          className={b('infinite')}
           ref="scroll"
         >
-          {this.getTimeline()}
+          <ReactList
+            itemRenderer={::this.renderItems}
+            length={this.props.timeline.length}
+            type="variable"
+            useTranslate3d
+          />
         </div>
       </div>
     );
