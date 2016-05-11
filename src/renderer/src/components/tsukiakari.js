@@ -5,6 +5,9 @@ import Sidemenu from './sidemenu';
 import Contents from './contents';
 import AddColumnMenu from './add-column-menu';
 import TweetWindow from './tweet-window';
+import bem from '../lib/bem';
+
+const b = bem.with('tsukiakari');
 
 export default class Tsukiakari extends Component {
   static propTypes = {
@@ -59,7 +62,7 @@ export default class Tsukiakari extends Component {
     } = actions.lightbox;
 
     return (
-      <div className="container">
+      <div className={b(null, { blur: isLightBoxOpen })}>
         <Accounts accounts={accounts} />
         <Sidemenu
           columns={columns}
