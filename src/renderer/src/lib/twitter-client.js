@@ -1,5 +1,5 @@
 import T from 'twitter';
-import remote from 'remote';
+import { remote } from 'electron';
 
 export default class TwitterClient {
   constructor(accessToken, accessTokenSecret) {
