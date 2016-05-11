@@ -1,6 +1,4 @@
-'use strict';
-
-const BrowserWindow = require('browser-window');
+const BrowserWindow = require('electron').BrowserWindow;
 const TwitterApi = require('node-twitter-api');
 
 module.exports = class Auth {
