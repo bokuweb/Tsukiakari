@@ -39,7 +39,9 @@ const hooks = {
     const { account, type } = action.payload;
     const { tweets: { timerIds } } = store.getState();
     const key = `${account.id}:${type}`;
-    if (timerIds[key]) return timerIds[key].id;
+    if (timerIds[key]) {
+      return { ...action, payload: { ...action.payload, timerId: timerIds[key].id } };
+    }
     fetch(store, account, type);
     const timerId = setInterval(() => fetch(store, account, type), interval[type]);
     return { ...action, payload: { ...action.payload, timerId } };
