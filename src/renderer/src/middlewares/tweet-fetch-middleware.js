@@ -1,5 +1,8 @@
 import Twitter from '../lib/twitter-client';
 import { createAction } from 'redux-actions';
+import { normalize, Schema, arrayOf } from 'normalizr';
+
+const tweet = new Schema('tweets', { idAttribute: 'id_str'});
 
 const interval = {
   Home: 60 * 1000,
@@ -22,7 +25,7 @@ const fetch = (store, account, type) => {
   twitter.fetch(type, { count: 200 })
     .then(tweets => {
       const action = createAction('FETCH_TIMELINE_SUCCESS');
-      store.dispatch(action({ account, tweets, type }));
+      store.dispatch(action({ account, tweets: normalize(tweets, arrayOf(tweet)), type }));
     })
     .catch(error => {
       const action = createAction('FETCH_TIMELINE_FAIL');

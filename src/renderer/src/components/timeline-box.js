@@ -7,7 +7,6 @@ const b = B.with('timeline-box');
 export default class TimelineBox extends Component {
   static propTypes = {
     accounts: PropTypes.array,
-    timeline: PropTypes.array,
     column: PropTypes.object,
     deleteRequest: PropTypes.func,
     createFavorite: PropTypes.func,
@@ -25,7 +24,7 @@ export default class TimelineBox extends Component {
 
   shouldComponentUpdate(next) {
     const { timeline } = this.props.column;
-    return timeline.length !== next.column.timeline.length;
+    return timeline.results.length !== next.column.timeline.results.length;
   }
 
   onMouseDown(e) {

@@ -1,5 +1,6 @@
 import { handleActions } from 'redux-actions';
 import { take, map } from 'lodash';
+import Immutable from 'immutable';
 import uuid from 'uuid';
 // import * as config from '../constants/config';
 import { fromNow } from '../lib/formatTime';
@@ -11,70 +12,44 @@ const defaultState = {
   idTable: {}, // TODO: [id_str] = [{[`${id}:${type}`] : index}, [`${id}:${type}`] : index}, ....}]
 };
 
-const iconSelector = type => {
-  switch (type) {
-    case 'Home': return 'lnr lnr-home';
-    case 'Favorite': return 'lnr lnr-heart';
-    case 'Mention': return 'fa fa-at';
-    default : return 'lnr lnr-cog';
-  }
+const iconSelector = {
+  Home: 'lnr lnr-home',
+  Favorite: 'lnr lnr-heart',
+  Mention: 'fa fa-at',
 };
 
 export default handleActions({
   RECIEVE_TWEET: (state, action) => {
-    const { account: { id }, tweet, type } = action.payload;
-    const timeline = state.rawTimeline[`${id}:${type}`] || [];
-    const ids = map(timeline, 'id_str');
-    const filteredTweets = ids.indexOf(tweet.id_str) === -1 ? [tweet] : [];
-    console.log(filteredTweets)
-    const newTimeline = filteredTweets.concat(timeline);
-    const { rawTimeline } = state;
-    rawTimeline[`${id}:${type}`] = newTimeline;
-    // Search account.id from columns.contents
-    const columns = state.columns.map(column => {
-      const newColumn = Object.assign({}, column);
-      column.contents.forEach(content => {
-        if (content.account.id === id && content.type === type) {
-          newColumn.timeline = newTimeline;
-        }
-      });
-      return newColumn;
-    });
-    console.timeEnd('reducer')
-    return { ...state, columns };
+    return state;
   },
   FETCH_TIMELINE_SUCCESS: (state, action) => {
-    // FIXME: refactor
-    console.time('reducer')
+    // TODO: refactor
     const { account: { id }, tweets, type } = action.payload;
     const timeline = state.rawTimeline[`${id}:${type}`] || [];
-    //const ids = map(take(timeline, config.tweetCount), 'id_str');
-    const ids = map(timeline, 'id_str');
-    const filteredTweets = tweets.filter(tweet => ids.indexOf(tweet.id_str) === -1);
-    const newTimeline = filteredTweets
-            .concat(timeline)
-            .map(tweet => ({ ...tweet, timeAgo: fromNow(tweet.created_at) }));
+    const results = tweets.result
+            .filter(result => !(timeline.entities && timeline.entities[result]))
+            .concat(state.rawTimeline.results);
+    const entities = { ...timeline.entities, ...tweets.entities };
+
     const { rawTimeline } = state;
-    // rawTimeline[id] = rawTimeline[id] || {};
-    rawTimeline[`${id}:${type}`] = newTimeline;
-    // Search account.id from columns.contents
+    rawTimeline[`${id}:${type}`] = { results, entities };
+
     const columns = state.columns.map(column => {
-      const newColumn = Object.assign({}, column);
+      const newColumn = { ...column };
       column.contents.forEach(content => {
         if (content.account.id === id && content.type === type) {
-          newColumn.timeline = newTimeline;
+          newColumn.timeline = { results, entities };
         }
       });
       return newColumn;
     });
-    console.timeEnd('reducer')
-    return { ...state, columns };
+    return { ...state, rawTimeline, columns };
   },
   ADD_COLUMN: (state, action) => {
     const { account, type, timerId } = action.payload;
     const id = uuid.v4();
     const title = type; // TODO: If mixed columns, custom timeline
-    const icon = iconSelector(type);
+    const icon = iconSelector[type];
     const { idTable } = state;
     const key = `${account.id}:${type}`;
     const { timerIds } = state;
@@ -88,13 +63,12 @@ export default handleActions({
       };
     }
 
-    const timeline = state.rawTimeline[key] || []; // TODO: implement mixed timeline
+    const timeline = state.rawTimeline[key] || { results: [], entities: {}}; // TODO: implement mixed timeline
     // TODO: check perfirmance
-    timeline.forEach((tweet, index) => {
-      idTable[tweet.id_str] = { ...idTable[tweet.id_str], [id]: index };
-    });
+    // timeline.forEach((tweet, index) => {
+    //   idTable[tweet.id_str] = { ...idTable[tweet.id_str], [id]: index };
+    // });
 
-    // TODO: itTables作るならこのタイミング?
     return {
       ...state,
       idTable,
