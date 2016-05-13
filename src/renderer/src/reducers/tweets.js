@@ -38,7 +38,7 @@ export default handleActions({
       const newColumn = { ...column };
       column.contents.forEach(content => {
         if (content.account.id === id && content.type === type) {
-          newColumn.timeline = { results, entities };
+          newColumn.timeline = results.map(r => entities.tweets[r]);
         }
       });
       return newColumn;
