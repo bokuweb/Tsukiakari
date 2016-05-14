@@ -46,6 +46,8 @@ export const createFavorite = (account, id) => dispatch => {
       const action = createAction('CREATE_FAVORITE_FAIL');
       dispatch(action({ error }));
     });
+  const action = createAction('CREATE_FAVORITE_REQUEST');
+  dispatch(action({ account, id }));
 };
 
 export const createRetweet = (account, id) => dispatch => {
