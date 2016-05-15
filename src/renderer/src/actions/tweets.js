@@ -33,13 +33,13 @@ export const fetchFavorites = (account, type) => dispatch => {
     });
 };
 
-export const createFavorite = (account, id) => dispatch => {
+export const createFavorite = (account, tweet) => dispatch => {
   const { accessToken, accessTokenSecret } = account;
   const twitter = new Twitter(accessToken, accessTokenSecret);
-  twitter.createFavorite({ id })
-    .then(tweet => {
+  twitter.createFavorite({ id: tweet.id_str })
+    .then(res => {
       const action = createAction('CREATE_FAVORITE_SUCCESS');
-      dispatch(action({ account, tweet }));
+      dispatch(action({ account, tweet: res }));
     })
     .catch(error => {
       console.error(error);
@@ -47,7 +47,24 @@ export const createFavorite = (account, id) => dispatch => {
       dispatch(action({ error }));
     });
   const action = createAction('CREATE_FAVORITE_REQUEST');
-  dispatch(action({ account, tweetId: id }));
+  dispatch(action({ account, tweet }));
+};
+
+export const destroyFavorite = (account, tweet) => dispatch => {
+  const { accessToken, accessTokenSecret } = account;
+  const twitter = new Twitter(accessToken, accessTokenSecret);
+  twitter.destroyFavorite({ id: tweet.id_str })
+    .then(res => {
+      const action = createAction('DESTROY_FAVORITE_SUCCESS');
+      dispatch(action({ account, tweet: res }));
+    })
+    .catch(error => {
+      console.error(error);
+      const action = createAction('DESTROY_FAVORITE_FAIL');
+      dispatch(action({ error }));
+    });
+  const action = createAction('DESTROY_FAVORITE_REQUEST');
+  dispatch(action({ account, tweet }));
 };
 
 export const createRetweet = (account, id) => dispatch => {

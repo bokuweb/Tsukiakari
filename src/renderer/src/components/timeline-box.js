@@ -11,6 +11,7 @@ export default class TimelineBox extends Component {
     column: PropTypes.object,
     deleteRequest: PropTypes.func,
     createFavorite: PropTypes.func,
+    destroyFavorite: PropTypes.func,
     openLightBox: PropTypes.func,
   };
 

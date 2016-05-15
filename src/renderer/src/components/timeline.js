@@ -11,6 +11,7 @@ export default class Timeline extends Component {
     timeline: PropTypes.object,
     id: PropTypes.string,
     createFavorite: PropTypes.func,
+    destroyFavorite: PropTypes.func,
     openLightBox: PropTypes.func,
   };
 

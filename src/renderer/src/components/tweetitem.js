@@ -12,6 +12,7 @@ export default class TweetItem extends Component {
     accounts: PropTypes.array,
     tweet: PropTypes.object,
     createFavorite: PropTypes.func,
+    destroyFavorite: PropTypes.func,
     openLightBox: PropTypes.func,
   };
 

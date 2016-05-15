@@ -35,7 +35,7 @@ const updateTweet = (state, action) => {
   const { timeline } = state;
   Object.keys(timeline).forEach(key => {
     if (key.indexOf(id) !== -1) {
-      timeline[key].entities.tweets[tweet.id] = tweet;
+      timeline[key].entities.tweets[tweet.id_str] = tweet;
     }
   });
   return { ...state, timeline };
@@ -58,12 +58,12 @@ export default handleActions({
     return { ...state, timeline: { ...state.timeline, [key]: { results, entities } }, columns };
   },
   CREATE_FAVORITE_REQUEST: (state, action) => {
-    const { account: { id }, tweetId } = action.payload;
+    const { account: { id }, tweet } = action.payload;
     const { timeline } = state;
     Object.keys(timeline).forEach(key => {
       if (key.indexOf(id) !== -1) {
-        timeline[key].entities.tweets[tweetId] = {
-          ...timeline[key].entities.tweets[tweetId],
+        timeline[key].entities.tweets[tweet.id_str] = {
+          ...timeline[key].entities.tweets[tweet.id_str],
           favorited: true,
         };
       }
@@ -72,12 +72,12 @@ export default handleActions({
   },
   CREATE_FAVORITE_SUCCESS: updateTweet,
   DESTROY_FAVORITE_REQUEST: (state, action) => {
-    const { account: { id }, tweetId } = action.payload;
+    const { account: { id }, tweet } = action.payload;
     const { timeline } = state;
     Object.keys(timeline).forEach(key => {
       if (key.indexOf(id) !== -1) {
-        timeline[key].entities.tweets[tweetId] = {
-          ...timeline[key].entities.tweets[tweetId],
+        timeline[key].entities.tweets[tweet.id_str] = {
+          ...timeline[key].entities.tweets[tweet.id_str],
           favorited: false,
         };
       }

@@ -6,13 +6,13 @@ import TimelineBox from './timeline-box';
 export default class Contents extends Component {
   static propTypes = {
     timeline: PropTypes.object,
-    fetchHomeTimeline: PropTypes.func,
     accounts: PropTypes.array,
     columns: PropTypes.array,
     deleteRequest: PropTypes.func,
     openAddColumnMenu: PropTypes.func,
     openLightBox: PropTypes.func,
     createFavorite: PropTypes.func,
+    destroyFavorite: PropTypes.func,
   };
 
   static defaultProps = {

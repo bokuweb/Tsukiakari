@@ -1,19 +1,14 @@
 import React, { Component, PropTypes } from 'react';
-import { B as b_ } from 'b_';
 import { fromNow } from '../lib/formatTime';
+import B from '../lib/bem';
 
-const b = b_({
-  tailSpace: ' ',
-  elementSeparator: '__',
-  modSeparator: '--',
-  modValueSeparator: '-',
-  classSeparator: ' ',
-}).with('tweetitem-footer');
+const b = B.with('tweetitem-footer');
 
 export default class TweetItemFooter extends Component {
   static propTypes = {
     tweet: PropTypes.object,
     createFavorite: PropTypes.object,
+    destroyFavorite: PropTypes.object,
     createRetweet: PropTypes.object,
     accounts: PropTypes.array,
   };
@@ -36,7 +31,12 @@ export default class TweetItemFooter extends Component {
 
   onFavorite() {
     const { tweet } = this.props;
-    this.props.createFavorite(this.props.accounts[0], tweet.id_str);
+    console.log(tweet.favorited)
+    if (tweet.favorited) {
+      this.props.destroyFavorite(this.props.accounts[0], tweet);
+    } else {
+      this.props.createFavorite(this.props.accounts[0], tweet);
+    }
   }
 
   render() {
