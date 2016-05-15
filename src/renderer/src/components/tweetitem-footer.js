@@ -64,7 +64,7 @@ export default class TweetItemFooter extends Component {
           {tweet.favorite_count || ''}
         </span>
         <span className={b('time')}>
-          {tweet.timeAgo}
+          {fromNow(tweet.created_at)}
         </span>
       </div>
     );

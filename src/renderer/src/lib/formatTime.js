@@ -19,5 +19,3 @@ moment.updateLocale('en', {
 });
 
 export const fromNow = time => moment(time).fromNow();
-
-

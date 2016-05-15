@@ -1,15 +1,10 @@
 import { handleActions } from 'redux-actions';
-import { take, map } from 'lodash';
-import Immutable from 'immutable';
 import uuid from 'uuid';
-// import * as config from '../constants/config';
-import { fromNow } from '../lib/formatTime';
 
 const defaultState = {
   timeline: {},
   timerIds: {},
   columns: [],
-  // idTable: {}, // TODO: [id_str] = [{[`${id}:${type}`] : index}, [`${id}:${type}`] : index}, ....}]
 };
 
 const iconSelector = {
@@ -24,7 +19,6 @@ const createNewColumns = (state, results, key) => {
     column.contents.forEach(content => {
       if (`${content.account.id}:${content.type}` === key) {
         newColumn.results = results.map(result => ({ key, id: result }));
-        // newColumn.timeline = results.map(r => entities.tweets[r]);
       }
     });
     return newColumn;
@@ -44,22 +38,17 @@ export default handleActions({
             .filter(result => !(timeline.entities && timeline.entities[result]))
             .concat(state.timeline.results);
     const entities = { ...timeline.entities, ...tweets.entities };
-
-    // const { timeline } = state;
-    // timeline[key] = { results, entities };
-
     const columns = createNewColumns(state, results, key);
     return { ...state, timeline: { ...state.timeline, [key]: { results, entities } }, columns };
   },
   CREATE_FAVORITE_REQUEST: (state, action) => {
-    
+
   },
   ADD_COLUMN: (state, action) => {
     const { account, type, timerId } = action.payload;
     const id = uuid.v4();
     const title = type; // TODO: If mixed columns, custom timeline
     const icon = iconSelector[type];
-    //const { idTable } = state;
     const key = `${account.id}:${type}`;
     const { timerIds } = state;
     if (timerIds[key]) {
@@ -73,11 +62,6 @@ export default handleActions({
     }
 
     const timeline = state.timeline[key] || { results: [] }; // TODO: implement mixed timeline
-    // TODO: check perfirmance
-    // timeline.forEach((tweet, index) => {
-    //   idTable[tweet.id_str] = { ...idTable[tweet.id_str], [id]: index };
-    // });
-
     return {
       ...state,
       columns: state.columns.concat([{
