@@ -12,12 +12,9 @@ export default class TweetItem extends Component {
     accounts: PropTypes.array,
     tweet: PropTypes.object,
     createFavorite: PropTypes.func,
+    destroyFavorite: PropTypes.func,
     openLightBox: PropTypes.func,
   };
-
-  shouldComponentUpdate(nextProps) {
-    return this.props.tweet.timeAgo !== nextProps.tweet.timeAgo;
-  }
 
   onImageClick(index) {
     const entities = this.props.tweet.extended_entities;

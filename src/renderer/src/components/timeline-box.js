@@ -6,11 +6,12 @@ const b = B.with('timeline-box');
 
 export default class TimelineBox extends Component {
   static propTypes = {
+    timeline: PropTypes.object,
     accounts: PropTypes.array,
-    timeline: PropTypes.array,
     column: PropTypes.object,
     deleteRequest: PropTypes.func,
     createFavorite: PropTypes.func,
+    destroyFavorite: PropTypes.func,
     openLightBox: PropTypes.func,
   };
 
@@ -23,11 +24,6 @@ export default class TimelineBox extends Component {
     this.onClose = ::this.onClose;
   }
 
-  shouldComponentUpdate(next) {
-    const { timeline } = this.props.column;
-    return timeline.length !== next.column.timeline.length;
-  }
-
   onMouseDown(e) {
     e.stopPropagation();
   }
@@ -38,7 +34,7 @@ export default class TimelineBox extends Component {
   }
 
   render() {
-    const { id, title, icon, contents, timeline } = this.props.column;
+    const { id, title, icon, contents, results } = this.props.column;
     return (
       <div className={b()}>
         <div className={b('wrapper', { title: true })}>
@@ -59,7 +55,8 @@ export default class TimelineBox extends Component {
         <Timeline
           ref="timeline"
           id={id}
-          timeline={timeline}
+          results={results}
+          timeline={this.props.timeline}
           createReply={this.props.createReply}
           createFavorite={this.props.createFavorite}
           createRetweet={this.props.createRetweet}

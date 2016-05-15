@@ -1,85 +1,99 @@
 import { handleActions } from 'redux-actions';
-import { take, map } from 'lodash';
 import uuid from 'uuid';
-// import * as config from '../constants/config';
-import { fromNow } from '../lib/formatTime';
 
 const defaultState = {
-  rawTimeline: {},
+  timeline: {},
   timerIds: {},
   columns: [],
-  idTable: {}, // TODO: [id_str] = [{[`${id}:${type}`] : index}, [`${id}:${type}`] : index}, ....}]
 };
 
-const iconSelector = type => {
-  switch (type) {
-    case 'Home': return 'lnr lnr-home';
-    case 'Favorite': return 'lnr lnr-heart';
-    case 'Mention': return 'fa fa-at';
-    default : return 'lnr lnr-cog';
-  }
+const iconSelector = {
+  Home: 'lnr lnr-home',
+  Favorite: 'lnr lnr-heart',
+  Mention: 'fa fa-at',
+};
+
+const createNewColumns = (state, results, key) => (
+  state.columns.map(column => {
+    const newColumn = { ...column };
+    column.contents.forEach(content => {
+      if (`${content.account.id}:${content.type}` === key) {
+        newColumn.results = results.map(result => ({ key, id: result }));
+      }
+    });
+    return newColumn;
+  })
+);
+
+/**
+ * @param  {object}   state
+ * @param  {object}   action
+ * @return {object}
+ */
+const updateTweet = (state, action) => {
+  const { account: { id }, tweet } = action.payload;
+  const { timeline } = state;
+  Object.keys(timeline).forEach(key => {
+    if (key.indexOf(id) !== -1) {
+      timeline[key].entities.tweets[tweet.id_str] = tweet;
+    }
+  });
+  return { ...state, timeline };
 };
 
 export default handleActions({
   RECIEVE_TWEET: (state, action) => {
-    const { account: { id }, tweet, type } = action.payload;
-    const timeline = state.rawTimeline[`${id}:${type}`] || [];
-    const ids = map(timeline, 'id_str');
-    const filteredTweets = ids.indexOf(tweet.id_str) === -1 ? [tweet] : [];
-    console.log(filteredTweets)
-    const newTimeline = filteredTweets.concat(timeline);
-    const { rawTimeline } = state;
-    rawTimeline[`${id}:${type}`] = newTimeline;
-    // Search account.id from columns.contents
-    const columns = state.columns.map(column => {
-      const newColumn = Object.assign({}, column);
-      column.contents.forEach(content => {
-        if (content.account.id === id && content.type === type) {
-          newColumn.timeline = newTimeline;
-        }
-      });
-      return newColumn;
-    });
-    console.timeEnd('reducer')
-    return { ...state, columns };
+    return state;
   },
   FETCH_TIMELINE_SUCCESS: (state, action) => {
-    // FIXME: refactor
-    console.time('reducer')
+    // TODO: refactor
     const { account: { id }, tweets, type } = action.payload;
-    const timeline = state.rawTimeline[`${id}:${type}`] || [];
-    //const ids = map(take(timeline, config.tweetCount), 'id_str');
-    const ids = map(timeline, 'id_str');
-    const filteredTweets = tweets.filter(tweet => ids.indexOf(tweet.id_str) === -1);
-    const newTimeline = filteredTweets
-            .concat(timeline)
-            .map(tweet => ({ ...tweet, timeAgo: fromNow(tweet.created_at) }));
-    const { rawTimeline } = state;
-    // rawTimeline[id] = rawTimeline[id] || {};
-    rawTimeline[`${id}:${type}`] = newTimeline;
-    // Search account.id from columns.contents
-    const columns = state.columns.map(column => {
-      const newColumn = Object.assign({}, column);
-      column.contents.forEach(content => {
-        if (content.account.id === id && content.type === type) {
-          newColumn.timeline = newTimeline;
-        }
-      });
-      return newColumn;
-    });
-    console.timeEnd('reducer')
-    return { ...state, columns };
+    const key = `${id}:${type}`;
+    const timeline = state.timeline[key] || [];
+    const results = tweets.result
+            .filter(result => !(timeline.entities && timeline.entities[result]))
+            .concat(state.timeline.results || []);
+    const entities = { ...timeline.entities, ...tweets.entities };
+    const columns = createNewColumns(state, results, key);
+    return { ...state, timeline: { ...state.timeline, [key]: { results, entities } }, columns };
   },
+  CREATE_FAVORITE_REQUEST: (state, action) => {
+    const { account: { id }, tweet } = action.payload;
+    const { timeline } = state;
+    Object.keys(timeline).forEach(key => {
+      if (key.indexOf(id) !== -1) {
+        timeline[key].entities.tweets[tweet.id_str] = {
+          ...timeline[key].entities.tweets[tweet.id_str],
+          favorited: true,
+        };
+      }
+    });
+    return { ...state, timeline };
+  },
+  CREATE_FAVORITE_SUCCESS: updateTweet,
+  DESTROY_FAVORITE_REQUEST: (state, action) => {
+    const { account: { id }, tweet } = action.payload;
+    const { timeline } = state;
+    Object.keys(timeline).forEach(key => {
+      if (key.indexOf(id) !== -1) {
+        timeline[key].entities.tweets[tweet.id_str] = {
+          ...timeline[key].entities.tweets[tweet.id_str],
+          favorited: false,
+        };
+      }
+    });
+    return { ...state, timeline };
+  },
+  DESTROY_FAVORITE_SUCCESS: updateTweet,
   ADD_COLUMN: (state, action) => {
     const { account, type, timerId } = action.payload;
     const id = uuid.v4();
     const title = type; // TODO: If mixed columns, custom timeline
-    const icon = iconSelector(type);
-    const { idTable } = state;
+    const icon = iconSelector[type];
     const key = `${account.id}:${type}`;
     const { timerIds } = state;
     if (timerIds[key]) {
-      // Refactor!!!!!!
+      // FIXME: Refactor!!!!!!
       timerIds[key].count += 1;
     } else {
       timerIds[key] = {
@@ -88,23 +102,16 @@ export default handleActions({
       };
     }
 
-    const timeline = state.rawTimeline[key] || []; // TODO: implement mixed timeline
-    // TODO: check perfirmance
-    timeline.forEach((tweet, index) => {
-      idTable[tweet.id_str] = { ...idTable[tweet.id_str], [id]: index };
-    });
-
-    // TODO: itTables作るならこのタイミング?
+    const timeline = state.timeline[key] || { results: [] }; // TODO: implement mixed timeline
     return {
       ...state,
-      idTable,
       columns: state.columns.concat([{
         id,
         timerId,
         title,
         icon,
         contents: [{ account, type }],
-        timeline,
+        results: timeline.results,
       }]),
     };
   },

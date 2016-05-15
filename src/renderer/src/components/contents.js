@@ -5,14 +5,14 @@ import TimelineBox from './timeline-box';
 
 export default class Contents extends Component {
   static propTypes = {
-    timeline: PropTypes.array,
-    fetchHomeTimeline: PropTypes.func,
+    timeline: PropTypes.object,
     accounts: PropTypes.array,
     columns: PropTypes.array,
     deleteRequest: PropTypes.func,
     openAddColumnMenu: PropTypes.func,
     openLightBox: PropTypes.func,
     createFavorite: PropTypes.func,
+    destroyFavorite: PropTypes.func,
   };
 
   static defaultProps = {
@@ -44,8 +44,8 @@ export default class Contents extends Component {
         <TimelineBox
           ref={column.id}
           column={column}
-          deleteRequest={this.props.deleteRequest}
           timeline={this.props.timeline}
+          deleteRequest={this.props.deleteRequest}
           createReply={this.props.createReply}
           createFavorite={this.props.createFavorite}
           createRetweet={this.props.createRetweet}

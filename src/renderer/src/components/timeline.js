@@ -7,9 +7,11 @@ const b = B.with('timeline');
 
 export default class Timeline extends Component {
   static propTypes = {
-    timeline: PropTypes.array,
+    results: PropTypes.array,
+    timeline: PropTypes.object,
     id: PropTypes.string,
     createFavorite: PropTypes.func,
+    destroyFavorite: PropTypes.func,
     openLightBox: PropTypes.func,
   };
 
@@ -56,14 +58,16 @@ export default class Timeline extends Component {
   }
 
   renderItems(index, ref) {
+    const { id, key } = this.props.results[index];
+    if (!this.props.timeline[key]) return null;
     return (
       <div
         className={b('item', { animated: true })}
-        key={this.props.timeline[index].id_str}
+        key={id}
         ref={ref}
       >
         <TweetItem
-          tweet={this.props.timeline[index]}
+          tweet={this.props.timeline[key].entities.tweets[id]}
           createReply={this.props.createReply}
           createFavorite={this.props.createFavorite}
           createRetweet={this.props.createRetweet}
@@ -77,6 +81,7 @@ export default class Timeline extends Component {
   }
 
   render() {
+    console.dir(this.props.results)
     return (
       <div className={b()} onMouseDown={this.onMouseDown}>
         <div
@@ -85,7 +90,7 @@ export default class Timeline extends Component {
         >
           <ReactList
             itemRenderer={::this.renderItems}
-            length={this.props.timeline.length}
+            length={this.props.results.length}
             type="variable"
             useTranslate3d
           />
