@@ -15,10 +15,6 @@ export default class TweetItem extends Component {
     openLightBox: PropTypes.func,
   };
 
-  shouldComponentUpdate(nextProps) {
-    return this.props.tweet.timeAgo !== nextProps.tweet.timeAgo;
-  }
-
   onImageClick(index) {
     const entities = this.props.tweet.extended_entities;
     if (!entities || !entities.media) return null;

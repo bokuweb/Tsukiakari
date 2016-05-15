@@ -23,11 +23,6 @@ export default class TimelineBox extends Component {
     this.onClose = ::this.onClose;
   }
 
-  shouldComponentUpdate(next) {
-    const { length } = this.props.column;
-    return length !== next.column.results.length;
-  }
-
   onMouseDown(e) {
     e.stopPropagation();
   }

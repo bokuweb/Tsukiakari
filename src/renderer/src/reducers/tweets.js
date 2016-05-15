@@ -42,7 +42,27 @@ export default handleActions({
     return { ...state, timeline: { ...state.timeline, [key]: { results, entities } }, columns };
   },
   CREATE_FAVORITE_REQUEST: (state, action) => {
-
+    const { account: { id }, tweetId } = action.payload;
+    const { timeline } = state;
+    Object.keys(timeline).forEach(key => {
+      if (key.indexOf(id) !== -1) {
+        timeline[key].entities.tweets[tweetId] = {
+          ...timeline[key].entities.tweets[tweetId],
+          favorited: true,
+        };
+      }
+    });
+    return { ...state, timeline };
+  },
+  CREATE_FAVORITE_SUCCESS: (state, action) => {
+    const { account: { id }, tweet } = action.payload;
+    const { timeline } = state;
+    Object.keys(timeline).forEach(key => {
+      if (key.indexOf(id) !== -1) {
+        timeline[key].entities.tweets[tweet.id] = tweet;
+      }
+    });
+    return { ...state, timeline };
   },
   ADD_COLUMN: (state, action) => {
     const { account, type, timerId } = action.payload;
