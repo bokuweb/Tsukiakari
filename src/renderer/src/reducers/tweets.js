@@ -13,8 +13,8 @@ const iconSelector = {
   Mention: 'fa fa-at',
 };
 
-const createNewColumns = (state, results, key) => {
-  return state.columns.map(column => {
+const createNewColumns = (state, results, key) => (
+  state.columns.map(column => {
     const newColumn = { ...column };
     column.contents.forEach(content => {
       if (`${content.account.id}:${content.type}` === key) {
@@ -22,7 +22,23 @@ const createNewColumns = (state, results, key) => {
       }
     });
     return newColumn;
+  })
+);
+
+/**
+ * @param  {object}   state
+ * @param  {object}   action
+ * @return {object}
+ */
+const updateTweet = (state, action) => {
+  const { account: { id }, tweet } = action.payload;
+  const { timeline } = state;
+  Object.keys(timeline).forEach(key => {
+    if (key.indexOf(id) !== -1) {
+      timeline[key].entities.tweets[tweet.id] = tweet;
+    }
   });
+  return { ...state, timeline };
 };
 
 export default handleActions({
@@ -36,7 +52,7 @@ export default handleActions({
     const timeline = state.timeline[key] || [];
     const results = tweets.result
             .filter(result => !(timeline.entities && timeline.entities[result]))
-            .concat(state.timeline.results);
+            .concat(state.timeline.results || []);
     const entities = { ...timeline.entities, ...tweets.entities };
     const columns = createNewColumns(state, results, key);
     return { ...state, timeline: { ...state.timeline, [key]: { results, entities } }, columns };
@@ -54,16 +70,21 @@ export default handleActions({
     });
     return { ...state, timeline };
   },
-  CREATE_FAVORITE_SUCCESS: (state, action) => {
-    const { account: { id }, tweet } = action.payload;
+  CREATE_FAVORITE_SUCCESS: updateTweet,
+  DESTROY_FAVORITE_REQUEST: (state, action) => {
+    const { account: { id }, tweetId } = action.payload;
     const { timeline } = state;
     Object.keys(timeline).forEach(key => {
       if (key.indexOf(id) !== -1) {
-        timeline[key].entities.tweets[tweet.id] = tweet;
+        timeline[key].entities.tweets[tweetId] = {
+          ...timeline[key].entities.tweets[tweetId],
+          favorited: false,
+        };
       }
     });
     return { ...state, timeline };
   },
+  DESTROY_FAVORITE_SUCCESS: updateTweet,
   ADD_COLUMN: (state, action) => {
     const { account, type, timerId } = action.payload;
     const id = uuid.v4();
