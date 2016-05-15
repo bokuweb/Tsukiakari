@@ -85,6 +85,20 @@ export default handleActions({
     return { ...state, timeline };
   },
   DESTROY_FAVORITE_SUCCESS: updateTweet,
+  CREATE_RETWEET_REQUEST: (state, action) => {
+    const { account: { id }, tweet } = action.payload;
+    const { timeline } = state;
+    Object.keys(timeline).forEach(key => {
+      if (key.indexOf(id) !== -1) {
+        timeline[key].entities.tweets[tweet.id_str] = {
+          ...timeline[key].entities.tweets[tweet.id_str],
+          retweeted: true,
+        };
+      }
+    });
+    return { ...state, timeline };
+  },
+  CREATE_RETWEET_SUCCESS: updateTweet,
   ADD_COLUMN: (state, action) => {
     const { account, type, timerId } = action.payload;
     const id = uuid.v4();
