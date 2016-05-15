@@ -6,16 +6,29 @@ import uuid from 'uuid';
 import { fromNow } from '../lib/formatTime';
 
 const defaultState = {
-  rawTimeline: {},
+  timeline: {},
   timerIds: {},
   columns: [],
-  idTable: {}, // TODO: [id_str] = [{[`${id}:${type}`] : index}, [`${id}:${type}`] : index}, ....}]
+  // idTable: {}, // TODO: [id_str] = [{[`${id}:${type}`] : index}, [`${id}:${type}`] : index}, ....}]
 };
 
 const iconSelector = {
   Home: 'lnr lnr-home',
   Favorite: 'lnr lnr-heart',
   Mention: 'fa fa-at',
+};
+
+const createNewColumns = (state, results, key) => {
+  return state.columns.map(column => {
+    const newColumn = { ...column };
+    column.contents.forEach(content => {
+      if (`${content.account.id}:${content.type}` === key) {
+        newColumn.results = results.map(result => ({ key, id: result }));
+        // newColumn.timeline = results.map(r => entities.tweets[r]);
+      }
+    });
+    return newColumn;
+  });
 };
 
 export default handleActions({
@@ -25,36 +38,32 @@ export default handleActions({
   FETCH_TIMELINE_SUCCESS: (state, action) => {
     // TODO: refactor
     const { account: { id }, tweets, type } = action.payload;
-    const timeline = state.rawTimeline[`${id}:${type}`] || [];
+    const key = `${id}:${type}`;
+    const timeline = state.timeline[key] || [];
     const results = tweets.result
             .filter(result => !(timeline.entities && timeline.entities[result]))
-            .concat(state.rawTimeline.results);
+            .concat(state.timeline.results);
     const entities = { ...timeline.entities, ...tweets.entities };
 
-    const { rawTimeline } = state;
-    rawTimeline[`${id}:${type}`] = { results, entities };
+    // const { timeline } = state;
+    // timeline[key] = { results, entities };
 
-    const columns = state.columns.map(column => {
-      const newColumn = { ...column };
-      column.contents.forEach(content => {
-        if (content.account.id === id && content.type === type) {
-          newColumn.timeline = results.map(r => entities.tweets[r]);
-        }
-      });
-      return newColumn;
-    });
-    return { ...state, rawTimeline, columns };
+    const columns = createNewColumns(state, results, key);
+    return { ...state, timeline: { ...state.timeline, [key]: { results, entities } }, columns };
+  },
+  CREATE_FAVORITE_REQUEST: (state, action) => {
+    
   },
   ADD_COLUMN: (state, action) => {
     const { account, type, timerId } = action.payload;
     const id = uuid.v4();
     const title = type; // TODO: If mixed columns, custom timeline
     const icon = iconSelector[type];
-    const { idTable } = state;
+    //const { idTable } = state;
     const key = `${account.id}:${type}`;
     const { timerIds } = state;
     if (timerIds[key]) {
-      // Refactor!!!!!!
+      // FIXME: Refactor!!!!!!
       timerIds[key].count += 1;
     } else {
       timerIds[key] = {
@@ -63,7 +72,7 @@ export default handleActions({
       };
     }
 
-    const timeline = state.rawTimeline[key] || { results: [], entities: {}}; // TODO: implement mixed timeline
+    const timeline = state.timeline[key] || { results: [] }; // TODO: implement mixed timeline
     // TODO: check perfirmance
     // timeline.forEach((tweet, index) => {
     //   idTable[tweet.id_str] = { ...idTable[tweet.id_str], [id]: index };
@@ -71,14 +80,13 @@ export default handleActions({
 
     return {
       ...state,
-      idTable,
       columns: state.columns.concat([{
         id,
         timerId,
         title,
         icon,
         contents: [{ account, type }],
-        timeline,
+        results: timeline.results,
       }]),
     };
   },

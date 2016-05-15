@@ -5,7 +5,7 @@ import TimelineBox from './timeline-box';
 
 export default class Contents extends Component {
   static propTypes = {
-    timeline: PropTypes.array,
+    timeline: PropTypes.object,
     fetchHomeTimeline: PropTypes.func,
     accounts: PropTypes.array,
     columns: PropTypes.array,
@@ -44,8 +44,8 @@ export default class Contents extends Component {
         <TimelineBox
           ref={column.id}
           column={column}
-          deleteRequest={this.props.deleteRequest}
           timeline={this.props.timeline}
+          deleteRequest={this.props.deleteRequest}
           createReply={this.props.createReply}
           createFavorite={this.props.createFavorite}
           createRetweet={this.props.createRetweet}

@@ -73,8 +73,8 @@ export default class Tsukiakari extends Component {
         />
         <Contents
           accounts={accounts}
-          timeline={timeline}
           columns={columns}
+          timeline={timeline}
           openAddColumnMenu={openAddColumnMenu}
           openLightBox={openLightBox}
           deleteRequest={this.deleteRequest}
