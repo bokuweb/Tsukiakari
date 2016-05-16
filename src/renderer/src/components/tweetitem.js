@@ -112,10 +112,17 @@ export default class TweetItem extends Component {
     );
   }
 
-  renderMediaContents() {
-    // TODO: Refactor
-    const entities = this.props.tweet.extended_entities;
-    if (!entities || !entities.media) return null;
+  renderVideo(video) {
+    return (
+      <div className={b('media')}>
+        <video className={b('video')} controls>
+          { video.variants.map(variant => <source src={variant.url} />) }
+        </video>
+      </div>
+    );
+  }
+
+  renderImages(entities) {
     if (entities.media.length === 1) {
       return (
         <div className={b('media')}>
@@ -155,6 +162,13 @@ export default class TweetItem extends Component {
         {this.renderRestMedias(media)}
       </div>
     );
+  }
+
+  renderMediaContents() {
+    const entities = this.props.tweet.extended_entities;
+    if (!entities || !entities.media) return null;
+    if (entities.media[0].video_info) return this.renderVideo(entities.media[0].video_info);
+    return this.renderImages(entities);
   }
 
   renderRetweetedMessage() {
