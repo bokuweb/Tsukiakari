@@ -67,19 +67,21 @@ export const destroyFavorite = (account, tweet) => dispatch => {
   dispatch(action({ account, tweet }));
 };
 
-export const createRetweet = (account, id) => dispatch => {
+export const createRetweet = (account, tweet) => dispatch => {
   const { accessToken, accessTokenSecret } = account;
   const twitter = new Twitter(accessToken, accessTokenSecret);
-  twitter.createRetweet({ id })
-    .then(tweet => {
+  twitter.createRetweet({ id: tweet.id_str })
+    .then(res => {
       const action = createAction('CREATE_RETWEET_SUCCESS');
-      dispatch(action({ account, tweet }));
+      dispatch(action({ account, tweet: res }));
     })
     .catch(error => {
       console.error(error);
       const action = createAction('CREATE_RETWEET_FAIL');
       dispatch(action({ error }));
     });
+  const action = createAction('CREATE_RETWEET_REQUEST');
+  dispatch(action({ account, tweet }));
 };
 
 export const postTweet = (account, status) => dispatch => {

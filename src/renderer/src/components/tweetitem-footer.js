@@ -10,6 +10,7 @@ export default class TweetItemFooter extends Component {
     createFavorite: PropTypes.object,
     destroyFavorite: PropTypes.object,
     createRetweet: PropTypes.object,
+    destroyRetweet: PropTypes.object,
     accounts: PropTypes.array,
   };
 
@@ -26,12 +27,15 @@ export default class TweetItemFooter extends Component {
 
   onRetweet() {
     const { tweet } = this.props;
-    this.props.createRetweet(this.props.accounts[0], tweet.id_str);
+    if (tweet.retweeted) {
+      this.props.destroyRetweet(this.props.accounts[0], tweet);
+    } else {
+      this.props.createRetweet(this.props.accounts[0], tweet);
+    }
   }
 
   onFavorite() {
     const { tweet } = this.props;
-    console.log(tweet.favorited)
     if (tweet.favorited) {
       this.props.destroyFavorite(this.props.accounts[0], tweet);
     } else {
