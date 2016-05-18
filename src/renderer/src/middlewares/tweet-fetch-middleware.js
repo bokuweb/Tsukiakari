@@ -2,21 +2,12 @@ import Twitter from '../lib/twitter-client';
 import { createAction } from 'redux-actions';
 import { normalize, Schema, arrayOf } from 'normalizr';
 
-const tweet = new Schema('tweets', { idAttribute: 'id_str'});
+const tweet = new Schema('tweets', { idAttribute: 'id_str' });
 
 const interval = {
   Home: 60 * 1000,
   Favorite: 60 * 1000,
   Mention: 60 * 1000,
-};
-
-const connectUserStream = ({ accessToken, accessTokenSecret }) => {
-  const t = new Twitter(accessToken, accessTokenSecret);
-  return new Promise(resolve => {
-    t.client.stream('user', stream => {
-      resolve(stream);
-    });
-  });
 };
 
 const fetch = (store, account, type) => {
@@ -34,20 +25,17 @@ const fetch = (store, account, type) => {
 };
 
 const hooks = {
-  ['CONNECT_STREAM'](store, action) {
-
-  },
   ['ADD_COLUMN'](store, action) {
     // FIXME: storeから同一のaccount, typeがないか検索し、あったらtimerIdを返す
     const { account, type } = action.payload;
-    const { tweets: { timerIds } } = store.getState();
+    // const { tweets: { timerIds } } = store.getState();
     const key = `${account.id}:${type}`;
-    if (timerIds[key]) {
-      return { ...action, payload: { ...action.payload, timerId: timerIds[key].id } };
-    }
+    // if (timerIds[key]) {
+    //   return { ...action, payload: { ...action.payload, timerId: timerIds[key].id } };
+    // }
     fetch(store, account, type);
-    const timerId = setInterval(() => fetch(store, account, type), interval[type]);
-    return { ...action, payload: { ...action.payload, timerId } };
+    // const timerId = setInterval(() => fetch(store, account, type), interval[type]);
+    return { ...action, payload: { ...action.payload } };
   },
   ['DELETE_COLUMN'](store, action) {
     // TODO: clearするかどうかはtimerの参照カウンタで管理する必要あり？

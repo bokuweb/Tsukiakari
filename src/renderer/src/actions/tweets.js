@@ -90,6 +90,8 @@ export const successDestroyRetweet = createAction('SUCCESS_DESTROY_RETWEET');
 
 export const failureDestroyRetweet = createAction('FAILURE_DESTROY_RETWEET');
 
+export const connectStream = createAction('CONNECT_STREAM');
+
 export const postTweet = (account, status) => dispatch => {
   const { accessToken, accessTokenSecret } = account;
   const twitter = new Twitter(accessToken, accessTokenSecret);
