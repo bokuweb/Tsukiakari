@@ -13,6 +13,7 @@ This repository is heavily under development and unstable.
 - [x] Support photo preview
 - [x] Support animate gif
 - [x] Support youtube
+- [ ] Support multi account
 - [ ] Support mixed timeline
 - [ ] Support notifiation
 - [ ] Add timeline filtering

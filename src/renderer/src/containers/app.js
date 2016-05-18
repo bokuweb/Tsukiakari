@@ -13,6 +13,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    dispatch,
     actions: {
       accounts: bindActionCreators(accounts, dispatch),
       tweets: bindActionCreators(tweets, dispatch),

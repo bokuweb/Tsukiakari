@@ -50,7 +50,7 @@ export default class Contents extends Component {
           createFavorite={this.props.createFavorite}
           createRetweet={this.props.createRetweet}
           destroyFavorite={this.props.destroyFavorite}
-          destroyRetweet={this.props.destroyRetweet}
+          destroyRetweet={this.props.requestDestroyRetweet}
           openLightBox={this.props.openLightBox}
           accounts={this.props.accounts}
         />

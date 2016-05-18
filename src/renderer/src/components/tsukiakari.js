@@ -61,6 +61,8 @@ export default class Tsukiakari extends Component {
       showPrevImage,
     } = actions.lightbox;
 
+
+    console.dir(this.props)
     return (
       <div className={b(null, { blur: isLightBoxOpen })}>
         <Accounts accounts={accounts} />

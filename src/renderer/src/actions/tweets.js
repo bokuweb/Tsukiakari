@@ -84,6 +84,12 @@ export const createRetweet = (account, tweet) => dispatch => {
   dispatch(action({ account, tweet }));
 };
 
+export const requestDestroyRetweet = createAction('REQUEST_DESTROY_RETWEET');
+
+export const successDestroyRetweet = createAction('SUCCESS_DESTROY_RETWEET');
+
+export const failureDestroyRetweet = createAction('FAILURE_DESTROY_RETWEET');
+
 export const postTweet = (account, status) => dispatch => {
   const { accessToken, accessTokenSecret } = account;
   const twitter = new Twitter(accessToken, accessTokenSecret);
@@ -98,3 +104,4 @@ export const postTweet = (account, status) => dispatch => {
       dispatch(action({ error }));
     });
 };
+
