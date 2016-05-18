@@ -41,6 +41,19 @@ const updateTweet = (state, action) => {
   return { ...state, timeline };
 };
 
+const updateTweetProperty = (accountId, tweetId, timeline, props) => {
+  Object.keys(timeline).forEach(key => {
+    if (key.indexOf(accountId) !== -1) {
+      timeline[key].entities.tweets[tweetId] = {
+        ...timeline[key].entities.tweets[tweetId],
+        ...props,
+      };
+    }
+  });
+  return timeline;
+};
+
+
 export default handleActions({
   RECIEVE_TWEET: (state, action) => {
     return state;
@@ -99,6 +112,19 @@ export default handleActions({
     return { ...state, timeline };
   },
   CREATE_RETWEET_SUCCESS: updateTweet,
+  REQUEST_DESTROY_RETWEET: (state, action) => {
+    const { account: { id }, tweet } = action.payload;
+    const { timeline } = state;
+    Object.keys(timeline).forEach(key => {
+      if (key.indexOf(id) !== -1) {
+        timeline[key].entities.tweets[tweet.id_str] = {
+          ...timeline[key].entities.tweets[tweet.id_str],
+          retweeted: false,
+        };
+      }
+    });
+    return { ...state, timeline };
+  },
   ADD_COLUMN: (state, action) => {
     const { account, type, timerId } = action.payload;
     const id = uuid.v4();

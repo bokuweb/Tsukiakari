@@ -1,23 +1,24 @@
 import { createStore, applyMiddleware } from 'redux';
 import reducer from '../reducers';
 import fetchtweets from '../middlewares/tweet-fetch-middleware';
-// import saga from '../sagas';
+import saga from '../sagas';
 import thunk from 'redux-thunk';
-// import createSagaMiddleware from 'redux-saga';
+import createSagaMiddleware from 'redux-saga';
 import createLogger from 'redux-logger';
 
 export default function configureStore() {
   const logger = createLogger();
   // create the saga middleware
-  // const sagaMiddleware = createSagaMiddleware();
-  return createStore(
+  const sagaMiddleware = createSagaMiddleware();
+  const store = createStore(
     reducer,
     applyMiddleware(
       fetchtweets,
-      // sagaMiddleware,
+      sagaMiddleware,
       thunk,
       logger
     )
   );
-  // sagaMiddleware.run(saga);
+  sagaMiddleware.run(saga);
+  return store;
 }

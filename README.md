@@ -10,13 +10,15 @@ This repository is heavily under development and unstable.
 
 ## TASK
 
+- [x] Support photo preview
+- [x] Support animate gif
+- [x] Support youtube
+- [ ] Support multi account
 - [ ] Support mixed timeline
 - [ ] Support notifiation
 - [ ] Add timeline filtering
 - [ ] Add favorite animation
-- [ ] Support gif
 - [ ] Support vine
-- [x] Support photo gallery
 - [ ] Support instagram photo
 - [ ] Support twitter card
 

@@ -81,7 +81,6 @@ export default class Timeline extends Component {
   }
 
   render() {
-    console.dir(this.props.results)
     return (
       <div className={b()} onMouseDown={this.onMouseDown}>
         <div
@@ -92,6 +91,7 @@ export default class Timeline extends Component {
             itemRenderer={::this.renderItems}
             length={this.props.results.length}
             type="variable"
+            pageSize={20}
             useTranslate3d
           />
         </div>

@@ -57,6 +57,18 @@ export default class TwitterClient {
     });
   }
 
+  destroyTweet(params) {
+    return new Promise((resolve, reject) => {
+      this.client.post(
+        'statuses/destroy',
+        params,
+        (error) => {
+          if (error) reject(error);
+          else resolve();
+        });
+    });
+  }
+
   createFavorite(params) {
     return new Promise((resolve, reject) => {
       this.client.post(
@@ -93,19 +105,19 @@ export default class TwitterClient {
     });
   }
 
-  /*
   getStatus(id) {
-    var d = Q.defer();
-    this._client.get('statuses/show', {id : id, include_my_retweet : true}, (error, status, response) => {
-      if (error) {
-        console.log(util.inspect(error));
-        d.reject(error);
-      }
-      return d.resolve(status);
+    return new Promise((resolve, reject) => {
+      this.client.get(
+        'statuses/show',
+        { id, include_my_retweet: true },
+        (error, status) => {
+          if (error) reject(error);
+          else resolve(status);
+        });
     });
-    return d.promise;
   }
 
+  /*
   getProfile(params) {
     var d = Q.defer();
     this._client.get('account/verify_credentials', params, (error, account, response) => {
