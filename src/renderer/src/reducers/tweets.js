@@ -53,10 +53,30 @@ const updateTweetProperty = (accountId, tweetId, timeline, props) => {
   return timeline;
 };
 
-
 export default handleActions({
   RECIEVE_TWEET: (state, action) => {
-    return state;
+    // TODO: refactor
+    const { account: { id }, tweet, type } = action.payload;
+    const key = `${id}:${type}`;
+    const timeline = state.timeline[key];
+    const results = (!(timeline.entities && timeline.entities.tweets[tweet.result]))
+            ? [tweet.result].concat(timeline.results || [])
+            : timeline.results || [];
+    const entities = { ...timeline.entities.tweets, ...tweet.entities.tweets };
+    const columns = createNewColumns(state, results, key);
+    return {
+      ...state,
+      timeline: {
+        ...state.timeline,
+        [key]: {
+          results,
+          entities: {
+            tweets: entities,
+          },
+        },
+      },
+      columns,
+    };
   },
   FETCH_TIMELINE_SUCCESS: (state, action) => {
     // TODO: refactor
