@@ -4,6 +4,7 @@ import { decodeHtml } from '../utils/utils';
 import TweetItemFooter from './tweetitem-footer';
 import { link } from 'autolinker';
 import { htmlEscape } from 'twitter-text';
+import { default as Video, Controls, Play, Mute, Seek, Time } from 'react-html5video';
 
 const b = B.with('tweetitem');
 
@@ -115,9 +116,15 @@ export default class TweetItem extends Component {
   renderVideo(video) {
     return (
       <div className={b('media')}>
-        <video className={b('video')} controls>
+        <Video className={b('video')} controls>
           { video.variants.map(variant => <source src={variant.url} />) }
-        </video>
+        <Controls>
+          <Play />
+          <Seek />
+          <Time />
+          <Mute />
+        </Controls>
+        </Video>
       </div>
     );
   }

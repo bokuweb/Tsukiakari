@@ -72,6 +72,7 @@
     "react": "^15.0.1",
     "react-bulma": "https://github.com/bokuweb/react-bulma",
     "react-dom": "^15.0.1",
+    "react-html5video": "^1.2.8",
     "react-images": "^0.3.2",
     "react-list": "^0.7.18",
     "react-modal": "^1.2.1",
