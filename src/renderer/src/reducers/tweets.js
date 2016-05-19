@@ -3,7 +3,6 @@ import uuid from 'uuid';
 
 const defaultState = {
   timeline: {},
-  timerIds: {},
   columns: [],
 };
 
@@ -146,28 +145,17 @@ export default handleActions({
     return { ...state, timeline };
   },
   ADD_COLUMN: (state, action) => {
-    const { account, type, timerId } = action.payload;
+    const { account, type } = action.payload;
     const id = uuid.v4();
     const title = type; // TODO: If mixed columns, custom timeline
     const icon = iconSelector[type];
     const key = `${account.id}:${type}`;
-    const { timerIds } = state;
-    if (timerIds[key]) {
-      // FIXME: Refactor!!!!!!
-      timerIds[key].count += 1;
-    } else {
-      timerIds[key] = {
-        id: timerId,
-        count: 1,
-      };
-    }
 
     const timeline = state.timeline[key] || { results: [] }; // TODO: implement mixed timeline
     return {
       ...state,
       columns: state.columns.concat([{
         id,
-        timerId,
         title,
         icon,
         contents: [{ account, type }],
