@@ -14,6 +14,7 @@ export default class TweetItem extends Component {
     tweet: PropTypes.object,
     createFavorite: PropTypes.func,
     destroyFavorite: PropTypes.func,
+    reply: PropTypes.func,
     openLightBox: PropTypes.func,
   };
 
@@ -219,6 +220,7 @@ export default class TweetItem extends Component {
             createRetweet={this.props.createRetweet}
             destroyFavorite={this.props.destroyFavorite}
             destroyRetweet={this.props.destroyRetweet}
+            reply={this.props.reply}
             accounts={this.props.accounts}
           />
         </div>

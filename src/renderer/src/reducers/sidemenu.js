@@ -10,5 +10,11 @@ export default handleActions({
   CLOSE_ADD_COLUMN_MENU: state => ({ ...state, isAddColumnMenuOpen: false }),
   OPEN_TWEET_WINDOW: state => ({ ...state, isTweetWindowOpen: true }),
   CLOSE_TWEET_WINDOW: state => ({ ...state, isTweetWindowOpen: false }),
+  REPLY: (state, action) => ({
+    ...state,
+    isTweetWindowOpen: true,
+    replyTweet: action.payload.tweet,
+    replyAccount: action.payload.account,
+  }),
 }, defaultState);
 

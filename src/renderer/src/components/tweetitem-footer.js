@@ -7,10 +7,11 @@ const b = B.with('tweetitem-footer');
 export default class TweetItemFooter extends Component {
   static propTypes = {
     tweet: PropTypes.object,
-    createFavorite: PropTypes.object,
-    destroyFavorite: PropTypes.object,
-    createRetweet: PropTypes.object,
-    destroyRetweet: PropTypes.object,
+    createFavorite: PropTypes.func,
+    destroyFavorite: PropTypes.func,
+    createRetweet: PropTypes.func,
+    destroyRetweet: PropTypes.func,
+    reply: PropTypes.func,
     accounts: PropTypes.array,
   };
 
@@ -22,7 +23,8 @@ export default class TweetItemFooter extends Component {
   }
 
   onReply() {
-
+    const { tweet } = this.props;
+    this.props.reply({ account: this.props.accounts[0], tweet });
   }
 
   onRetweet() {
