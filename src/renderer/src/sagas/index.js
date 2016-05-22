@@ -5,6 +5,12 @@ import { eventChannel } from 'redux-saga';
 import { fork, take, call, put, cancel } from 'redux-saga/effects';
 import * as actions from '../actions/tweets';
 import { normalize, Schema } from 'normalizr';
+import { ipcRenderer } from 'electron';
+
+// FIXME:
+ipcRenderer.on('suspend', () => console.log('suspend'));
+
+ipcRenderer.on('resume', () => console.log('resume'));
 
 const tweetSchema = new Schema('tweets', { idAttribute: 'id_str' });
 
