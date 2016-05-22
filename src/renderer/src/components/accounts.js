@@ -24,7 +24,7 @@ export default class Accounts extends Component {
 
   renderAccounts() {
     return this.props.accounts.map(account => (
-      <div key={account.id}>
+      <div className={b('account')} key={account.id}>
         <img
           src={account.profile_image_url}
           className={b('avatar')}
