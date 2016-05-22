@@ -54,11 +54,17 @@ export default class TweetWindow extends Component {
   onClick() {
     // FIXME: select account
     this.setState({ status: '' });
-    this.props.post(this.props.accounts[0], this.state.status);
+    this.props.post(this.props.accounts[0], this.state.status, this.props.replyTweet);
   }
 
   onChange({ target: { value } }) {
     this.setState({ status: value });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.replyTweet.id_str !== this.props.replyTweet.id_str) {
+      this.setState({ status: `@${nextProps.replyTweet.user.screen_name}` });
+    }
   }
 
   render() {

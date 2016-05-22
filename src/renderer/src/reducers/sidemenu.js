@@ -1,8 +1,14 @@
 import { handleActions } from 'redux-actions';
 
+const defaultReplyTweet = {
+  user: {},
+};
+
 const defaultState = {
   isAddColumnMenuOpen: false,
   isTweetWindowOpen: false,
+  replyTweet: defaultReplyTweet,
+  replyAccount: {},
 };
 
 export default handleActions({
@@ -15,6 +21,11 @@ export default handleActions({
     isTweetWindowOpen: true,
     replyTweet: action.payload.tweet,
     replyAccount: action.payload.account,
+  }),
+  POST_TWEET_SUCCESS: state => ({
+    ...state,
+    replyTweet: defaultReplyTweet,
+    replyAccount: {},
   }),
 }, defaultState);
 

@@ -94,10 +94,15 @@ export const connectStream = createAction('CONNECT_STREAM');
 
 export const reply = createAction('REPLY');
 
-export const postTweet = (account, status) => dispatch => {
+export const postTweet = (account, status, replyTweet) => dispatch => {
+  if (status === '') return;
   const { accessToken, accessTokenSecret } = account;
   const twitter = new Twitter(accessToken, accessTokenSecret);
-  twitter.postTweet({ status })
+  const replyId = ~status.indexOf(`@${replyTweet.user.screen_name}`)
+          ? replyTweet.id_str
+          : null;
+  const params = replyId ? { status, ['in_reply_to_status_id']: replyId } : { status };
+  twitter.postTweet(params)
     .then(tweet => {
       const action = createAction('POST_TWEET_SUCCESS');
       dispatch(action({ account, tweet }));
