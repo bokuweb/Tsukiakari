@@ -1,4 +1,4 @@
-import { BrowserWindow, app, ipcMain, shell } from 'electron';
+import { BrowserWindow, app, ipcMain, shell, powerMonitor } from 'electron';
 import Auth from './auth';
 import jsonfile from 'jsonfile';
 import _ from 'lodash';
@@ -11,6 +11,16 @@ app.on('window-all-closed', () => {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') app.quit();
+});
+
+powerMonitor.on('suspend', () => {
+  console.log("suspend!!!");
+  ipcRenderer.send('suspend');
+});
+
+powerMonitor.on('resume', () => {
+  console.log("resume);
+  ipcRenderer.send('resume');
 });
 
 app.on('ready', () => {

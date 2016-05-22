@@ -4,11 +4,11 @@ import { normalize, Schema, arrayOf } from 'normalizr';
 
 const tweet = new Schema('tweets', { idAttribute: 'id_str' });
 
-const interval = {
-  Home: 60 * 1000,
-  Favorite: 60 * 1000,
-  Mention: 60 * 1000,
-};
+// const interval = {
+//   Home: 60 * 1000,
+//   Favorite: 60 * 1000,
+//   Mention: 60 * 1000,
+// };
 
 const fetch = (store, account, type) => {
   const { accessToken, accessTokenSecret } = account;
@@ -26,21 +26,9 @@ const fetch = (store, account, type) => {
 
 const hooks = {
   ['ADD_COLUMN'](store, action) {
-    // FIXME: storeから同一のaccount, typeがないか検索し、あったらtimerIdを返す
     const { account, type } = action.payload;
-    // const { tweets: { timerIds } } = store.getState();
-    const key = `${account.id}:${type}`;
-    // if (timerIds[key]) {
-    //   return { ...action, payload: { ...action.payload, timerId: timerIds[key].id } };
-    // }
     fetch(store, account, type);
-    // const timerId = setInterval(() => fetch(store, account, type), interval[type]);
     return { ...action, payload: { ...action.payload } };
-  },
-  ['DELETE_COLUMN'](store, action) {
-    // TODO: clearするかどうかはtimerの参照カウンタで管理する必要あり？
-    clearInterval(action.payload.timerId);
-    return action;
   },
 };
 

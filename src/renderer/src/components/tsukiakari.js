@@ -42,7 +42,7 @@ export default class Tsukiakari extends Component {
       actions,
       tweets: { timeline, columns },
       accounts: { accounts },
-      sidemenu: { isAddColumnMenuOpen, isTweetWindowOpen },
+      sidemenu: { isAddColumnMenuOpen, isTweetWindowOpen, replyTweet, replyAccount },
       lightbox: { isLightBoxOpen, images, currentImage },
     } = this.props;
 
@@ -61,8 +61,6 @@ export default class Tsukiakari extends Component {
       showPrevImage,
     } = actions.lightbox;
 
-
-    console.dir(this.props)
     return (
       <div className={b(null, { blur: isLightBoxOpen })}>
         <Accounts accounts={accounts} />
@@ -102,6 +100,8 @@ export default class Tsukiakari extends Component {
           accounts={accounts}
           post={tweetActions.postTweet}
           close={closeTweetWindow}
+          replyTweet={replyTweet}
+          replyAccount={replyAccount}
         />
       </div>
     );

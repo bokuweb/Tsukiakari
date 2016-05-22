@@ -13,6 +13,7 @@ export default class Contents extends Component {
     openLightBox: PropTypes.func,
     createFavorite: PropTypes.func,
     destroyFavorite: PropTypes.func,
+    reply: PropTypes.func,
   };
 
   static defaultProps = {
@@ -51,6 +52,7 @@ export default class Contents extends Component {
           createRetweet={this.props.createRetweet}
           destroyFavorite={this.props.destroyFavorite}
           destroyRetweet={this.props.requestDestroyRetweet}
+          reply={this.props.reply}
           openLightBox={this.props.openLightBox}
           accounts={this.props.accounts}
         />

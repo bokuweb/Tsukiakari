@@ -4,9 +4,15 @@ import T from '../lib/twitter-client';
 import { eventChannel } from 'redux-saga';
 import { fork, take, call, put, cancel } from 'redux-saga/effects';
 import * as actions from '../actions/tweets';
-import { normalize, Schema, arrayOf } from 'normalizr';
+import { normalize, Schema } from 'normalizr';
+import { ipcRenderer } from 'electron';
 
-const tweet = new Schema('tweets', { idAttribute: 'id_str' });
+// FIXME:
+ipcRenderer.on('suspend', () => console.log('suspend'));
+
+ipcRenderer.on('resume', () => console.log('resume'));
+
+const tweetSchema = new Schema('tweets', { idAttribute: 'id_str' });
 
 const subscribe = (stream, account) => (
   eventChannel(emit => {
@@ -21,9 +27,10 @@ const subscribe = (stream, account) => (
         //if (data.retweeted_status && data.retweeted_status.user.id_str === user.id_str) {
         // eventEmitter.emit('retweet', data);
         //}
-        emit(actions.recieveTweet({ tweet: normalize(data, tweet), account, type: 'Home' }));
+        emit(actions.recieveTweet({ tweet: normalize(data, tweetSchema), account, type: 'Home' }));
       }
     });
+    
     stream.on('error', (error) => {
       console.error('Error occurred on stream', error);
       stream.removeAllListeners('data');

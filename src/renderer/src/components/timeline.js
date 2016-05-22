@@ -13,6 +13,7 @@ export default class Timeline extends Component {
     createFavorite: PropTypes.func,
     destroyFavorite: PropTypes.func,
     openLightBox: PropTypes.func,
+    reply: PropTypes.func,
   };
 
   constructor(props) {
@@ -73,6 +74,7 @@ export default class Timeline extends Component {
           createRetweet={this.props.createRetweet}
           destroyFavorite={this.props.destroyFavorite}
           destroyRetweet={this.props.destroyRetweet}
+          reply={this.props.reply}
           accounts={this.props.accounts}
           openLightBox={this.props.openLightBox}
         />
