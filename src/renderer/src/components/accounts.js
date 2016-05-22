@@ -1,4 +1,7 @@
 import React, { Component, PropTypes } from 'react';
+import B from '../lib/bem';
+
+const b = B.with('accounts');
 
 export default class Accounts extends Component {
   static propTypes = {
@@ -14,21 +17,20 @@ export default class Accounts extends Component {
       <div key={account.id}>
         <img
           src={account.profile_image_url}
-          className="accounts__avatar"
+          className={b('avatar')}
         />
-        {/* <span className="accounts__name">{account.screen_name}</span> */ }
       </div>
     ));
   }
 
   render() {
     return (
-      <div className="accounts">
-        <div className="accounts__accounts">
+      <div className={b()}>
+        <div className={b('accounts')}>
           {this.renderAccounts()}
         </div>
-        <div className="accounts__add">
-        <span className="accounts__icon--add">+</span>
+        <div className={b('add')}>
+          <span className={b('icon', { add: true })}>+</span>
         </div>
       </div>
     );

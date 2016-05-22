@@ -1,5 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { isEmpty } from 'lodash';
+import B from '../lib/bem';
+
+const b = B.with('account-list');
 
 export default class AccountList extends Component {
   static propTypes = {
@@ -30,10 +33,9 @@ export default class AccountList extends Component {
         <div key={account.id} onClick={onClick}>
           <img
             src={account.profile_image_url}
-            className="account-selector__avatar"
+            className={b('avatar')}
             style={account.id === this.state.selectedAccount.id ? { border: 'solid 1px red' } : {}}
           />
-          {/* <span className="accounts__name">{account.screen_name}</span> */ }
         </div>
       );
     });
@@ -41,7 +43,7 @@ export default class AccountList extends Component {
 
   render() {
     return (
-      <div>
+      <div className={b()}>
         {this.renderAccounts()}
       </div>
     );
