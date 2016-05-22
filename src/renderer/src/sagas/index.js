@@ -6,6 +6,7 @@ import { fork, take, call, put, cancel } from 'redux-saga/effects';
 import * as actions from '../actions/tweets';
 import { normalize, Schema } from 'normalizr';
 import { ipcRenderer } from 'electron';
+import accountSaga from './accounts';
 
 // FIXME:
 ipcRenderer.on('suspend', () => console.log('suspend'));
@@ -92,6 +93,7 @@ export default function* rootSaga() {
   yield [
     fork(watchDestroyRetweet),
     fork(watchConnect),
+    fork(accountSaga),
   ];
 }
 

@@ -13,21 +13,11 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
 });
 
-powerMonitor.on('suspend', () => {
-  console.log("suspend!!!");
-  ipcRenderer.send('suspend');
-});
-
-powerMonitor.on('resume', () => {
-  console.log("resume);
-  ipcRenderer.send('resume');
-});
-
 app.on('ready', () => {
   let accounts = [];
   global.consumerKey = 'njiDlWzzRl1ReomcCmvhbarN7';
   global.consumerSecret = 'rTOSMuY11adXXUxHHTlcNRWRZsutORnvgAl9eojb19Y77Ub78M';
-  const accountFilePath = `${app.getPath('cache')}/accounts.json`;
+  const accountFilePath = `${app.getPath('cache')}/accounts2.json`;
   const loadMainWindow = () => {
     mainWindow = new BrowserWindow({
       minWidth: 640,
@@ -72,7 +62,9 @@ app.on('ready', () => {
     });
   });
 
-  ipcMain.on('accounts-request', event => event.sender.send('accounts-request-reply', accounts));
+  ipcMain.on('accounts-request', event => {
+    event.sender.send('accounts-request-reply', accounts)
+  });
 
   if (accounts[0] !== undefined) {
     loadMainWindow();
@@ -82,5 +74,15 @@ app.on('ready', () => {
       loadMainWindow();
     });
   }
+
+  powerMonitor.on('suspend', () => {
+    console.log("suspend!!!");
+    ipcRenderer.send('suspend');
+  });
+
+  powerMonitor.on('resume', () => {
+    console.log('resume');
+    ipcRenderer.send('resume');
+  });
 });
 
