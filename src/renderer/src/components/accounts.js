@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import Tooltip from 'rc-tooltip';
 import B from '../lib/bem';
 
 const b = B.with('accounts');
@@ -25,10 +26,12 @@ export default class Accounts extends Component {
   renderAccounts() {
     return this.props.accounts.map(account => (
       <div className={b('account')} key={account.id}>
-        <img
-          src={account.profile_image_url}
-          className={b('avatar')}
-        />
+        <Tooltip placement="right" trigger={'click'} overlay={<span>tooltip</span>}>
+          <img
+            src={account.profile_image_url}
+            className={b('avatar')}
+          />
+        </Tooltip>
       </div>
     ));
   }
