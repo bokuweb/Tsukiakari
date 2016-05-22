@@ -8,3 +8,5 @@ export const loadAccounts = () => dispatch => {
     dispatch(action({ accounts }));
   });
 };
+
+export const addAccount = createAction('ADD_ACCOUNT');
