@@ -77,12 +77,12 @@ app.on('ready', () => {
 
   powerMonitor.on('suspend', () => {
     console.log("suspend!!!");
-    ipcRenderer.send('suspend');
+    ipcMain.send('suspend');
   });
 
   powerMonitor.on('resume', () => {
     console.log('resume');
-    ipcRenderer.send('resume');
+    ipcMain.send('resume');
   });
 });
 
