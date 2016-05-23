@@ -1,7 +1,9 @@
 import { handleActions } from 'redux-actions';
 
 const defaultReplyTweet = {
-  user: {},
+  user: {
+    ['screen_name']: '',
+  },
 };
 
 const defaultState = {

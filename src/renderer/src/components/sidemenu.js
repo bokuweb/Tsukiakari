@@ -1,4 +1,7 @@
 import React, { Component, PropTypes } from 'react';
+import B from '../lib/bem';
+
+const b = B.with('sidemenu');
 
 export default class Sidemenu extends Component {
   static propTypes = {
@@ -33,40 +36,40 @@ export default class Sidemenu extends Component {
     const text = isOpen ? 'Close menu' : 'Add new column';
     const icon = isOpen ? 'x' : '+';
     return (
-      <div className="sidemenu__button--addcolumn" onClick={this.onAddColumnClick}>
+      <div className={b('button', { addcolumn: true })} onClick={this.onAddColumnClick}>
         <span>{icon}</span>
-        <a className="sidemenu__text--add">{text}</a>
+        <a className={b('text', { add: true })}>{text}</a>
       </div>
     );
   }
 
   renderColumList() {
     return this.props.columns.map(column => (
-      <li className="sidemenu__list" key={column.id}>
-        <i className={`sidemenu__icon ${column.icon}`} />
-        <span className="sidemenu__text--list">{column.title}</span>
+      <li className={b('list')} key={column.id}>
+        <i className={`${b('icon')} ${column.icon}`} />
+        <span className={b('text', { list: true })}>{column.title}</span>
       </li>
     ));
   }
 
   render() {
     return (
-      <div className="sidemenu">
-        <div className="sidemenu__wrapper">
-          <div className="sidemenu__logo-wrapper">
-            <img className="sidemenu__logo" src="images/logo.png" />
+      <div className={b()}>
+        <div className={b('wrapper')}>
+          <div className={b('logo-wrapper')}>
+            <img className={b('logo')} src="images/logo.png" />
           </div>
-          <ul className="sidemenu__ul">
+          <ul className={b('ul')}>
             {this.renderColumList()}
           </ul>
           {this.renderAddColumnButton()}
         </div>
         <div
-          className="sidemenu__button--newtweet"
+          className={b('button', { newtweet: true })}
           onClick={this.props.openTweetWindow}
         >
-          <i className="sidemenu__icon icon-tweet" />
-          <span className="sidemenu__text--newtweet">New Tweet</span>
+          <i className={`${b('icon')} icon-tweet`} />
+          <span className={b('text', { newtweet: true })}>New Tweet</span>
         </div>
       </div>
     );

@@ -1,34 +1,43 @@
 import React, { Component, PropTypes } from 'react';
+import Account from './account';
+import B from '../lib/bem';
+
+const b = B.with('accounts');
 
 export default class Accounts extends Component {
   static propTypes = {
     accounts: PropTypes.array,
+    addAccount: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     accounts: [],
   };
 
+  constructor(props) {
+    super(props);
+    this.state = { destroyTooltip: false };
+    this.onAddRequest = ::this.onAddRequest;
+  }
+
+  onAddRequest() {
+    this.props.addAccount();
+  }
+
   renderAccounts() {
     return this.props.accounts.map(account => (
-      <div key={account.id}>
-        <img
-          src={account.profile_image_url}
-          className="accounts__avatar"
-        />
-        {/* <span className="accounts__name">{account.screen_name}</span> */ }
-      </div>
+      <Account account={account} key={account.id} />
     ));
   }
 
   render() {
     return (
-      <div className="accounts">
-        <div className="accounts__accounts">
+      <div className={b()}>
+        <div className={b('accounts')}>
           {this.renderAccounts()}
         </div>
-        <div className="accounts__add">
-        <span className="accounts__icon--add">+</span>
+        <div className={b('add')} onClick={this.onAddRequest}>
+          <span className={b('icon', { add: true })}>+</span>
         </div>
       </div>
     );

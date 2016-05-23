@@ -46,7 +46,9 @@ module.exports = class Auth {
           }
         });
 
-        loginWindow.webContents.session.clearStorageData({}, () => {
+        // loginWindow.webContents.session.clearStorageData({ storages: ["cookies"] }, () => {});
+
+        loginWindow.webContents.session.clearStorageData({ storages: ['cookies'] }, () => {
           loginWindow.loadURL(url);
         });
       });

@@ -63,7 +63,10 @@ export default class Tsukiakari extends Component {
 
     return (
       <div className={b(null, { blur: isLightBoxOpen })}>
-        <Accounts accounts={accounts} />
+        <Accounts
+          accounts={accounts}
+          addAccount={this.props.actions.accounts.addAccount}
+        />
         <Sidemenu
           columns={columns}
           openAddColumnMenu={openAddColumnMenu}
