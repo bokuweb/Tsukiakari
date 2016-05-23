@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import Tooltip from 'rc-tooltip';
+import Account from './account';
 import B from '../lib/bem';
 
 const b = B.with('accounts');
@@ -16,6 +16,7 @@ export default class Accounts extends Component {
 
   constructor(props) {
     super(props);
+    this.state = { destroyTooltip: false };
     this.onAddRequest = ::this.onAddRequest;
   }
 
@@ -25,14 +26,7 @@ export default class Accounts extends Component {
 
   renderAccounts() {
     return this.props.accounts.map(account => (
-      <div className={b('account')} key={account.id}>
-        <Tooltip placement="right" trigger={'click'} overlay={<span>tooltip</span>}>
-          <img
-            src={account.profile_image_url}
-            className={b('avatar')}
-          />
-        </Tooltip>
-      </div>
+      <Account account={account} key={account.id} />
     ));
   }
 
