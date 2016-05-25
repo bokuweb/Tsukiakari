@@ -43,6 +43,11 @@ export default class Account extends Component {
           destroyTooltipOnHide={this.state.destroyTooltip}
           placement="rightBottom"
           mouseLeaveDelay={0}
+          overlayStyle={{
+            position: 'absolute',
+            left: '50px',
+            zIndex: '9999',
+          }}
         >
           <img
             src={account.profile_image_url}

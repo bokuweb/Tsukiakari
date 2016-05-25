@@ -50,12 +50,7 @@ export default class AccountTooltip extends Component {
           </div>
           <div className={b('button-wrapper')}>
             <Button
-              style={{
-                height: '28px',
-                margin: '4px 0 0 0',
-                fontSize: '11px',
-                lineHeight: '20px',
-              }}
+              className={b('button')}
               onClick={this.onClick}
             >
               {buttonText}
