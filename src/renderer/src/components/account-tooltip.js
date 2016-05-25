@@ -34,7 +34,7 @@ export default class AccountTooltip extends Component {
         <div
           className={b('background')}
           style={{
-            background: `url(${account.profile_banner_url})`,
+            background: `url(${account.profile_banner_url || ''}) #${account.profile_link_color}`,
             backgroundSize: 'cover',
           }}
         >
