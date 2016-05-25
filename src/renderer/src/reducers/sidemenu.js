@@ -26,7 +26,7 @@ export default handleActions({
   REPLY: (state, action) => ({
     ...state,
     isTweetWindowOpen: true,
-    replyTweet: action.payload.tweet,
+    replyTweet: `${action.payload.tweet} `,
     replyAccount: action.payload.account,
   }),
   POST_TWEET_SUCCESS: state => ({
