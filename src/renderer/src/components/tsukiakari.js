@@ -66,6 +66,7 @@ export default class Tsukiakari extends Component {
         <Accounts
           accounts={accounts}
           addAccount={this.props.actions.accounts.addAccount}
+          removeAccount={this.props.actions.accounts.removeAccount}
         />
         <Sidemenu
           columns={columns}

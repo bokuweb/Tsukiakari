@@ -8,6 +8,7 @@ const b = B.with('account');
 export default class Account extends Component {
   static propTypes = {
     account: PropTypes.object.isRequired,
+    removeAccount: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -16,7 +17,7 @@ export default class Account extends Component {
   }
 
   render() {
-    const { account } = this.props;
+    const { account, removeAccount } = this.props;
     return (
       <div
         className={b()}
@@ -25,7 +26,9 @@ export default class Account extends Component {
       >
         <Tooltip
           trigger="hover"
-          overlay={<AccountTooltip account={account} />}
+          overlay={
+            <AccountTooltip account={account} buttonText="Remove" onButtonClick={removeAccount} />
+          }
           destroyTooltipOnHide={this.state.destroyTooltip}
           placement="rightBottom"
           mouseLeaveDelay={0}
