@@ -2,22 +2,19 @@ import { BrowserWindow, app, ipcMain, shell, powerMonitor } from 'electron';
 import Auth from './auth';
 import jsonfile from 'jsonfile';
 import _ from 'lodash';
-import util from 'util';
 
-// be closed automatically when the JavaScript object is garbage collected.
 let mainWindow = null;
 
 app.on('window-all-closed', () => {
-  // On OS X it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') app.quit();
 });
 
 app.on('ready', () => {
+  console.log(app.getPath('userData'));
   let accounts = [];
   global.consumerKey = 'njiDlWzzRl1ReomcCmvhbarN7';
   global.consumerSecret = 'rTOSMuY11adXXUxHHTlcNRWRZsutORnvgAl9eojb19Y77Ub78M';
-  const accountFilePath = `${app.getPath('cache')}/accounts2.json`;
+  const accountFilePath = `${app.getPath('userData')}/accounts.json`;
   const loadMainWindow = () => {
     mainWindow = new BrowserWindow({
       minWidth: 640,
@@ -30,14 +27,11 @@ app.on('ready', () => {
     });
 
     mainWindow.loadURL(`file://${__dirname}/../../renderer/index.html`);
-    // client.create(mainWindow);
-    // Open the DevTools.
     mainWindow.webContents.openDevTools();
   };
 
   try {
     accounts = jsonfile.readFileSync(accountFilePath);
-    console.log(util.inspect(accounts));
   } catch (e) {
     console.log(e);
   }
@@ -50,8 +44,7 @@ app.on('ready', () => {
   });
 
   const addAccountUnlessExist = (account) => {
-    const newAccount = Object.assign({}, account, { id: accounts.length });
-    if (!_.includes(_.map(accounts, 'id'), newAccount.id)) accounts.push(newAccount);
+    if (!_.includes(_.map(accounts, 'id_str'), account.id_str)) accounts.push(account);
     jsonfile.writeFile(accountFilePath, accounts, err => console.log(err));
   };
 
@@ -63,7 +56,12 @@ app.on('ready', () => {
   });
 
   ipcMain.on('accounts-request', event => {
-    event.sender.send('accounts-request-reply', accounts)
+    event.sender.send('accounts-request-reply', accounts);
+  });
+
+  ipcMain.on('remove-account-request', (event, account) => {
+    console.log(account);
+    // event.sender.send('accounts-request-reply', accounts);
   });
 
   if (accounts[0] !== undefined) {

@@ -14,6 +14,13 @@ export default class Account extends Component {
   constructor(props) {
     super(props);
     this.state = { destroyTooltip: false };
+    this.removeAccount = ::this.removeAccount;
+  }
+
+  removeAccount(account) {
+    if (window.confirm('If you really want to delete this account, select OK')) {
+      this.props.removeAccount(account);
+    }
   }
 
   render() {
@@ -27,7 +34,11 @@ export default class Account extends Component {
         <Tooltip
           trigger="hover"
           overlay={
-            <AccountTooltip account={account} buttonText="Remove" onButtonClick={removeAccount} />
+            <AccountTooltip
+              account={account}
+              buttonText="Remove"
+              onButtonClick={this.removeAccount}
+            />
           }
           destroyTooltipOnHide={this.state.destroyTooltip}
           placement="rightBottom"

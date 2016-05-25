@@ -12,9 +12,8 @@ function* addAccount() {
 
 function* removeAccount() {
   while (true) {
-    yield take('REMOVE_ACCOUNT');
-    console.log('remove account');
-    ipcRenderer.send('remove-account-request');
+    const { payload } = yield take('REMOVE_ACCOUNT');
+    ipcRenderer.send('remove-account-request', payload);
   }
 }
 
