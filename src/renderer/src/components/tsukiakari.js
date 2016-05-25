@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import Lightbox from 'react-images';
 import Accounts from './accounts';
 import Sidemenu from './sidemenu';
 import Contents from './contents';
 import AddColumnMenuContainer from '../containers/add-column-menu';
+import LightboxContainer from '../containers/lightbox';
 import TweetWindow from './tweet-window';
 import bem from '../lib/bem';
 
@@ -37,7 +37,7 @@ export default class Tsukiakari extends Component {
       tweets: { timeline, columns },
       accounts: { accounts },
       sidemenu: { isAddColumnMenuOpen, isTweetWindowOpen, replyTweet, replyAccount },
-      lightbox: { isLightBoxOpen, images, currentImage },
+      lightbox: { isLightBoxOpen },
     } = this.props;
 
     const {
@@ -48,12 +48,7 @@ export default class Tsukiakari extends Component {
     } = actions.sidemenu;
 
     const tweetActions = actions.tweets;
-    const {
-      openLightBox,
-      closeLightBox,
-      showNextImage,
-      showPrevImage,
-    } = actions.lightbox;
+    const { openLightBox } = actions.lightbox;
 
     return (
       <div className={b(null, { blur: isLightBoxOpen })}>
@@ -79,15 +74,7 @@ export default class Tsukiakari extends Component {
           {...tweetActions}
         />
         <AddColumnMenuContainer />
-        <Lightbox
-          images={images}
-          isOpen={isLightBoxOpen}
-          showImageCount={false}
-          onClickPrev={showPrevImage}
-          onClickNext={showNextImage}
-          onClose={closeLightBox}
-          currentImage={currentImage}
-        />
+        <LightboxContainer showImageCount={false} />
         <TweetWindow
           isOpen={isTweetWindowOpen}
           accounts={accounts}
