@@ -36,11 +36,11 @@ app.on('ready', () => {
     console.log(e);
   }
 
-  const authenticate = () => new Promise(resolve => {
+  const authenticate = () => new Promise((resolve, reject) => {
     const auth = new Auth();
     auth.request()
       .then(resolve)
-      .catch(error => console.log(error));
+      .catch(reject);
   });
 
   const addAccountUnlessExist = account => new Promise((resolve, reject) => {
@@ -83,14 +83,14 @@ app.on('ready', () => {
       mainWindow.destroy();
       return signIn().then(() => loadMainWindow());
     }
-    event.sender.send('remove-account-request-reply', accounts);
+    return event.sender.send('remove-account-request-reply', accounts);
   });
 
   if (accounts[0] !== undefined) loadMainWindow();
   else signIn().then(() => loadMainWindow());
 
   powerMonitor.on('suspend', () => {
-    console.log("suspend!!!");
+    console.log('suspend!!!');
     mainWindow.webContents.send('suspend');
   });
 
