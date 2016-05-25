@@ -217,8 +217,8 @@ export default class TweetItem extends Component {
             trigger="hover"
             overlay={
               <AccountTooltip
-                account={tweet.user}
-                buttonText="Follow"
+                account={user}
+                buttonText={user.following ? 'Unfollow' : 'Follow'}
                 onButtonClick={this.removeAccount}
               />
             }
