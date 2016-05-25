@@ -3,7 +3,7 @@ import Lightbox from 'react-images';
 import Accounts from './accounts';
 import Sidemenu from './sidemenu';
 import Contents from './contents';
-import AddColumnMenu from './add-column-menu';
+import AddColumnMenu from '../containers/add-column-menu';
 import TweetWindow from './tweet-window';
 import bem from '../lib/bem';
 
@@ -84,12 +84,7 @@ export default class Tsukiakari extends Component {
           deleteRequest={this.deleteRequest}
           {...tweetActions}
         />
-        <AddColumnMenu
-          accounts={accounts}
-          isOpen={isAddColumnMenuOpen}
-          close={closeAddColumnMenu}
-          onCreate={this.onCreate}
-        />
+        <AddColumnMenu onCreate={this.onCreate} />
         <Lightbox
           images={images}
           isOpen={isLightBoxOpen}
