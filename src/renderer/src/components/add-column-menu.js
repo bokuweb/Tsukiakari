@@ -1,6 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import ItemSelector from './item-selector';
 import AccountSelector from './account-selector';
+import B from '../lib/bem';
+
+const b = B.with('add-column-menu');
 
 const defaultItems = [
   {
@@ -96,14 +99,14 @@ export default class AddColumnMenu extends Component {
 
   render() {
     const wrapperClass = this.props.isOpen
-            ? 'add-column-menu add-column-menu--is-open'
-            : 'add-column-menu';
+            ? b('', { 'is-open': true })
+            : b();
     return (
       <div className={wrapperClass}>
-        <div className="add-column-menu__header" >
-          <i className="add-column-menu__icon--header lnr lnr-cog" />
-          <span className="add-column-menu__title">Add new column</span>
-          <i className="add-column-menu__icon--close lnr lnr-cross" onClick={this.props.close} />
+        <div className={b('header')} >
+          <i className={`${b('icon', { header: true })} lnr lnr-cog`} />
+          <span className={b('title')}>Add new column</span>
+          <i className={`${b('icon', { close: true })} lnr lnr-cross`} onClick={this.props.close} />
         </div>
         {this.renderItemSelector()}
         {this.renderAccountSelector()}
