@@ -3,7 +3,7 @@ import Lightbox from 'react-images';
 import Accounts from './accounts';
 import Sidemenu from './sidemenu';
 import Contents from './contents';
-import AddColumnMenu from '../containers/add-column-menu';
+import AddColumnMenuContainer from '../containers/add-column-menu';
 import TweetWindow from './tweet-window';
 import bem from '../lib/bem';
 
@@ -20,17 +20,11 @@ export default class Tsukiakari extends Component {
 
   constructor(props) {
     super(props);
-    this.onCreate = ::this.onCreate;
     this.deleteRequest = ::this.deleteRequest;
   }
 
   componentWillMount() {
     this.props.actions.accounts.loadAccounts();
-  }
-
-  onCreate(account, type) {
-    this.props.actions.sidemenu.closeAddColumnMenu();
-    this.props.actions.column.addColumn(account, type);
   }
 
   deleteRequest(id, timerId) {
@@ -84,7 +78,7 @@ export default class Tsukiakari extends Component {
           deleteRequest={this.deleteRequest}
           {...tweetActions}
         />
-        <AddColumnMenu onCreate={this.onCreate} />
+        <AddColumnMenuContainer />
         <Lightbox
           images={images}
           isOpen={isLightBoxOpen}
