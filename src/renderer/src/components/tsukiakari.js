@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import Lightbox from 'react-images';
 import Accounts from './accounts';
 import Sidemenu from './sidemenu';
 import Contents from './contents';
-import AddColumnMenu from './add-column-menu';
+import AddColumnMenuContainer from '../containers/add-column-menu';
+import LightboxContainer from '../containers/lightbox';
 import TweetWindow from './tweet-window';
 import bem from '../lib/bem';
 
@@ -20,17 +20,11 @@ export default class Tsukiakari extends Component {
 
   constructor(props) {
     super(props);
-    this.onCreate = ::this.onCreate;
     this.deleteRequest = ::this.deleteRequest;
   }
 
   componentWillMount() {
     this.props.actions.accounts.loadAccounts();
-  }
-
-  onCreate(account, type) {
-    this.props.actions.sidemenu.closeAddColumnMenu();
-    this.props.actions.column.addColumn(account, type);
   }
 
   deleteRequest(id, timerId) {
@@ -43,7 +37,7 @@ export default class Tsukiakari extends Component {
       tweets: { timeline, columns },
       accounts: { accounts },
       sidemenu: { isAddColumnMenuOpen, isTweetWindowOpen, replyTweet, replyAccount },
-      lightbox: { isLightBoxOpen, images, currentImage },
+      lightbox: { isLightBoxOpen },
     } = this.props;
 
     const {
@@ -54,18 +48,14 @@ export default class Tsukiakari extends Component {
     } = actions.sidemenu;
 
     const tweetActions = actions.tweets;
-    const {
-      openLightBox,
-      closeLightBox,
-      showNextImage,
-      showPrevImage,
-    } = actions.lightbox;
+    const { openLightBox } = actions.lightbox;
 
     return (
       <div className={b(null, { blur: isLightBoxOpen })}>
         <Accounts
           accounts={accounts}
           addAccount={this.props.actions.accounts.addAccount}
+          removeAccount={this.props.actions.accounts.removeAccount}
         />
         <Sidemenu
           columns={columns}
@@ -83,21 +73,8 @@ export default class Tsukiakari extends Component {
           deleteRequest={this.deleteRequest}
           {...tweetActions}
         />
-        <AddColumnMenu
-          accounts={accounts}
-          isOpen={isAddColumnMenuOpen}
-          close={closeAddColumnMenu}
-          onCreate={this.onCreate}
-        />
-        <Lightbox
-          images={images}
-          isOpen={isLightBoxOpen}
-          showImageCount={false}
-          onClickPrev={showPrevImage}
-          onClickNext={showNextImage}
-          onClose={closeLightBox}
-          currentImage={currentImage}
-        />
+        <AddColumnMenuContainer />
+        <LightboxContainer showImageCount={false} />
         <TweetWindow
           isOpen={isTweetWindowOpen}
           accounts={accounts}

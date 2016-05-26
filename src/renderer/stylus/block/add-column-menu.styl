@@ -7,20 +7,19 @@
   width 260px
   top 0
   left 100%
-  transition margin 0.3s ease-out
+  transform translate3d(0, 0, 0)
+  transition transform 0.15s ease-out
   border-left solid 1px #e7eaec
+  box-shadow 0 6px 12px rgba(0,0,0,0.075)
 
   &--is-open
-    margin 0 0 0 -260px
-    transition margin 0.3s ease-out
+    transform translate3d(-260px, 0, 0)
+    transition transform 0.15s ease-out
 
   &__header
     border-bottom solid 1px #e7eaec
-    // tiborder-top solid 3px #e7eaec
     height 60px
     width 100%
-    // background #1cc09f
-    // color #fff
     position relative
 
   &__icon--header

@@ -26,7 +26,7 @@ export default class Accounts extends Component {
 
   renderAccounts() {
     return this.props.accounts.map(account => (
-      <Account account={account} key={account.id} />
+      <Account account={account} key={account.id} removeAccount={this.props.removeAccount} />
     ));
   }
 

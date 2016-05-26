@@ -5,6 +5,8 @@ import TweetItemFooter from './tweetitem-footer';
 import { link } from 'autolinker';
 import { htmlEscape } from 'twitter-text';
 import { default as Video, Controls, Play, Mute, Seek, Time, Overlay } from 'react-html5video';
+import Tooltip from 'rc-tooltip';
+import AccountTooltip from './account-tooltip';
 
 const b = B.with('tweetitem');
 
@@ -17,6 +19,16 @@ export default class TweetItem extends Component {
     reply: PropTypes.func,
     openLightBox: PropTypes.func,
   };
+
+  constructor(props) {
+    super(props);
+    this.state = { destroyTooltip: false };
+    this.onAccountClick = ::this.onAccountClick;
+  }
+
+  onAccountClick() {
+    
+  }
 
   onImageClick(index) {
     const entities = this.props.tweet.extended_entities;
@@ -196,11 +208,34 @@ export default class TweetItem extends Component {
   renderTweet(tweet, user, text) {
     return (
       <div className={b('body')}>
-        <div className={b('wrapper', { avatar: true })}>
-          <img
-            className={b('image', { avatar: true })}
-            src={user.profile_image_url}
-          />
+        <div
+          onMouseOver={() => this.setState({ destroyTooltip: false })}
+          onMouseLeave={() => this.setState({ destroyTooltip: true })}
+          className={b('wrapper', { avatar: true })}
+        >
+          <Tooltip
+            trigger="hover"
+            overlay={
+              <AccountTooltip
+                account={user}
+                buttonText={user.following ? 'Unfollow' : 'Follow'}
+                onButtonClick={this.removeAccount}
+              />
+            }
+            destroyTooltipOnHide={this.state.destroyTooltip}
+            placement="right"
+            mouseLeaveDelay={0}
+            overlayStyle={{
+              position: 'absolute',
+              left: '50px',
+              zIndex: '9999',
+            }}
+          >
+            <img
+              className={b('image', { avatar: true })}
+              src={user.profile_image_url}
+            />
+          </Tooltip>
         </div>
         <div className={b('wrapper', { text: true })}>
           {this.renderUser(user.name, user.screen_name)}

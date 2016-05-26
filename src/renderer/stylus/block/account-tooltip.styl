@@ -2,11 +2,15 @@
   background #fff
   width 240px
   height auto
-  position absolute
+  //position absolute
   border-radius 3px
-  left 56px
-  top -20px
-  padding 0 0 10px
+  //left 56px
+  //top -20px
+  padding 0 0 14px
+  animation-duration 0.2s
+  animation-fill-mode both  
+  animation-name fadeInZoom
+  box-shadow: 0 6px 12px rgba(0,0,0,0.175)
 
   &__background
     width 100%
@@ -18,16 +22,23 @@
     width 36px
     height auto
     position absolute
-    top 70px
+    top 74px
     left 10px
     border-radius 3px
     border solid 1px #fff
+    background #fff
+
+  &__header
+    padding 0 0 0px 54px
+    display flex
 
   &__name-wrapper
-    padding 0 0 0px 54px
+    width 112px
+    padding 3px 0 0 5px
+
 
   &__name
-    font-size 11px
+    font-size 10px
     line-height 11px
     margin 5px 0 0 0
     padding 0
@@ -39,6 +50,13 @@
     margin 0
     padding 0
 
+  &__button
+    height 28px
+    margin 4px 0 0 0
+    font-size 11px
+    line-height 20px
+    width 65px
+                      
   &__status
     justify-content center
     display flex
@@ -48,6 +66,7 @@
       width 30%
       margin 2px
       color #95A5A6
+      text-align center
 
    &__status-header
       color #95A5A6
