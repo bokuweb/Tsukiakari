@@ -8,18 +8,14 @@ export default class AccountList extends Component {
   static propTypes = {
     onSelect: PropTypes.func,
     accounts: PropTypes.array,
+    selectedAccount: PropTypes.object,
   };
 
   static defaultProps = {
     onSelect: () => null,
     accounts: [],
-  }
-
-  constructor(props) {
-    super(props);
-    this.state = { selectedAccount: props.accounts[0] || {} };
-    this.onSelect = ::this.onSelect;
-  }
+    selectedAccount: {},
+  };
 
   onSelect(account) {
     this.props.onSelect(account);
@@ -34,7 +30,12 @@ export default class AccountList extends Component {
           <img
             src={account.profile_image_url}
             className={b('avatar')}
-            style={account.id === this.state.selectedAccount.id ? { border: 'solid 1px red' } : {}}
+            onClick={onClick}
+            style={
+              account.id === this.props.selectedAccount.id
+                ? { border: 'solid 2px #BDC3C7', opacity: 1 }
+                : {}
+              }
           />
         </div>
       );

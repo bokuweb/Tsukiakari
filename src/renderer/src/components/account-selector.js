@@ -44,7 +44,11 @@ export default class AccountSelector extends Component {
           <span className={b('title')}>Choose account</span>
         </div>
         <div className={b('accounts')}>
-          <AccountList accounts={this.props.accounts} />
+          <AccountList
+            accounts={this.props.accounts}
+            selectedAccount={this.state.selectedAccount}
+            onSelect={account => this.setState({ selectedAccount: account })}
+          />
         </div>
         <div className={b('buttons')}>
           <Button
