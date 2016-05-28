@@ -30,7 +30,6 @@ export default class AccountList extends Component {
           <img
             src={account.profile_image_url}
             className={b('avatar')}
-            onClick={onClick}
             style={
               account.id === this.props.selectedAccount.id
                 ? { border: 'solid 2px #BDC3C7', opacity: 1 }

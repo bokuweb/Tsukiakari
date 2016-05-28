@@ -19,14 +19,14 @@ export default class AccountSelector extends Component {
 
   constructor(props) {
     super(props);
-    // FIXME: use first instead of index 0
+    // FIXME: 
     this.state = { selectedAccount: props.accounts[0] };
     this.onSelect = ::this.onSelect;
   }
 
   componentWillReceiveProps(next) {
     if (isEmpty(this.props.accounts) && !isEmpty(next.accounts)) {
-      // FIXME: use first instead of index
+      // FIXME: 
       this.setState({ selectedAccount: next.accounts[0] });
       this.onSelect(next.accounts[0]);
     }
