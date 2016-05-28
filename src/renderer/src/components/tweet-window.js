@@ -67,8 +67,17 @@ export default class TweetWindow extends Component {
     }
   }
 
+  renderAccount() {
+    if (this.props.accounts.length === 0) return <i className="fa fa-spin fa-spinner" />;
+    return (
+      <img
+        src={this.props.accounts[0].profile_image_url}
+        className={b('avatar')}
+      />
+    );
+  }
+
   render() {
-    console.timeEnd('close');
     return (
       <div
         style={
@@ -109,11 +118,7 @@ export default class TweetWindow extends Component {
             />
           </div>
           <div className={b('body')}>
-            {
-              this.props.accounts.length === 0
-                ? <div>loading</div>
-                : <AccountList accounts={this.props.accounts} />
-            }
+            { this.renderAccount() }
             <div className={b('textarea-wrapper')}>
               <textarea
                 onChange={this.onChange}
