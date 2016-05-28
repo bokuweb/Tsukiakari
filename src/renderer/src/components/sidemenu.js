@@ -47,7 +47,12 @@ export default class Sidemenu extends Component {
     return this.props.columns.map(column => (
       <li className={b('list')} key={column.id}>
         <i className={`${b('icon')} ${column.icon}`} />
-        <span className={b('text', { list: true })}>{column.title}</span>
+        <span className={b('text', { list: true })}>
+          {column.title}
+          <span className={b('text', { name: true })}>
+            @{column.contents[0].account.screen_name}
+          </span>
+        </span>
       </li>
     ));
   }
