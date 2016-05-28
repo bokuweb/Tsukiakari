@@ -8,9 +8,9 @@ import { normalize, Schema } from 'normalizr';
 import { ipcRenderer } from 'electron';
 
 // FIXME:
-ipcRenderer.on('suspend', () => console.log('suspend'));
+//ipcRenderer.on('suspend', () => console.log('suspend'));
 
-ipcRenderer.on('resume', () => console.log('resume'));
+//ipcRenderer.on('resume', () => console.log('resume'));
 
 const tweetSchema = new Schema('tweets', { idAttribute: 'id_str' });
 
@@ -39,6 +39,19 @@ const subscribe = (stream, account) => (
       stream.destroy();
       emit(actions.connectStream({ account, error }));
     });
+
+    ipcRenderer.once('suspend', () => {
+      console.log('suspend');
+      stream.removeAllListeners('data');
+      stream.removeAllListeners('error');
+      stream.destroy();
+      console.log('stream destroied');
+    });
+
+    ipcRenderer.once('resume', () => {
+      console.log('resume!!');
+      emit(actions.connectStream({ account }));
+    });
   })
 );
 
@@ -52,8 +65,13 @@ function connectUserStream({ accessToken, accessTokenSecret }) {
 }
 
 function* connectStream(account) {
-  const stream = yield connectUserStream(account);
-  const channel = yield call(subscribe, stream, account);
+  let channel;
+  try {
+    const stream = yield connectUserStream(account);
+    channel = yield call(subscribe, stream, account);
+  } catch (error) {
+    console.log(error);
+  }
   while (true) {
     const action = yield take(channel);
     yield put(action);
@@ -63,7 +81,8 @@ function* connectStream(account) {
 function* watchConnect() {
   const connection = {};
   while (true) {
-    const { payload: { account } } = yield take('ADD_COLUMN');
+    // FIXME: 
+    const { payload: { account } } = yield take('CONNECT_STREAM');
     if (connection[account.id]) yield cancel(connection[account.id]);
     connection[account.id] = yield fork(connectStream, account);
   }

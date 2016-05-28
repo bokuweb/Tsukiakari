@@ -4,6 +4,7 @@ import { eventChannel } from 'redux-saga';
 import { take, fork, put } from 'redux-saga/effects';
 import { ipcRenderer } from 'electron';
 import { updateAccounts } from '../actions/accounts';
+import { connectStream } from '../actions/tweets';
 
 const subscribe = () => (
   eventChannel(emit => {
@@ -12,6 +13,9 @@ const subscribe = () => (
     });
     ipcRenderer.on('authenticate-request-reply', (event, accounts) => {
       emit(updateAccounts({ accounts }));
+    });
+    ipcRenderer.on('accounts-request-reply', (_, accounts) => {
+      emit(connectStream({ account: accounts[0] }));
     });
     return () => {};
   })
