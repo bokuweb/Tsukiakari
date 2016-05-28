@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ReactList from 'react-list';
 import TweetItem from './tweetitem';
+import Spinner from './spinner';
 import B from '../lib/bem';
 
 const b = B.with('timeline');
@@ -89,13 +90,19 @@ export default class Timeline extends Component {
           className={b('infinite')}
           ref="scroll"
         >
-          <ReactList
-            itemRenderer={::this.renderItems}
-            length={this.props.results.length}
-            type="variable"
-            pageSize={20}
-            useTranslate3d
-          />
+          {
+            this.props.results.length === 0
+              ? <Spinner style={{ padding: '50px 0 0 20px' }} />
+              : (
+                  <ReactList
+                    itemRenderer={::this.renderItems}
+                    length={this.props.results.length}
+                    type="variable"
+                    pageSize={20}
+                    useTranslate3d
+                  />
+              )
+          }
         </div>
       </div>
     );

@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
+import { isEmpty } from 'lodash';
 import B from '../lib/bem';
 import ResizableAndMovable from 'react-resizable-and-movable';
+import Tooltip from 'rc-tooltip';
 import AccountList from './account-list';
 import { Button } from 'react-bulma';
 
@@ -22,6 +24,7 @@ export default class TweetWindow extends Component {
     accounts: PropTypes.array,
     close: PropTypes.func,
     post: PropTypes.func,
+    replyTweet: PropTypes.object,
   };
 
   static defaultProps = {
@@ -29,6 +32,7 @@ export default class TweetWindow extends Component {
     accounts: [],
     close: () => null,
     post: () => null,
+    replyTweet: {},
   };
 
   constructor(props) {
@@ -37,38 +41,84 @@ export default class TweetWindow extends Component {
       width: 380,
       height: 180,
       status: '',
+      destroyTooltip: false,
+      selectedAccount: props.accounts[0],
     };
     this.onResize = ::this.onResize;
+    this.onDrag = ::this.onDrag;
     this.onClick = ::this.onClick;
     this.onChange = ::this.onChange;
+    this.onAccountSelect = ::this.onAccountSelect;
   }
 
-  onSelect() {
+  componentWillReceiveProps(nextProps) {
+    if (isEmpty(this.props.accounts) && !isEmpty(nextProps.accounts)) {
+      // FIXME:
+      this.setState({ selectedAccount: nextProps.accounts[0] });
+    }
+    if (nextProps.replyTweet.id_str !== this.props.replyTweet.id_str) {
+      this.setState({ status: `@${nextProps.replyTweet.user.screen_name}` });
+    }
+  }
 
+  onDrag() {
+    this.setState({ destroyTooltip: true });
+  }
+
+  onAccountSelect(account) {
+    this.setState({ selectedAccount: account, destroyTooltip: true });
   }
 
   onResize(_, size) {
-    this.setState({ height: size.height });
+    this.setState({ height: size.height, destroyTooltip: true });
   }
 
   onClick() {
-    // FIXME: select account
+    this.props.post(this.state.selectedAccount, this.state.status, this.props.replyTweet);
     this.setState({ status: '' });
-    this.props.post(this.props.accounts[0], this.state.status, this.props.replyTweet);
   }
 
   onChange({ target: { value } }) {
     this.setState({ status: value });
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.replyTweet.id_str !== this.props.replyTweet.id_str) {
-      this.setState({ status: `@${nextProps.replyTweet.user.screen_name}` });
-    }
+  renderAvatar() {
+    if (!this.state.selectedAccount) return <i className="fa fa-spinner fa-spin" />;
+    return (
+      <img
+        src={this.state.selectedAccount.profile_image_url}
+        className={b('avatar')}
+      />
+    );
+  }
+
+  renderAccount() {
+    if (this.props.accounts.length === 0) return <i className="fa fa-spin fa-spinner" />;
+    return (
+      <Tooltip
+        trigger="click"
+        overlay={
+          <AccountList
+            accounts={this.props.accounts}
+            selectedAccount={this.state.selectedAccount}
+            onSelect={this.onAccountSelect}
+          />
+        }
+        destroyTooltipOnHide={this.state.destroyTooltip}
+        placement="bottom"
+        mouseLeaveDelay={0}
+        overlayStyle={{
+          position: 'absolute',
+          left: '50px',
+          zIndex: '9999',
+        }}
+      >
+        {this.renderAvatar()}
+      </Tooltip>
+    );
   }
 
   render() {
-    console.timeEnd('close');
     return (
       <div
         style={
@@ -97,6 +147,7 @@ export default class TweetWindow extends Component {
           bounds="parent"
           className={b()}
           onResize={this.onResize}
+          onDrag={this.onDrag}
         >
           <div className={b('title-wrapper')}>
             <span className={b('title')}>
@@ -109,11 +160,7 @@ export default class TweetWindow extends Component {
             />
           </div>
           <div className={b('body')}>
-            {
-              this.props.accounts.length === 0
-                ? <div>loading</div>
-                : <AccountList accounts={this.props.accounts} />
-            }
+            { this.renderAccount() }
             <div className={b('textarea-wrapper')}>
               <textarea
                 onChange={this.onChange}
