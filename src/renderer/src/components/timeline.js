@@ -92,7 +92,7 @@ export default class Timeline extends Component {
         >
           {
             this.props.results.length === 0
-              ? <Spinner style={{ padding: '50px 0 0 0' }} />
+              ? <Spinner style={{ padding: '50px 0 0 20px' }} />
               : (
                   <ReactList
                     itemRenderer={::this.renderItems}
