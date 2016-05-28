@@ -39,7 +39,7 @@ export default class AccountSelector extends Component {
   render() {
     return (
       <div className={b()}>
-        <div className={b('title_wrapper')}>
+        <div className={b('title-wrapper')}>
           <i className={`${b('icon', { users: true })} lnr lnr-users`} />
           <span className={b('title')}>Choose account</span>
         </div>

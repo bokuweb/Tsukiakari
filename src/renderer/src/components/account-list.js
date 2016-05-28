@@ -43,7 +43,7 @@ export default class AccountList extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{ display: 'flex' }}>
         {this.renderAccounts()}
       </div>
     );
