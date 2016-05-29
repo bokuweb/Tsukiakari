@@ -12,24 +12,19 @@ const b = bem.with('tsukiakari');
 
 export default class Tsukiakari extends Component {
   static propTypes = {
-    actions: PropTypes.object.isRequired,
-    accounts: PropTypes.object,
-    lightbox: PropTypes.object,
+    loadAccounts: PropTypes.func.isRequired,
+    isLightBoxOpen: PropTypes.bool,
+    accountLength: PropTypes.number,
   };
 
   componentWillMount() {
-    this.props.actions.accounts.loadAccounts();
+    this.props.loadAccounts();
   }
 
   render() {
-    const {
-      accounts: { accounts },
-      lightbox: { isLightBoxOpen },
-    } = this.props;
-
-    if (accounts.length === 0) return <Spinner style={{ padding: '20p% 0 0 0' }} />;
+    if (this.props.accountLength === 0) return <Spinner style={{ padding: '20p% 0 0 0' }} />;
     return (
-      <div className={b(null, { blur: isLightBoxOpen })}>
+      <div className={b(null, { blur: this.props.isLightBoxOpen })}>
         <AccountsContainer />
         <SidemenuContainer />
         <ContentsContainer />
