@@ -22,7 +22,7 @@ export default class Tsukiakari extends Component {
   }
 
   render() {
-    if (this.props.accountLength === 0) return <Spinner style={{ padding: '30% 0 0 0' }} />;
+    if (this.props.accountLength === 0) return <Spinner style={{ padding: '10% 0 0 80px' }} />;
     return (
       <div className={b(null, { blur: this.props.isLightBoxOpen })}>
         <AccountsContainer />
