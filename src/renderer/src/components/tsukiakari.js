@@ -62,6 +62,7 @@ export default class Tsukiakari extends Component {
           openAddColumnMenu={openAddColumnMenu}
           closeAddColumnMenu={closeAddColumnMenu}
           isAddColumnMenuOpen={isAddColumnMenuOpen}
+          isTweetWindowOpen={isTweetWindowOpen}
           openTweetWindow={openTweetWindow}
         />
         <Contents

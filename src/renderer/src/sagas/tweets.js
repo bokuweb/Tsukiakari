@@ -7,11 +7,6 @@ import * as actions from '../actions/tweets';
 import { normalize, Schema } from 'normalizr';
 import { ipcRenderer } from 'electron';
 
-// FIXME:
-//ipcRenderer.on('suspend', () => console.log('suspend'));
-
-//ipcRenderer.on('resume', () => console.log('resume'));
-
 const tweetSchema = new Schema('tweets', { idAttribute: 'id_str' });
 
 const subscribe = (stream, account) => (
@@ -44,13 +39,18 @@ const subscribe = (stream, account) => (
       console.log('suspend');
       stream.removeAllListeners('data');
       stream.removeAllListeners('error');
+      stream.removeAllListeners('end');
       stream.destroy();
       console.log('stream destroied');
     });
 
     ipcRenderer.once('resume', () => {
       console.log('resume!!');
-      emit(actions.connectStream({ account }));
+      const id = setInterval(() => {
+        if (!navigator.onLine) return;
+        clearInterval(id);
+        emit(actions.connectStream({ account }));
+      }, 1000);
     });
   })
 );
