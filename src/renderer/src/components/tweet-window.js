@@ -53,12 +53,16 @@ export default class TweetWindow extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    // FIXME:
     if (isEmpty(this.props.accounts) && !isEmpty(nextProps.accounts)) {
       // FIXME:
       this.setState({ selectedAccount: nextProps.accounts[0] });
     }
     if (nextProps.replyTweet.id_str !== this.props.replyTweet.id_str) {
       this.setState({ status: `@${nextProps.replyTweet.user.screen_name}` });
+    }
+    if (nextProps.isOpen !== this.props.isOpen) {
+      this.setState({ destroyTooltip: true });
     }
   }
 
