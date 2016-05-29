@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import { isEmpty } from 'lodash';
 import B from '../lib/bem';
 import ResizableAndMovable from 'react-resizable-and-movable';
 import Tooltip from 'rc-tooltip';
@@ -45,6 +44,7 @@ export default class TweetWindow extends Component {
       selectedAccount: props.accounts[0],
     };
     this.onResize = ::this.onResize;
+    this.close = ::this.close;
     this.onDrag = ::this.onDrag;
     this.onClick = ::this.onClick;
     this.onChange = ::this.onChange;
@@ -52,12 +52,11 @@ export default class TweetWindow extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (isEmpty(this.props.accounts) && !isEmpty(nextProps.accounts)) {
-      // FIXME:
-      this.setState({ selectedAccount: nextProps.accounts[0] });
-    }
     if (nextProps.replyTweet.id_str !== this.props.replyTweet.id_str) {
       this.setState({ status: `@${nextProps.replyTweet.user.screen_name}` });
+    }
+    if (nextProps.isOpen !== this.props.isOpen) {
+      this.setState({ destroyTooltip: true });
     }
   }
 
@@ -75,15 +74,21 @@ export default class TweetWindow extends Component {
 
   onClick() {
     this.props.post(this.state.selectedAccount, this.state.status, this.props.replyTweet);
-    this.setState({ status: '' });
+    this.setState({ status: '', destroyTooltip: true });
   }
 
   onChange({ target: { value } }) {
     this.setState({ status: value });
   }
 
+  close() {
+    this.props.close();
+    this.setState({ destroyTooltip: true });
+  }
+
   renderAvatar() {
-    if (!this.state.selectedAccount) return <i className="fa fa-spinner fa-spin" />;
+    // TODO:
+    if (!this.state.selectedAccount) return <span>loading</span>;
     return (
       <img
         src={this.state.selectedAccount.profile_image_url}
@@ -98,17 +103,20 @@ export default class TweetWindow extends Component {
       <Tooltip
         trigger="click"
         overlay={
-          <AccountList
-            accounts={this.props.accounts}
-            selectedAccount={this.state.selectedAccount}
-            onSelect={this.onAccountSelect}
-          />
+          <div className={b('tooltip')}>
+            <AccountList
+              accounts={this.props.accounts}
+              selectedAccount={this.state.selectedAccount}
+              onSelect={this.onAccountSelect}
+            />
+          </div>
         }
         destroyTooltipOnHide={this.state.destroyTooltip}
         placement="bottom"
         mouseLeaveDelay={0}
         overlayStyle={{
           position: 'absolute',
+          top: '5px',
           left: '50px',
           zIndex: '9999',
         }}
@@ -156,7 +164,7 @@ export default class TweetWindow extends Component {
             </span>
             <i
               className={`${b('icon')} lnr lnr-cross`}
-              onClick={this.props.close}
+              onClick={this.close}
             />
           </div>
           <div className={b('body')}>
@@ -172,7 +180,11 @@ export default class TweetWindow extends Component {
               />
               <Button
                 onClick={this.onClick}
-                style={{ margin: '10px 14px 0 auto', width: '80px', display: 'block' }}
+                style={{
+                  margin: '10px 14px 0 auto',
+                  width: '80px',
+                  display: 'block',
+                }}
               >
                 <i className="icon-tweet" /> Tweet
               </Button>

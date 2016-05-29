@@ -1,23 +1,22 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Tsukiakari from '../components/tsukiakari';
+import Accounts from '../components/accounts';
 import * as accounts from '../actions/accounts';
 
 function mapStateToProps(state) {
   return {
-    accountLength: state.accounts.accounts.length,
-    isLightBoxOpen: state.lightbox.isLightBoxOpen,
+    accounts: state.accounts.accounts,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    loadAccounts: bindActionCreators(accounts.loadAccounts, dispatch),
+    addAccount: bindActionCreators(accounts.addAccount, dispatch),
+    removeAccount: bindActionCreators(accounts.removeAccount, dispatch),
   };
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Tsukiakari);
-
+)(Accounts);

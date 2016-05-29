@@ -8,8 +8,10 @@ export default class Sidemenu extends Component {
     openAddColumnMenu: PropTypes.func,
     closeAddColumnMenu: PropTypes.func,
     isAddColumnMenuOpen: PropTypes.bool,
+    isTweetWindowOpen: PropTypes.bool,
     columns: PropTypes.array,
     openTweetWindow: PropTypes.func,
+    closeTweetWindow: PropTypes.func,
   };
 
   static defaultProps = {
@@ -28,6 +30,14 @@ export default class Sidemenu extends Component {
       this.props.closeAddColumnMenu();
     } else {
       this.props.openAddColumnMenu();
+    }
+  }
+
+  onTweetButtonClick() {
+    if (this.props.isTweetWindowOpen) {
+      this.props.closeTweetWindow();
+    } else {
+      this.props.openTweetWindow();
     }
   }
 
@@ -57,6 +67,22 @@ export default class Sidemenu extends Component {
     ));
   }
 
+  renderTweetButtonText() {
+    if (this.props.isTweetWindowOpen) {
+      return (
+        <div>
+          <i className={`${b('icon')} lnr lnr-cross`} />
+          <span className={b('text', { newtweet: true })}>Close window</span>
+        </div>
+      );
+    }
+    return (
+      <div>
+        <i className={`${b('icon')} icon-tweet`} />
+        <span className={b('text', { newtweet: true })}>New tweet</span>
+      </div>
+    );
+  }
   render() {
     return (
       <div className={b()}>
@@ -71,10 +97,9 @@ export default class Sidemenu extends Component {
         </div>
         <div
           className={b('button', { newtweet: true })}
-          onClick={this.props.openTweetWindow}
+          onClick={::this.onTweetButtonClick}
         >
-          <i className={`${b('icon')} icon-tweet`} />
-          <span className={b('text', { newtweet: true })}>New Tweet</span>
+          {this.renderTweetButtonText()}
         </div>
       </div>
     );
