@@ -75,7 +75,7 @@ export default class TweetWindow extends Component {
 
   onClick() {
     this.props.post(this.state.selectedAccount, this.state.status, this.props.replyTweet);
-    this.setState({ status: '' });
+    this.setState({ status: '', destroyTooltip: true });
   }
 
   onChange({ target: { value } }) {

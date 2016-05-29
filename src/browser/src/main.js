@@ -10,12 +10,19 @@ app.on('window-all-closed', () => {
 });
 
 app.on('ready', () => {
-  console.log(app.getPath('userData'));
   let accounts = [];
   global.consumerKey = 'njiDlWzzRl1ReomcCmvhbarN7';
   global.consumerSecret = 'rTOSMuY11adXXUxHHTlcNRWRZsutORnvgAl9eojb19Y77Ub78M';
   const accountFilePath = `${app.getPath('userData')}/accounts.json`;
+
+  try {
+    accounts = jsonfile.readFileSync(accountFilePath);
+  } catch (e) {
+    console.log(e);
+  }
+
   const loadMainWindow = () => {
+    mainWindow.accounts = accounts;
     mainWindow = new BrowserWindow({
       minWidth: 640,
       minHeight: 400,
@@ -29,12 +36,6 @@ app.on('ready', () => {
     mainWindow.loadURL(`file://${__dirname}/../../renderer/index.html`);
     mainWindow.webContents.openDevTools();
   };
-
-  try {
-    accounts = jsonfile.readFileSync(accountFilePath);
-  } catch (e) {
-    console.log(e);
-  }
 
   const authenticate = () => new Promise((resolve, reject) => {
     const auth = new Auth();
