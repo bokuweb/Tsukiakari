@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import B from '../lib/bem';
+import { isEqual } from 'lodash';
 import { decodeHtml } from '../utils/utils';
 import TweetItemFooter from './tweetitem-footer';
 import { link } from 'autolinker';
@@ -24,6 +25,10 @@ export default class TweetItem extends Component {
     super(props);
     this.state = { destroyTooltip: false };
     this.onAccountClick = ::this.onAccountClick;
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return !isEqual(nextProps.tweet, this.props.tweet) || nextState.destroyTooltip;
   }
 
   onAccountClick() {
