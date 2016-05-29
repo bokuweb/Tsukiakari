@@ -1,9 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import Accounts from './accounts';
-import Sidemenu from './sidemenu';
+
 import Contents from './contents';
 import AddColumnMenuContainer from '../containers/add-column-menu';
 import LightboxContainer from '../containers/lightbox';
+import SidemenuContainer from '../containers/sidemenu';
 import TweetWindow from './tweet-window';
 import bem from '../lib/bem';
 
@@ -36,14 +37,12 @@ export default class Tsukiakari extends Component {
       actions,
       tweets: { timeline, columns },
       accounts: { accounts },
-      sidemenu: { isAddColumnMenuOpen, isTweetWindowOpen, replyTweet, replyAccount },
+      sidemenu: { isTweetWindowOpen, replyTweet, replyAccount },
       lightbox: { isLightBoxOpen },
     } = this.props;
 
     const {
       openAddColumnMenu,
-      closeAddColumnMenu,
-      openTweetWindow,
       closeTweetWindow,
     } = actions.sidemenu;
 
@@ -57,14 +56,7 @@ export default class Tsukiakari extends Component {
           addAccount={this.props.actions.accounts.addAccount}
           removeAccount={this.props.actions.accounts.removeAccount}
         />
-        <Sidemenu
-          columns={columns}
-          openAddColumnMenu={openAddColumnMenu}
-          closeAddColumnMenu={closeAddColumnMenu}
-          isAddColumnMenuOpen={isAddColumnMenuOpen}
-          isTweetWindowOpen={isTweetWindowOpen}
-          openTweetWindow={openTweetWindow}
-        />
+        <SidemenuContainer />
         <Contents
           accounts={accounts}
           columns={columns}
