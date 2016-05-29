@@ -29,7 +29,10 @@ export default class Tsukiakari extends Component {
         <SidemenuContainer />
         <ContentsContainer />
         <AddColumnMenuContainer />
-        <LightboxContainer showImageCount={false} />
+        <LightboxContainer
+          showImageCount={false}
+          backdropClosesModal
+        />
         <TweetWindowContainer />
       </div>
     );
