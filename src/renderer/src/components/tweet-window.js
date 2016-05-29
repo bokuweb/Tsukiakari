@@ -45,6 +45,7 @@ export default class TweetWindow extends Component {
       selectedAccount: props.accounts[0],
     };
     this.onResize = ::this.onResize;
+    this.close = ::this.close;
     this.onDrag = ::this.onDrag;
     this.onClick = ::this.onClick;
     this.onChange = ::this.onChange;
@@ -82,6 +83,11 @@ export default class TweetWindow extends Component {
     this.setState({ status: value });
   }
 
+  close() {
+    this.props.close();
+    this.setState({ destroyTooltip: true });
+  }
+  
   renderAvatar() {
     // TODO:
     if (!this.state.selectedAccount) return <span>loading</span>;
@@ -160,7 +166,7 @@ export default class TweetWindow extends Component {
             </span>
             <i
               className={`${b('icon')} lnr lnr-cross`}
-              onClick={this.props.close}
+              onClick={this.close}
             />
           </div>
           <div className={b('body')}>

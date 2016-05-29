@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import Accounts from './accounts';
-
+import AccountsContainer from '../containers/accounts';
 import Contents from './contents';
 import AddColumnMenuContainer from '../containers/add-column-menu';
 import LightboxContainer from '../containers/lightbox';
@@ -51,11 +50,7 @@ export default class Tsukiakari extends Component {
 
     return (
       <div className={b(null, { blur: isLightBoxOpen })}>
-        <Accounts
-          accounts={accounts}
-          addAccount={this.props.actions.accounts.addAccount}
-          removeAccount={this.props.actions.accounts.removeAccount}
-        />
+        <AccountsContainer />
         <SidemenuContainer />
         <Contents
           accounts={accounts}
