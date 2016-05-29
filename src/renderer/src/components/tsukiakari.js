@@ -48,6 +48,7 @@ export default class Tsukiakari extends Component {
     const tweetActions = actions.tweets;
     const { openLightBox } = actions.lightbox;
 
+    if (accounts.length === 0) return null;
     return (
       <div className={b(null, { blur: isLightBoxOpen })}>
         <AccountsContainer />

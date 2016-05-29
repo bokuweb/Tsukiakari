@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import { isEmpty } from 'lodash';
 import B from '../lib/bem';
 import ResizableAndMovable from 'react-resizable-and-movable';
 import Tooltip from 'rc-tooltip';
@@ -53,11 +52,6 @@ export default class TweetWindow extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // FIXME:
-    if (isEmpty(this.props.accounts) && !isEmpty(nextProps.accounts)) {
-      // FIXME:
-      this.setState({ selectedAccount: nextProps.accounts[0] });
-    }
     if (nextProps.replyTweet.id_str !== this.props.replyTweet.id_str) {
       this.setState({ status: `@${nextProps.replyTweet.user.screen_name}` });
     }

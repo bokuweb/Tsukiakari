@@ -22,7 +22,6 @@ app.on('ready', () => {
   }
 
   const loadMainWindow = () => {
-    mainWindow.accounts = accounts;
     mainWindow = new BrowserWindow({
       minWidth: 640,
       minHeight: 400,
