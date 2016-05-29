@@ -87,7 +87,7 @@ export default class TweetWindow extends Component {
     this.props.close();
     this.setState({ destroyTooltip: true });
   }
-  
+
   renderAvatar() {
     // TODO:
     if (!this.state.selectedAccount) return <span>loading</span>;

@@ -16,6 +16,7 @@ function mapDispatchToProps(dispatch) {
     openAddColumnMenu: bindActionCreators(sidemenu.openAddColumnMenu, dispatch),
     closeAddColumnMenu: bindActionCreators(sidemenu.closeAddColumnMenu, dispatch),
     openTweetWindow: bindActionCreators(sidemenu.openTweetWindow, dispatch),
+    closeTweetWindow: bindActionCreators(sidemenu.closeTweetWindow, dispatch),
   };
 }
 
