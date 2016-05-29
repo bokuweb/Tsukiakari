@@ -4,7 +4,7 @@ import Contents from './contents';
 import AddColumnMenuContainer from '../containers/add-column-menu';
 import LightboxContainer from '../containers/lightbox';
 import SidemenuContainer from '../containers/sidemenu';
-import TweetWindow from './tweet-window';
+import TweetWindowContainer from '../containers/tweet-window';
 import bem from '../lib/bem';
 
 const b = bem.with('tsukiakari');
@@ -36,13 +36,11 @@ export default class Tsukiakari extends Component {
       actions,
       tweets: { timeline, columns },
       accounts: { accounts },
-      sidemenu: { isTweetWindowOpen, replyTweet, replyAccount },
       lightbox: { isLightBoxOpen },
     } = this.props;
 
     const {
       openAddColumnMenu,
-      closeTweetWindow,
     } = actions.sidemenu;
 
     const tweetActions = actions.tweets;
@@ -64,14 +62,7 @@ export default class Tsukiakari extends Component {
         />
         <AddColumnMenuContainer />
         <LightboxContainer showImageCount={false} />
-        <TweetWindow
-          isOpen={isTweetWindowOpen}
-          accounts={accounts}
-          post={tweetActions.postTweet}
-          close={closeTweetWindow}
-          replyTweet={replyTweet}
-          replyAccount={replyAccount}
-        />
+        <TweetWindowContainer />
       </div>
     );
   }

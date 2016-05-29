@@ -66,6 +66,7 @@
     "immutable": "^3.8.1",
     "jsonfile": "^2.2.3",
     "lodash": "^3.10.1",
+    "loglevel": "^1.4.0",
     "moment": "^2.13.0",
     "node-twitter-api": "^1.6.3",
     "normalizr": "^2.0.2",
