@@ -5,6 +5,7 @@ import AddColumnMenuContainer from '../containers/add-column-menu';
 import LightboxContainer from '../containers/lightbox';
 import SidemenuContainer from '../containers/sidemenu';
 import TweetWindowContainer from '../containers/tweet-window';
+import Spinner from './spinner';
 import bem from '../lib/bem';
 
 const b = bem.with('tsukiakari');
@@ -18,17 +19,8 @@ export default class Tsukiakari extends Component {
     lightbox: PropTypes.object,
   };
 
-  constructor(props) {
-    super(props);
-    this.deleteRequest = ::this.deleteRequest;
-  }
-
   componentWillMount() {
     this.props.actions.accounts.loadAccounts();
-  }
-
-  deleteRequest(id, timerId) {
-    this.props.actions.column.deleteColumn(id, timerId);
   }
 
   render() {
@@ -46,7 +38,7 @@ export default class Tsukiakari extends Component {
     const tweetActions = actions.tweets;
     const { openLightBox } = actions.lightbox;
 
-    if (accounts.length === 0) return null;
+    if (accounts.length === 0) return <Spinner style={{ padding: '20p% 0 0 0' }} />;
     return (
       <div className={b(null, { blur: isLightBoxOpen })}>
         <AccountsContainer />
@@ -57,7 +49,7 @@ export default class Tsukiakari extends Component {
           timeline={timeline}
           openAddColumnMenu={openAddColumnMenu}
           openLightBox={openLightBox}
-          deleteRequest={this.deleteRequest}
+          deleteRequest={this.props.actions.column.deleteColumn}
           {...tweetActions}
         />
         <AddColumnMenuContainer />
