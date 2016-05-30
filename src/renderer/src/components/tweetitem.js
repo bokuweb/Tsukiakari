@@ -28,7 +28,10 @@ export default class TweetItem extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return !isEqual(nextProps.tweet, this.props.tweet) || nextState.destroyTooltip;
+    return nextProps.tweet.retweeted !== this.props.tweet.retweeted ||
+      nextProps.tweet.favorited !== this.props.tweet.favorited ||
+      nextProps.tweet.id_str !== this.props.tweet.id_str ||
+      nextState.destroyTooltip;
   }
 
   onAccountClick() {
@@ -229,7 +232,7 @@ export default class TweetItem extends Component {
             }
             destroyTooltipOnHide={this.state.destroyTooltip}
             placement="right"
-            mouseLeaveDelay={0}
+            mouseLeaveDelay={0.2}
             overlayStyle={{
               position: 'absolute',
               left: '50px',
