@@ -23,7 +23,7 @@ app.on('ready', () => {
 
   const loadMainWindow = () => {
     mainWindow = new BrowserWindow({
-      minWidth: 640,
+      minWidth: 320,
       minHeight: 400,
     });
 
