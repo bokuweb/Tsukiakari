@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Timeline from './timeline';
+import { isEqual } from 'lodash';
 import B from '../lib/bem';
 
 const b = B.with('timeline-box');

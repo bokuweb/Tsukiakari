@@ -89,6 +89,7 @@ export default class Sidemenu extends Component {
         <div className={b('wrapper')}>
           <div className={b('logo-wrapper')}>
             <img className={b('logo')} src="images/logo.png" />
+            <i className={`${b('menu-icon')} lnr lnr-menu`} />
           </div>
           <ul className={b('ul')}>
             {this.renderColumList()}

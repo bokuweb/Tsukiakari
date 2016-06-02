@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import B from '../lib/bem';
+import { isEqual } from 'lodash';
 import { decodeHtml } from '../utils/utils';
 import TweetItemFooter from './tweetitem-footer';
 import { link } from 'autolinker';
@@ -24,6 +25,13 @@ export default class TweetItem extends Component {
     super(props);
     this.state = { destroyTooltip: false };
     this.onAccountClick = ::this.onAccountClick;
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps.tweet.retweeted !== this.props.tweet.retweeted ||
+      nextProps.tweet.favorited !== this.props.tweet.favorited ||
+      nextProps.tweet.id_str !== this.props.tweet.id_str ||
+      nextState.destroyTooltip;
   }
 
   onAccountClick() {
@@ -224,7 +232,7 @@ export default class TweetItem extends Component {
             }
             destroyTooltipOnHide={this.state.destroyTooltip}
             placement="right"
-            mouseLeaveDelay={0}
+            mouseLeaveDelay={0.2}
             overlayStyle={{
               position: 'absolute',
               left: '50px',
