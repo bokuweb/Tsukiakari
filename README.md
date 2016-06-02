@@ -22,6 +22,15 @@ This repository is heavily under development and unstable.
 - [ ] Support instagram photo
 - [ ] Support twitter card
 
+## Development
+
+```
+git clone git@github.com:bokuweb/tsukiakari.git
+cd tsukiakari
+npm install
+npm run dev
+```
+
 ## LICENSE
 
 ### Linearicons Free
