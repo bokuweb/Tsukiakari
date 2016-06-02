@@ -4,8 +4,9 @@
   "description": "A minimal Electron application",
   "main": "/src/browser/dist/bundle.js",
   "scripts": {
-    "dev": "electron src/browser/dist/bundle.js & npm run watch",
+    "dev": "npm run build:all && (electron src/browser/dist/bundle.js & npm run watch)",
     "start": "electron src/browser/dist/bundle.js",
+    "build:all": "npm run build:js && npm run build:stylus",
     "watch:js": "watchify src/renderer/src/index.js -o src/renderer/dist/bundle.js --ignore-missing",
     "build:js": "npm run build:renderer && npm run build:main",
     "build:renderer": "browserify --extension=js -o src/renderer/dist/bundle.js src/renderer/src/index.js --ignore-missing",
