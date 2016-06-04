@@ -27,11 +27,23 @@ const subscribe = (stream, account) => (
       }
     });
 
+    stream.on('favorite', (data) => {
+      if (data.source.id_str !== account.id_str) {
+        log.debug(data);
+        /* eslint-disable no-new */
+        new Notification('Favorited', {
+          body: `your tweet is favorited by ${data.source.name}`,
+          icon: data.source.profile_image_url_https,
+        });
+      }
+    });
+
     stream.on('error', (error) => {
       log.error('Error occurred on stream', error);
       stream.removeAllListeners('data');
       stream.removeAllListeners('error');
-      // stream.removeAllListeners('end');
+      stream.removeAllListeners('favorite');
+      stream.removeAllListeners('end');
       stream.destroy();
       emit(actions.connectStream({ account, error }));
     });
@@ -40,6 +52,7 @@ const subscribe = (stream, account) => (
       log.debug('suspend');
       stream.removeAllListeners('data');
       stream.removeAllListeners('error');
+      stream.removeAllListeners('favorite');
       stream.removeAllListeners('end');
       stream.destroy();
       log.debug('stream destroied');
