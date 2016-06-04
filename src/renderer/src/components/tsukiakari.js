@@ -8,23 +8,22 @@ import TweetWindowContainer from '../containers/tweet-window';
 import Spinner from './spinner';
 import bem from '../lib/bem';
 import { whyDidYouUpdate } from 'why-did-you-update';
-import log from '../lib/log';
 
 if (process.env.NODE_ENV !== 'production') {
-  // whyDidYouUpdate(React);
+  whyDidYouUpdate(React);
 }
 
 const b = bem.with('tsukiakari');
 
 export default class Tsukiakari extends Component {
   static propTypes = {
-    loadAccounts: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
     isLightBoxOpen: PropTypes.bool,
     accountLength: PropTypes.number,
   };
 
   componentWillMount() {
-    this.props.loadAccounts();
+    this.props.initialize();
   }
 
   render() {
