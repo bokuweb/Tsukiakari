@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import B from '../lib/bem';
-import { isEqual } from 'lodash';
+import log from '../lib/log';
 import { decodeHtml } from '../utils/utils';
 import TweetItemFooter from './tweetitem-footer';
 import { link } from 'autolinker';
@@ -27,15 +27,8 @@ export default class TweetItem extends Component {
     this.onAccountClick = ::this.onAccountClick;
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.tweet.retweeted !== this.props.tweet.retweeted ||
-      nextProps.tweet.favorited !== this.props.tweet.favorited ||
-      nextProps.tweet.id_str !== this.props.tweet.id_str ||
-      nextState.destroyTooltip;
-  }
-
   onAccountClick() {
-    
+
   }
 
   onImageClick(index) {
@@ -52,11 +45,11 @@ export default class TweetItem extends Component {
       case 'email':
       case 'phone': return false;
       case 'twitter' :
-        console.log('Twitter Handle: ', match.getTwitterHandle());
+        log.debug('Twitter Handle: ', match.getTwitterHandle());
         // return '<a href="http://newplace.to.link.twitter.handles.to/">' + match.getTwitterHandle() + '</a>';
         return false;
       case 'hashtag' :
-        console.log('Hashtag: ', match.getHashtag());
+        log.debug('Hashtag: ', match.getHashtag());
         // return '<a href="http://newplace.to.link.hashtag.handles.to/">' + match.getHashtag() + '</a>';
         return false;
       default: return false;
@@ -280,6 +273,7 @@ export default class TweetItem extends Component {
   }
 
   render() {
+    log.debug('render tweet item');
     return (
       <div className={b()}>
         {this.renderRetweetedMessage()}
