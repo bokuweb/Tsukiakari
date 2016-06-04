@@ -37,7 +37,12 @@ const updateTweet = (state, action) => {
       timeline[key].entities.tweets[tweet.id_str] = tweet;
     }
   });
-  return { ...state, timeline };
+  return {
+    ...state,
+    timeline: {
+      ...timeline,
+    },
+  };
 };
 
 const updateTweetProperty = (accountId, tweetId, timeline, props) => {
@@ -100,7 +105,12 @@ export default handleActions({
         };
       }
     });
-    return { ...state, timeline };
+    return {
+      ...state,
+      timeline: {
+        ...timeline,
+      },
+    };
   },
   CREATE_FAVORITE_SUCCESS: updateTweet,
   DESTROY_FAVORITE_REQUEST: (state, action) => {
@@ -114,7 +124,12 @@ export default handleActions({
         };
       }
     });
-    return { ...state, timeline };
+    return {
+      ...state,
+      timeline: {
+        ...timeline,
+      },
+    };
   },
   DESTROY_FAVORITE_SUCCESS: updateTweet,
   CREATE_RETWEET_REQUEST: (state, action) => {
@@ -128,7 +143,12 @@ export default handleActions({
         };
       }
     });
-    return { ...state, timeline };
+    return {
+      ...state,
+      timeline: {
+        ...timeline,
+      },
+    };
   },
   CREATE_RETWEET_SUCCESS: updateTweet,
   REQUEST_DESTROY_RETWEET: (state, action) => {
@@ -142,7 +162,12 @@ export default handleActions({
         };
       }
     });
-    return { ...state, timeline };
+    return {
+      ...state,
+      timeline: {
+        ...timeline,
+      },
+    };
   },
   ADD_COLUMN: (state, action) => {
     const { account, type } = action.payload;
@@ -166,7 +191,12 @@ export default handleActions({
   DELETE_COLUMN: (state, action) => {
     const { id } = action.payload;
     const columns = state.columns.filter(column => column.id !== id);
-    return { ...state, columns };
+    return {
+      ...state,
+      columns: {
+        ...columns,
+      },
+    };
   },
 }, defaultState);
 
