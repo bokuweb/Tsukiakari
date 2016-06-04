@@ -72,12 +72,13 @@
     "node-twitter-api": "^1.6.3",
     "normalizr": "^2.0.2",
     "rc-tooltip": "^3.3.2",
-    "react": "^15.0.1",
+    "react": "^15.1.0",
     "react-bulma": "https://github.com/bokuweb/react-bulma",
-    "react-dom": "^15.0.1",
+    "react-dom": "^15.1.0",
     "react-html5video": "^1.2.8",
     "react-images": "^0.3.2",
     "react-list": "^0.7.18",
+    "react-notification-system": "^0.2.7",
     "react-redux": "^4.4.5",
     "react-resizable-and-movable": "^1.1.0",
     "react-sortable-pane": "^0.3.2",
@@ -89,7 +90,8 @@
     "twit": "^2.2.4",
     "twitter": "^1.2.5",
     "twitter-text": "^1.13.4",
-    "uuid": "^2.0.1"
+    "uuid": "^2.0.1",
+    "why-did-you-update": "0.0.8"
   },
   "browserify": {
     "transform": [
