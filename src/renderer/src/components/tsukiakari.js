@@ -7,6 +7,12 @@ import SidemenuContainer from '../containers/sidemenu';
 import TweetWindowContainer from '../containers/tweet-window';
 import Spinner from './spinner';
 import bem from '../lib/bem';
+import { whyDidYouUpdate } from 'why-did-you-update';
+import log from '../lib/log';
+
+if (process.env.NODE_ENV !== 'production') {
+  // whyDidYouUpdate(React);
+}
 
 const b = bem.with('tsukiakari');
 
