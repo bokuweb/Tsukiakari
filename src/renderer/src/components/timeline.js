@@ -3,6 +3,7 @@ import ReactList from 'react-list';
 import TweetItem from './tweetitem';
 import Spinner from './spinner';
 import B from '../lib/bem';
+import log from '../lib/log';
 
 const b = B.with('timeline');
 
@@ -40,7 +41,7 @@ export default class Timeline extends Component {
     const scrollTop = infinite.scrollTop;
     const proximity = 140;
     if (scrollHeight - scrollTop - offset <= proximity) {
-      console.log('scroll end')
+      log.debug('scroll end');
     }
   }
 
