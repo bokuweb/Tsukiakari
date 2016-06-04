@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Tsukiakari from '../components/tsukiakari';
-import * as accounts from '../actions/accounts';
+import * as initialize from '../actions/initialize';
 
 function mapStateToProps(state) {
   return {
@@ -12,7 +12,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    loadAccounts: bindActionCreators(accounts.loadAccounts, dispatch),
+    initialize: bindActionCreators(initialize.initialize, dispatch),
   };
 }
 

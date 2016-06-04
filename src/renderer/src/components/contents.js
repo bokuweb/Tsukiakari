@@ -2,6 +2,10 @@ import React, { Component, PropTypes } from 'react';
 import { SortablePane, Pane } from 'react-sortable-pane';
 import { isEmpty } from 'lodash';
 import TimelineBox from './timeline-box';
+import log from '../lib/log';
+import B from '../lib/bem';
+
+const b = B.with('contents');
 
 export default class Contents extends Component {
   static propTypes = {
@@ -63,7 +67,7 @@ export default class Contents extends Component {
   renderMessage() {
     return (
       <div
-        className="contents__message--no-contents"
+        className={b('message', { 'no-contents': true })}
         onClick={this.props.openAddColumnMenu}
       >
         Please add new column.
@@ -72,8 +76,9 @@ export default class Contents extends Component {
   }
 
   render() {
+    log.debug('render contents');
     return (
-      <div className="contents">
+      <div className={b()}>
           {
             isEmpty(this.props.columns)
               ? this.renderMessage()

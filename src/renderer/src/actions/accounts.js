@@ -11,6 +11,8 @@ export const loadAccounts = () => dispatch => {
 
 export const addAccount = createAction('ADD_ACCOUNT');
 
+export const successLoadAccounts = createAction('SUCCESS_LOAD_ACCOUNTS');
+
 export const removeAccount = createAction('REMOVE_ACCOUNT');
 
 export const updateAccounts = createAction('UPDATE_ACCOUNTS');
