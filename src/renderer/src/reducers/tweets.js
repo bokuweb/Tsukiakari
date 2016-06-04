@@ -62,7 +62,7 @@ export default handleActions({
     // TODO: refactor
     const { account: { id }, tweet, type } = action.payload;
     const key = `${id}:${type}`;
-    const timeline = state.timeline[key];
+    const timeline = state.timeline[key] || { entities: { tweets: { } } };
     const results = (!(timeline.entities && timeline.entities.tweets[tweet.result]))
             ? [tweet.result].concat(timeline.results || [])
             : timeline.results || [];
@@ -86,7 +86,7 @@ export default handleActions({
     // TODO: refactor
     const { account: { id }, tweets, type } = action.payload;
     const key = `${id}:${type}`;
-    const timeline = state.timeline[key] || [];
+    const timeline = state.timeline[key] || { entities: {} };
     const results = tweets.result
             .filter(result => !(timeline.entities && timeline.entities[result]))
             .concat(state.timeline.results || []);

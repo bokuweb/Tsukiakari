@@ -1,16 +1,19 @@
 /* eslint-disable no-constant-condition */
 
 import { take, fork, put } from 'redux-saga/effects';
-import * as accounts from '../actions/accounts';
+import { loadAccounts } from '../actions/accounts';
+import { connectStream } from '../actions/tweets';
 import log from '../lib/log';
 
-function* watchInitialize() {
-  while (true) {
-    yield take('INITIALIZE');
-    log.debug('Start initialize!!');
-    yield put(accounts.loadAccounts());
+function* initialize() {
+  yield take('INITIALIZE');
+  yield put(loadAccounts());
+  const { payload: { accounts } } = yield take('SUCCESS_LOAD_ACCOUNTS');
+  for (let i = 0; i < accounts.length; i++) {
+    yield put(connectStream({ account: accounts[i] }));
   }
 }
+
 export default function* initializeSaga() {
-  yield fork(watchInitialize);
+  yield fork(initialize);
 }
