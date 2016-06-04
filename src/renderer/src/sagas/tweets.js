@@ -6,6 +6,7 @@ import { fork, take, call, put, cancel } from 'redux-saga/effects';
 import * as actions from '../actions/tweets';
 import { normalize, Schema } from 'normalizr';
 import { ipcRenderer } from 'electron';
+import log from '../lib/log';
 
 const tweetSchema = new Schema('tweets', { idAttribute: 'id_str' });
 
@@ -25,9 +26,9 @@ const subscribe = (stream, account) => (
         emit(actions.recieveTweet({ tweet: normalize(data, tweetSchema), account, type: 'Home' }));
       }
     });
-    
+
     stream.on('error', (error) => {
-      console.error('Error occurred on stream', error);
+      log.error('Error occurred on stream', error);
       stream.removeAllListeners('data');
       stream.removeAllListeners('error');
       // stream.removeAllListeners('end');
@@ -36,16 +37,16 @@ const subscribe = (stream, account) => (
     });
 
     ipcRenderer.once('suspend', () => {
-      console.log('suspend');
+      log.debug('suspend');
       stream.removeAllListeners('data');
       stream.removeAllListeners('error');
       stream.removeAllListeners('end');
       stream.destroy();
-      console.log('stream destroied');
+      log.debug('stream destroied');
     });
 
     ipcRenderer.once('resume', () => {
-      console.log('resume!!');
+      log.debug('resume!!');
       const id = setInterval(() => {
         if (!navigator.onLine) return;
         clearInterval(id);
@@ -70,7 +71,7 @@ function* connectStream(account) {
     const stream = yield connectUserStream(account);
     channel = yield call(subscribe, stream, account);
   } catch (error) {
-    console.log(error);
+    log.log(error);
   }
   while (true) {
     const action = yield take(channel);

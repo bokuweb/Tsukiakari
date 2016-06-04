@@ -1,5 +1,6 @@
 import Twitter from '../lib/twitter-client';
 import { createAction } from 'redux-actions';
+import log from '../lib/log';
 
 export const recieveTweet = createAction('RECIEVE_TWEET');
 
@@ -12,7 +13,7 @@ export const fetchHome = (account, type) => dispatch => {
       dispatch(action({ account, tweets, type }));
     })
     .catch(error => {
-      console.error(error);
+      log.error(error);
       const action = createAction('FETCH_TIMELINE_FAIL');
       dispatch(action({ error }));
     });
@@ -27,7 +28,7 @@ export const fetchFavorites = (account, type) => dispatch => {
       dispatch(action({ account, tweets, type }));
     })
     .catch(error => {
-      console.error(error);
+      log.error(error);
       const action = createAction('FETCH_TIMELINE_FAIL');
       dispatch(action({ error }));
     });
@@ -42,7 +43,7 @@ export const createFavorite = (account, tweet) => dispatch => {
       dispatch(action({ account, tweet: res }));
     })
     .catch(error => {
-      console.error(error);
+      log.error(error);
       const action = createAction('CREATE_FAVORITE_FAIL');
       dispatch(action({ error }));
     });
@@ -59,7 +60,7 @@ export const destroyFavorite = (account, tweet) => dispatch => {
       dispatch(action({ account, tweet: res }));
     })
     .catch(error => {
-      console.error(error);
+      log.error(error);
       const action = createAction('DESTROY_FAVORITE_FAIL');
       dispatch(action({ error }));
     });
@@ -76,7 +77,7 @@ export const createRetweet = (account, tweet) => dispatch => {
       dispatch(action({ account, tweet: res }));
     })
     .catch(error => {
-      console.error(error);
+      log.error(error);
       const action = createAction('CREATE_RETWEET_FAIL');
       dispatch(action({ error }));
     });
@@ -108,7 +109,7 @@ export const postTweet = (account, status, replyTweet) => dispatch => {
       dispatch(action({ account, tweet }));
     })
     .catch(error => {
-      console.error(error);
+      log.error(error);
       const action = createAction('POST_TWEET_FAIL');
       dispatch(action({ error }));
     });
