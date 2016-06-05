@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import NotificationContainer from '../containers/notification';
 import AccountsContainer from '../containers/accounts';
 import ContentsContainer from '../containers/contents';
 import AddColumnMenuContainer from '../containers/add-column-menu';
@@ -39,6 +40,7 @@ export default class Tsukiakari extends Component {
           backdropClosesModal
         />
         <TweetWindowContainer />
+        <NotificationContainer />
       </div>
     );
   }
