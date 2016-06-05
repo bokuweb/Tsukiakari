@@ -193,9 +193,7 @@ export default handleActions({
     const columns = state.columns.filter(column => column.id !== id);
     return {
       ...state,
-      columns: {
-        ...columns,
-      },
+      columns,
     };
   },
 }, defaultState);
