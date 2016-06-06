@@ -12,10 +12,9 @@ export default class Notification extends Component {
   }
 
   componentWillReceiveProps(next) {
-    console.dir(next)
     this._notification.addNotification({
-      message: next.notification.type,
-      level: 'success',
+      message: next.notification.message,
+      level: next.notification.level,
     });
   }
 
