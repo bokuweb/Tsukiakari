@@ -12,6 +12,7 @@ import { whyDidYouUpdate } from 'why-did-you-update';
 
 if (process.env.NODE_ENV !== 'production') {
   // whyDidYouUpdate(React);
+  window.Perf = require('react-addons-perf');
 }
 
 const b = bem.with('tsukiakari');

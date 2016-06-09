@@ -63,7 +63,7 @@
   "dependencies": {
     "autolinker": "^0.26.0",
     "b_": "^1.3.3",
-    "electron-prebuilt": "^1.2.0",
+    "electron-prebuilt": "^1.2.1",
     "immutable": "^3.8.1",
     "jsonfile": "^2.2.3",
     "lodash": "^3.10.1",
@@ -73,6 +73,7 @@
     "normalizr": "^2.0.2",
     "rc-tooltip": "^3.3.2",
     "react": "^15.1.0",
+    "react-addons-perf": "^15.1.0",
     "react-bulma": "https://github.com/bokuweb/react-bulma",
     "react-dom": "^15.1.0",
     "react-html5video": "^1.2.8",
