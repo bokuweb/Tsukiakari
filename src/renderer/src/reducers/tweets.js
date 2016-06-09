@@ -63,9 +63,15 @@ export default handleActions({
     const { account: { id }, tweet, type } = action.payload;
     const key = `${id}:${type}`;
     const timeline = state.timeline[key] || { entities: { tweets: { } } };
-    const results = (!(timeline.entities && timeline.entities.tweets[tweet.result]))
-            ? [tweet.result].concat(timeline.results || [])
-            : timeline.results || [];
+    let results;
+
+    if (!(timeline.entities && timeline.entities.tweets[tweet.result])) {
+      const result = [tweet.result];
+      Array.prototype.push.apply(result, timeline.results);
+      results = result;
+    } else {
+      results = timeline.results || [];
+    }
     const entities = { ...timeline.entities.tweets, ...tweet.entities.tweets };
     const columns = createNewColumns(state, results, key);
     return {
@@ -177,15 +183,17 @@ export default handleActions({
     const key = `${account.id}:${type}`;
 
     const timeline = state.timeline[key] || { results: [] }; // TODO: implement mixed timeline
+    const { columns } = state;
+    Array.prototype.push.apply(columns, [{
+      id,
+      title,
+      icon,
+      contents: [{ account, type }],
+      results: timeline.results,
+    }]);
     return {
       ...state,
-      columns: state.columns.concat([{
-        id,
-        title,
-        icon,
-        contents: [{ account, type }],
-        results: timeline.results,
-      }]),
+      columns: [...columns],
     };
   },
   DELETE_COLUMN: (state, action) => {
