@@ -10,6 +10,15 @@ import log from '../lib/log';
 
 const tweetSchema = new Schema('tweets', { idAttribute: 'id_str' });
 
+const showNotification = ({ body, icon}) => {
+  log.debug(data);
+  /* eslint-disable no-new */
+  new Notification('Favorited', {
+    body: `your tweet is favorited by ${data.source.name}`,
+    icon: data.source.profile_image_url_https,
+  });
+};
+
 const subscribe = (stream, account) => (
   eventChannel(emit => {
     stream.on('data', data => {
@@ -20,9 +29,9 @@ const subscribe = (stream, account) => (
       } else if (data.delete) {
 
       } else if (data.created_at) {
-        //if (data.retweeted_status && data.retweeted_status.user.id_str === user.id_str) {
-        // eventEmitter.emit('retweet', data);
-        //}
+        if (data.retweeted_status && data.retweeted_status.user.id_str === account.id_str) {
+
+        }
         emit(actions.recieveTweet({ tweet: normalize(data, tweetSchema), account, type: 'Home' }));
       }
     });

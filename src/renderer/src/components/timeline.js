@@ -26,11 +26,11 @@ export default class Timeline extends Component {
   }
 
   componentDidMount() {
-    this.refs.scroll.addEventListener('scroll', this.onScroll);
+    // this.refs.scroll.addEventListener('scroll', this.onScroll);
   }
 
   componentWillUnmount() {
-    this.refs.scroll.removeEventListener('scroll', this.onScroll);
+    // this.refs.scroll.removeEventListener('scroll', this.onScroll);
   }
 
   onScrollEnd() {
@@ -96,10 +96,11 @@ export default class Timeline extends Component {
               ? <Spinner style={{ padding: '50px 0 0 40px' }} />
               : (
                   <ReactList
+                    ref="list"
                     itemRenderer={::this.renderItems}
                     length={this.props.results.length}
                     type="variable"
-                    pageSize={20}
+                    threshold={300}
                     useTranslate3d
                   />
               )

@@ -3,7 +3,7 @@ import B from '../lib/bem';
 import ResizableAndMovable from 'react-resizable-and-movable';
 import Tooltip from 'rc-tooltip';
 import AccountList from './account-list';
-import { Button } from 'react-bulma';
+import { Button } from 're-bulma';
 
 const b = B.with('tweet-window');
 

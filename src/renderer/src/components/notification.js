@@ -12,14 +12,14 @@ export default class Notification extends Component {
   }
 
   componentWillReceiveProps(next) {
-    this._notification.addNotification({
+    this.notification.addNotification({
       message: next.notification.message,
       level: next.notification.level,
     });
   }
 
   assignNotificationRef(ref) {
-    this._notification = ref;
+    this.notification = ref;
   }
 
   render() {

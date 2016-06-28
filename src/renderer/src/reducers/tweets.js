@@ -62,9 +62,10 @@ export default handleActions({
     // TODO: refactor
     const { account: { id }, tweet, type } = action.payload;
     const key = `${id}:${type}`;
+    const contents = state.columns.filter(column => column.contents[0].key === key);
+    if (contents.length === 0) return state;
     const timeline = state.timeline[key] || { entities: { tweets: { } } };
     let results;
-
     if (!(timeline.entities && timeline.entities.tweets[tweet.result])) {
       const result = [tweet.result];
       Array.prototype.push.apply(result, timeline.results);
@@ -188,7 +189,7 @@ export default handleActions({
       id,
       title,
       icon,
-      contents: [{ account, type }],
+      contents: [{ account, type, key }],
       results: timeline.results,
     }]);
     return {

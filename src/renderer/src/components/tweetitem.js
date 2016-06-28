@@ -273,7 +273,6 @@ export default class TweetItem extends Component {
   }
 
   render() {
-    log.debug('render tweet item');
     return (
       <div className={b()}>
         {this.renderRetweetedMessage()}

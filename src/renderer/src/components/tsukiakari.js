@@ -11,7 +11,7 @@ import bem from '../lib/bem';
 import { whyDidYouUpdate } from 'why-did-you-update';
 
 if (process.env.NODE_ENV !== 'production') {
-  // whyDidYouUpdate(React);
+  whyDidYouUpdate(React);
   window.Perf = require('react-addons-perf');
 }
 
