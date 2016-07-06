@@ -30,6 +30,7 @@ export default class Contents extends Component {
         margin={20}
         className="contents__sortable-pane"
         order={[]}
+        zIndex={1}
       >
         {this.renderPanes()}
       </SortablePane>
