@@ -1,4 +1,10 @@
 {
-  "plugins": [ "transform-do-expressions", "syntax-do-expressions", "transform-class-properties", "transform-react-inline-elements" ],
+  "plugins": [
+    "transform-do-expressions",
+    "syntax-do-expressions",
+    "transform-class-properties",
+    "transform-react-inline-elements",
+    "babel-plugin-transform-flow-strip-types"
+  ],
   "presets": ["stage-0", "es2015", "react"]
 }
