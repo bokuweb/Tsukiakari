@@ -1644,9 +1644,9 @@
       "resolved": "https://registry.npmjs.org/electron-packager/-/electron-packager-7.1.0.tgz"
     },
     "electron-prebuilt": {
-      "version": "1.2.5",
-      "from": "electron-prebuilt@>=1.2.1 <2.0.0",
-      "resolved": "https://registry.npmjs.org/electron-prebuilt/-/electron-prebuilt-1.2.5.tgz"
+      "version": "1.2.7",
+      "from": "electron-prebuilt@latest",
+      "resolved": "https://registry.npmjs.org/electron-prebuilt/-/electron-prebuilt-1.2.7.tgz"
     },
     "elliptic": {
       "version": "6.3.1",
@@ -4196,14 +4196,14 @@
       "resolved": "https://registry.npmjs.org/re-bulma/-/re-bulma-0.0.14.tgz"
     },
     "react": {
-      "version": "15.1.0",
-      "from": "react@>=15.1.0 <16.0.0",
-      "resolved": "https://registry.npmjs.org/react/-/react-15.1.0.tgz"
+      "version": "15.2.0",
+      "from": "react@latest",
+      "resolved": "https://registry.npmjs.org/react/-/react-15.2.0.tgz"
     },
     "react-addons-perf": {
-      "version": "15.1.0",
-      "from": "react-addons-perf@>=15.1.0 <16.0.0",
-      "resolved": "https://registry.npmjs.org/react-addons-perf/-/react-addons-perf-15.1.0.tgz"
+      "version": "15.2.0",
+      "from": "react-addons-perf@latest",
+      "resolved": "https://registry.npmjs.org/react-addons-perf/-/react-addons-perf-15.2.0.tgz"
     },
     "react-addons-pure-render-mixin": {
       "version": "15.1.0",
@@ -4216,9 +4216,9 @@
       "resolved": "https://registry.npmjs.org/react-addons-transition-group/-/react-addons-transition-group-15.1.0.tgz"
     },
     "react-dom": {
-      "version": "15.1.0",
-      "from": "react-dom@>=15.1.0 <16.0.0",
-      "resolved": "https://registry.npmjs.org/react-dom/-/react-dom-15.1.0.tgz"
+      "version": "15.2.0",
+      "from": "react-dom@latest",
+      "resolved": "https://registry.npmjs.org/react-dom/-/react-dom-15.2.0.tgz"
     },
     "react-html5video": {
       "version": "1.2.9",
