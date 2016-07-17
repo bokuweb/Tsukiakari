@@ -1,9 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
 export default class ColumnTitle extends Component {
-  static propTypes = {
-    onChange: PropTypes.func,
-  };
 
   static defaultProps = {
     onChange: () => null,

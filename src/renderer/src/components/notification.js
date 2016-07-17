@@ -1,11 +1,7 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import NotificationSystem from 'react-notification-system';
 
 export default class Notification extends Component {
-  static propTypes = {
-    notification: PropTypes.object,
-  };
-
   constructor(props) {
     super(props);
     this.assignNotificationRef = ::this.assignNotificationRef;

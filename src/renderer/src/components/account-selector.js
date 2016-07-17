@@ -6,11 +6,6 @@ import B from '../lib/bem';
 const b = B.with('account-selector');
 
 export default class AccountSelector extends Component {
-  static propTypes = {
-    onSelect: PropTypes.func,
-    accounts: PropTypes.array,
-  };
-
   static defaultProps = {
     onSelect: () => null,
     accounts: [],

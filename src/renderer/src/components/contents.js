@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { SortablePane, Pane } from 'react-sortable-pane';
 import { isEmpty } from 'lodash';
 import TimelineBox from './timeline-box';
@@ -8,18 +8,6 @@ import B from '../lib/bem';
 const b = B.with('contents');
 
 export default class Contents extends Component {
-  static propTypes = {
-    timeline: PropTypes.object,
-    accounts: PropTypes.array,
-    columns: PropTypes.array,
-    deleteRequest: PropTypes.func,
-    openAddColumnMenu: PropTypes.func,
-    openLightBox: PropTypes.func,
-    createFavorite: PropTypes.func,
-    destroyFavorite: PropTypes.func,
-    reply: PropTypes.func,
-  };
-
   static defaultProps = {
     columns: [],
   };

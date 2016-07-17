@@ -5,6 +5,7 @@ import Tooltip from 'rc-tooltip';
 import AccountList from './account-list';
 import { Button } from 're-bulma';
 import { isEqual } from 'lodash';
+import log from '../lib/log';
 
 const b = B.with('tweet-window');
 
@@ -62,6 +63,7 @@ export default class TweetWindow extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
+    log.debug(!isEqual(this.props, nextProps) || !isEqual(this.state, nextState))
     return !isEqual(this.props, nextProps) || !isEqual(this.state, nextState);
   }
 

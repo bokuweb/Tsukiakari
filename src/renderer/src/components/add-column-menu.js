@@ -38,12 +38,6 @@ const defaultState = {
 };
 
 export default class AddColumnMenu extends Component {
-  static propTypes = {
-    isOpen: PropTypes.bool,
-    close: PropTypes.func.isRequired,
-    accounts: PropTypes.array,
-    onCreate: PropTypes.func.isRequired,
-  };
 
   static defaultProps = {
     isOpen: false,

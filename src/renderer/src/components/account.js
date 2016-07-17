@@ -6,11 +6,6 @@ import B from '../lib/bem';
 const b = B.with('account');
 
 export default class Account extends Component {
-  static propTypes = {
-    account: PropTypes.object.isRequired,
-    removeAccount: PropTypes.func.isRequired,
-  }
-
   constructor(props) {
     super(props);
     this.state = { destroyTooltip: false };

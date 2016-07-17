@@ -1,9 +1,6 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 
 export default class Spinner extends Component {
-  static propTypes = {
-    style: PropTypes.object,
-  };
 
   static defaultProps = {
     style: {},

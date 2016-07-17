@@ -5,11 +5,6 @@ import B from '../lib/bem';
 const b = B.with('accounts');
 
 export default class Accounts extends Component {
-  static propTypes = {
-    accounts: PropTypes.array,
-    addAccount: PropTypes.func.isRequired,
-  }
-
   static defaultProps = {
     accounts: [],
   };

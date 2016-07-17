@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import ReactList from 'react-list';
 import TweetItem from '../containers/tweetitem';
 import Spinner from './spinner';
@@ -8,16 +8,6 @@ import log from '../lib/log';
 const b = B.with('timeline');
 
 export default class Timeline extends Component {
-  static propTypes = {
-    results: PropTypes.array,
-    timeline: PropTypes.object,
-    id: PropTypes.string,
-    createFavorite: PropTypes.func,
-    destroyFavorite: PropTypes.func,
-    openLightBox: PropTypes.func,
-    reply: PropTypes.func,
-  };
-
   constructor(props) {
     super(props);
     this.onMouseDown = ::this.onMouseDown;
