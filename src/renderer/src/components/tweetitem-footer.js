@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { fromNow } from '../lib/formatTime';
+import { isEqual } from 'lodash';
 import B from '../lib/bem';
 
 const b = B.with('tweetitem-footer');
@@ -10,6 +11,10 @@ export default class TweetItemFooter extends Component {
     this.onReply = ::this.onReply;
     this.onRetweet = ::this.onRetweet;
     this.onFavorite = ::this.onFavorite;
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return !isEqual(this.props, nextProps);
   }
 
   onReply() {
