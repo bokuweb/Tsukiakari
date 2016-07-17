@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ReactList from 'react-list';
-import TweetItem from './tweetitem';
+import TweetItem from '../containers/tweetitem';
 import Spinner from './spinner';
 import B from '../lib/bem';
 import log from '../lib/log';
@@ -69,17 +69,7 @@ export default class Timeline extends Component {
         key={id}
         ref={ref}
       >
-        <TweetItem
-          tweet={this.props.timeline[key].entities.tweets[id]}
-          createReply={this.props.createReply}
-          createFavorite={this.props.createFavorite}
-          createRetweet={this.props.createRetweet}
-          destroyFavorite={this.props.destroyFavorite}
-          destroyRetweet={this.props.destroyRetweet}
-          reply={this.props.reply}
-          accounts={this.props.accounts}
-          openLightBox={this.props.openLightBox}
-        />
+        <TweetItem id={id} timelineKey={key} />
       </div>
     );
   }

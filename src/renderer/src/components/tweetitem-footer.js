@@ -1,20 +1,10 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { fromNow } from '../lib/formatTime';
 import B from '../lib/bem';
 
 const b = B.with('tweetitem-footer');
 
 export default class TweetItemFooter extends Component {
-  static propTypes = {
-    tweet: PropTypes.object,
-    createFavorite: PropTypes.func,
-    destroyFavorite: PropTypes.func,
-    createRetweet: PropTypes.func,
-    destroyRetweet: PropTypes.func,
-    reply: PropTypes.func,
-    accounts: PropTypes.array,
-  };
-
   constructor(props) {
     super(props);
     this.onReply = ::this.onReply;
@@ -24,12 +14,14 @@ export default class TweetItemFooter extends Component {
 
   onReply() {
     const { tweet } = this.props;
+    // TODO: Fix account
     this.props.reply({ account: this.props.accounts[0], tweet });
   }
 
   onRetweet() {
     const { tweet } = this.props;
-    if (tweet.retweeted) {
+    // TODO: Fix account
+    if (this.props.retweeted) {
       this.props.destroyRetweet({ account: this.props.accounts[0], tweet });
     } else {
       this.props.createRetweet(this.props.accounts[0], tweet);
@@ -38,7 +30,7 @@ export default class TweetItemFooter extends Component {
 
   onFavorite() {
     const { tweet } = this.props;
-    if (tweet.favorited) {
+    if (this.props.favorited) {
       this.props.destroyFavorite(this.props.accounts[0], tweet);
     } else {
       this.props.createFavorite(this.props.accounts[0], tweet);
@@ -57,17 +49,17 @@ export default class TweetItemFooter extends Component {
         </span>
         <span className={b('icon-wrapper')}>
           <i
-            className={`${b('icon', { retweet: !tweet.retweeted || 'active' })} fa fa-retweet`}
+            className={`${b('icon', { retweet: !this.props.retweeted || 'active' })} fa fa-retweet`}
             onClick={this.onRetweet}
           />
-          {tweet.retweet_count || ''}
+          {this.props.retweet_count || ''}
         </span>
         <span className={b('icon-wrapper')}>
           <i
-            className={`${b('icon', { favorite: !tweet.favorited || 'active' })} fa fa-heart`}
+            className={`${b('icon', { favorite: !this.props.favorited || 'active' })} fa fa-heart`}
             onClick={this.onFavorite}
           />
-          {tweet.favorite_count || ''}
+          {this.props.favorite_count || ''}
         </span>
         <span className={b('time')}>
           {fromNow(tweet.created_at)}
