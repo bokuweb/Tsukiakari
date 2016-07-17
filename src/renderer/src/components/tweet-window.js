@@ -4,6 +4,7 @@ import ResizableAndMovable from 'react-resizable-and-movable';
 import Tooltip from 'rc-tooltip';
 import AccountList from './account-list';
 import { Button } from 're-bulma';
+import { isEqual } from 'lodash';
 
 const b = B.with('tweet-window');
 
@@ -58,6 +59,10 @@ export default class TweetWindow extends Component {
     if (nextProps.isOpen !== this.props.isOpen) {
       this.setState({ destroyTooltip: true });
     }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return !isEqual(this.props, nextProps) || !isEqual(this.state, nextState);
   }
 
   onDrag() {
@@ -168,7 +173,7 @@ export default class TweetWindow extends Component {
             />
           </div>
           <div className={b('body')}>
-            { this.renderAccount() }
+            {this.renderAccount()}
             <div className={b('textarea-wrapper')}>
               <textarea
                 onChange={this.onChange}
