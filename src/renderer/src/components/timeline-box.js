@@ -16,8 +16,7 @@ export default class TimelineBox extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    // return !isEqual(this.props, nextProps);
-    return true;
+    return !isEqual(this.props, nextProps);
   }
 
   onMouseDown(e) {
@@ -53,14 +52,7 @@ export default class TimelineBox extends Component {
           id={id}
           results={results}
           timeline={this.props.timeline}
-          createReply={this.props.createReply}
-          createFavorite={this.props.createFavorite}
-          createRetweet={this.props.createRetweet}
-          destroyFavorite={this.props.destroyFavorite}
-          destroyRetweet={this.props.destroyRetweet}
-          reply={this.props.reply}
           accounts={this.props.accounts}
-          openLightBox={this.props.openLightBox}
         />
       </div>
     );
