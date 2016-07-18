@@ -7,18 +7,30 @@ import createSagaMiddleware from 'redux-saga';
 import createLogger from 'redux-logger';
 
 export default function configureStore() {
-  const logger = createLogger();
   // create the saga middleware
   const sagaMiddleware = createSagaMiddleware();
-  const store = createStore(
-    reducer,
-    applyMiddleware(
-      fetchtweets,
-      sagaMiddleware,
-      thunk,
-      logger
-    )
-  );
+  let store;
+  if (process.env.NODE_ENV === 'production') {
+    store = createStore(
+      reducer,
+      applyMiddleware(
+        fetchtweets,
+        sagaMiddleware,
+        thunk,
+      )
+    );
+  } else {
+    const logger = createLogger();
+    store = createStore(
+      reducer,
+      applyMiddleware(
+        fetchtweets,
+        sagaMiddleware,
+        thunk,
+        logger
+      )
+    );
+  }
   sagaMiddleware.run(saga);
   return store;
 }

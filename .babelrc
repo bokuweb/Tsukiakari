@@ -1,10 +1,12 @@
 {
+  "presets": ["stage-0", "es2015", "react"],
   "plugins": [
+    "remove-comments",
     "transform-do-expressions",
     "syntax-do-expressions",
     "transform-class-properties",
     "transform-react-inline-elements",
-    "babel-plugin-transform-flow-strip-types"
-  ],
-  "presets": ["stage-0", "es2015", "react"]
+    "babel-plugin-transform-flow-strip-types",
+    "transform-inline-environment-variables",
+  ]
 }
