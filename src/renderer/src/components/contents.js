@@ -40,6 +40,7 @@ export default class Contents extends Component {
           column={column}
           timeline={this.props.timeline}
           accounts={this.props.accounts}
+          deleteRequest={this.props.deleteRequest}
         />
       </Pane>
     ));
