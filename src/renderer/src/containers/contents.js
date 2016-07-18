@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Contents from '../components/contents';
-import * as tweets from '../actions/tweets';
 import * as column from '../actions/column';
 import * as sidemenu from '../actions/sidemenu';
 
@@ -17,7 +16,6 @@ function mapDispatchToProps(dispatch) {
   return {
     deleteRequest: bindActionCreators(column.deleteColumn, dispatch),
     openAddColumnMenu: bindActionCreators(sidemenu.openAddColumnMenu, dispatch),
-    ...bindActionCreators(tweets, dispatch),
   };
 }
 

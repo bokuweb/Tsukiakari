@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { isEmpty } from 'lodash';
 import B from '../lib/bem';
 

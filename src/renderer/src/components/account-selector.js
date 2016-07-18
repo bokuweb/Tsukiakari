@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { Button } from 're-bulma';
 import AccountList from './account-list';
 import B from '../lib/bem';

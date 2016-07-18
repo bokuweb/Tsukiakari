@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import Tooltip from 'rc-tooltip';
 import AccountTooltip from './account-tooltip';
 import B from '../lib/bem';

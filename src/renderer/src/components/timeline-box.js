@@ -16,7 +16,8 @@ export default class TimelineBox extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    return !isEqual(this.props, nextProps);
+    // return !isEqual(this.props, nextProps);
+    return true;
   }
 
   onMouseDown(e) {

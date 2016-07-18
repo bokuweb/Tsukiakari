@@ -39,14 +39,6 @@ export default class Contents extends Component {
           ref={column.id}
           column={column}
           timeline={this.props.timeline}
-          deleteRequest={this.props.deleteRequest}
-          createReply={this.props.createReply}
-          createFavorite={this.props.createFavorite}
-          createRetweet={this.props.createRetweet}
-          destroyFavorite={this.props.destroyFavorite}
-          destroyRetweet={this.props.requestDestroyRetweet}
-          reply={this.props.reply}
-          openLightBox={this.props.openLightBox}
           accounts={this.props.accounts}
         />
       </Pane>
