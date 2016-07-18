@@ -73,7 +73,7 @@ const subscribe = (stream, account) => (
         if (!navigator.onLine) return;
         clearInterval(id);
         emit(actions.connectStream({ account }));
-      }, 1000);
+      }, 3000);
     });
   })
 );
