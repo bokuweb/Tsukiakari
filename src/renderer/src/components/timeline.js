@@ -82,6 +82,7 @@ export default class Timeline extends Component {
                     length={this.props.results.length}
                     type="variable"
                     threshold={300}
+                    pageSize={5}
                     useTranslate3d
                   />
               )
