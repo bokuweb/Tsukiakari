@@ -63,7 +63,6 @@ export default class TweetWindow extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    log.debug(!isEqual(this.props, nextProps) || !isEqual(this.state, nextState))
     return !isEqual(this.props, nextProps) || !isEqual(this.state, nextState);
   }
 
@@ -109,14 +108,17 @@ export default class TweetWindow extends Component {
     return (
       <Tooltip
         trigger="click"
-        overlay={
-          <div className={b('tooltip')}>
-            <AccountList
-              accounts={this.props.accounts}
-              selectedAccount={this.state.selectedAccount}
-              onSelect={this.onAccountSelect}
-            />
-          </div>
+        overlay={this.props.accounts.length > 1
+                  ? (
+                    <div className={b('tooltip')}>
+                      <AccountList
+                        accounts={this.props.accounts}
+                        selectedAccount={this.state.selectedAccount}
+                        onSelect={this.onAccountSelect}
+                      />
+                    </div>
+                  )
+                  : null
         }
         destroyTooltipOnHide={this.state.destroyTooltip}
         placement="bottom"
