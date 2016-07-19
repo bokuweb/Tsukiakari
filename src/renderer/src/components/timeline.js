@@ -12,6 +12,7 @@ export default class Timeline extends Component {
     super(props);
     this.onMouseDown = ::this.onMouseDown;
     this.onScroll = ::this.onScroll;
+    this.renderItems = ::this.renderItems;
     this.scrollTimer = null;
   }
 
@@ -77,7 +78,7 @@ export default class Timeline extends Component {
               : (
                   <ReactList
                     ref="list"
-                    itemRenderer={::this.renderItems}
+                    itemRenderer={this.renderItems}
                     length={this.props.results.length}
                     type="variable"
                     threshold={300}
