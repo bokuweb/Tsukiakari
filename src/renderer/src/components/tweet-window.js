@@ -103,23 +103,26 @@ export default class TweetWindow extends Component {
     );
   }
 
+  renderTooltip() {
+    return (
+      <div className={b('tooltip')}>
+        <AccountList
+          accounts={this.props.accounts}
+          selectedAccount={this.state.selectedAccount}
+          onSelect={this.onAccountSelect}
+        />
+      </div>
+    );
+  }
+
   renderAccount() {
     if (this.props.accounts.length === 0) return <i className="fa fa-spin fa-spinner" />;
     return (
       <Tooltip
         trigger="click"
         overlay={this.props.accounts.length > 1
-                  ? (
-                    <div className={b('tooltip')}>
-                      <AccountList
-                        accounts={this.props.accounts}
-                        selectedAccount={this.state.selectedAccount}
-                        onSelect={this.onAccountSelect}
-                      />
-                    </div>
-                  )
-                  : null
-        }
+                 ? this.renderTooltip()
+                 : null}
         destroyTooltipOnHide={this.state.destroyTooltip}
         placement="bottom"
         mouseLeaveDelay={0}
@@ -140,7 +143,7 @@ export default class TweetWindow extends Component {
       <div
         style={
           this.props.isOpen ? {
-            pointerEvents: 'none', // HACK:
+            pointerEvents: 'none',
             position: 'absolute',
             top: '0px',
             left: '0px',
@@ -187,16 +190,18 @@ export default class TweetWindow extends Component {
                 readOnly={false}
                 className={b('textarea')}
               />
-              <Button
-                onClick={this.onClick}
-                style={{
-                  margin: '10px 14px 0 auto',
-                  width: '80px',
-                  display: 'block',
-                }}
-              >
-                <i className="icon-tweet" /> Tweet
-              </Button>
+              <div>
+                <Button
+                  onClick={this.onClick}
+                  style={{
+                    margin: '6px 16px 0 auto',
+                    width: '80px',
+                    display: 'block',
+                  }}
+                >
+                  <i className="icon-tweet" /> Tweet
+                </Button>
+              </div>
             </div>
           </div>
         </ResizableAndMovable>
