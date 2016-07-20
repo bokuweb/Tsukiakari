@@ -3,7 +3,7 @@ import B from '../lib/bem';
 import ResizableAndMovable from 'react-resizable-and-movable';
 import Tooltip from 'rc-tooltip';
 import AccountList from './account-list';
-import { Button } from 're-bulma';
+import { Button, Textarea } from 're-bulma';
 import { isEqual } from 'lodash';
 import log from '../lib/log';
 
@@ -189,13 +189,19 @@ export default class TweetWindow extends Component {
                 className={b('textarea')}
               />
               <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <div style={{ width: '20px', margin: '0 auto 0 0', padding: '14px 0 0 0' }}>
+                  <i style={{ fontSize: '16px' }} className="lnr lnr-camera" />
+                </div>
                 <div style={{ width: '20px', padding: '16px 0 0 0' }}>140</div>
                 <Button
                   onClick={this.onClick}
+                  color="isPrimary"
                   style={{
                     margin: '6px 16px 0',
                     width: '80px',
                     display: 'block',
+                    color: '#fff',
+                    background: '#1cc09f',
                   }}
                 >
                   <i className="icon-tweet" /> Tweet
