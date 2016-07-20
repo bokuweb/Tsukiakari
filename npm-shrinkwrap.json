@@ -4490,9 +4490,9 @@
       }
     },
     "react-resizable-and-movable": {
-      "version": "2.0.0",
-      "from": "react-resizable-and-movable@>=2.0.0 <3.0.0",
-      "resolved": "https://registry.npmjs.org/react-resizable-and-movable/-/react-resizable-and-movable-2.0.0.tgz"
+      "version": "3.0.0",
+      "from": "react-resizable-and-movable@>=3.0.0 <4.0.0",
+      "resolved": "https://registry.npmjs.org/react-resizable-and-movable/-/react-resizable-and-movable-3.0.0.tgz"
     },
     "react-resizable-box": {
       "version": "1.4.3",

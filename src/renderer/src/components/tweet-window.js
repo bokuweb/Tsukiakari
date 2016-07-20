@@ -155,8 +155,6 @@ export default class TweetWindow extends Component {
         }
       >
         <ResizableAndMovable
-          x={100}
-          y={100}
           width={this.state.width}
           height={this.state.height}
           minWidth={280}
@@ -190,11 +188,12 @@ export default class TweetWindow extends Component {
                 readOnly={false}
                 className={b('textarea')}
               />
-              <div>
+              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <div style={{ width: '20px', padding: '16px 0 0 0' }}>140</div>
                 <Button
                   onClick={this.onClick}
                   style={{
-                    margin: '6px 16px 0 auto',
+                    margin: '6px 16px 0',
                     width: '80px',
                     display: 'block',
                   }}
