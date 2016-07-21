@@ -5,6 +5,7 @@ import Tooltip from 'rc-tooltip';
 import AccountList from './account-list';
 import { Button } from 're-bulma';
 import { isEqual } from 'lodash';
+import 'twitter-text';
 import log from '../lib/log';
 
 const b = B.with('tweet-window');
@@ -129,6 +130,11 @@ export default class TweetWindow extends Component {
   }
 
   render() {
+    const remain = 140 - twttr.txt.getTweetLength(this.state.status);
+    let buttonState = undefined;
+    if (remain < 0) buttonState = 'isDisabled';
+    else if (this.props.isPosting) buttonState = 'isLoading';
+
     return (
       <div
         style={
@@ -197,7 +203,9 @@ export default class TweetWindow extends Component {
                     placeholder=""
                   />
                 </div>
-                <div style={{ width: '20px', padding: '16px 0 0 0' }}>140</div>
+                <div style={{ width: '20px', padding: '16px 0 0 0', color: remain < 0 ? '#ed6c63' : '#666' }}>
+                  {remain}
+                </div>
                 <Button
                   onClick={this.onClick}
                   color="isPrimary"
@@ -208,7 +216,7 @@ export default class TweetWindow extends Component {
                     color: '#fff',
                     background: '#1cc09f',
                   }}
-                  state={this.props.isPosting ? 'isLoading' : undefined}
+                  state={buttonState}
                 >
                   <i className="icon-tweet" /> Tweet
                 </Button>
