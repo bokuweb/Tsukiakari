@@ -14,7 +14,7 @@ export default handleActions({
   POST_TWEET_FAIL: (state, action) => ({
     ...state,
     id: action.payload.id_str,
-    message: 'Tweet failed...',
+    message: action.payload.error && action.payload.error[0].message || 'Tweet failed...',
     level: 'error',
   }),
 }, defaultState);
