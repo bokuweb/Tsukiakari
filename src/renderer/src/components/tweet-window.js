@@ -180,7 +180,7 @@ export default class TweetWindow extends Component {
               />
               <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                 <div style={{ width: '20px', margin: '0 auto 0 0', padding: '14px 0 0 0' }}>
-                  <i style={{ fontSize: '16px' }} className="lnr lnr-camera" />
+                  <i style={{ fontSize: '16px', color: '#666' }} className="fa fa-camera" />
                 </div>
                 <div style={{ width: '20px', padding: '16px 0 0 0' }}>140</div>
                 <Button
