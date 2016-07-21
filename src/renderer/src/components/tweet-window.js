@@ -179,8 +179,23 @@ export default class TweetWindow extends Component {
                 className={b('textarea')}
               />
               <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <div style={{ width: '20px', margin: '0 auto 0 0', padding: '14px 0 0 0' }}>
-                  <i style={{ fontSize: '16px', color: '#666' }} className="fa fa-camera" />
+                <div style={{ width: '20px', margin: '0 auto 0 0', padding: '14px 0 0 0', position: 'relative' }}>
+                  <i className="fa fa-camera" style={{ fontSize: '16px', color: '#666', position: 'absolute', top: '14px', left: 0 }} />
+                  <input
+                    style={{
+                      width: '20px',
+                      height: '34px',
+                      cursor: 'pointer',
+                      opacity: 0,
+                      position: 'absolute',
+                      top: '-5px',
+                      left: 0,
+                      display: 'block',
+
+                    }}
+                    type="file"
+                    placeholder=""
+                  />
                 </div>
                 <div style={{ width: '20px', padding: '16px 0 0 0' }}>140</div>
                 <Button
