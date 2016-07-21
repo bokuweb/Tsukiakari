@@ -1,9 +1,9 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import B from '../lib/bem';
 import ResizableAndMovable from 'react-resizable-and-movable';
 import Tooltip from 'rc-tooltip';
 import AccountList from './account-list';
-import { Button, Textarea } from 're-bulma';
+import { Button } from 're-bulma';
 import { isEqual } from 'lodash';
 import log from '../lib/log';
 
@@ -18,16 +18,6 @@ const style = {
 };
 
 export default class TweetWindow extends Component {
-  static propTypes = {
-    isOpen: PropTypes.bool.isRequired,
-    children: PropTypes.any,
-    className: PropTypes.string,
-    accounts: PropTypes.array,
-    close: PropTypes.func,
-    post: PropTypes.func,
-    replyTweet: PropTypes.object,
-  };
-
   static defaultProps = {
     className: '',
     accounts: [],
@@ -203,6 +193,7 @@ export default class TweetWindow extends Component {
                     color: '#fff',
                     background: '#1cc09f',
                   }}
+                  state={this.props.isPosting ? 'isLoading' : undefined}
                 >
                   <i className="icon-tweet" /> Tweet
                 </Button>

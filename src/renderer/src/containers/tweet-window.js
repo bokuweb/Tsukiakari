@@ -10,6 +10,7 @@ function mapStateToProps(state) {
     accounts: state.accounts.accounts,
     replyTweet: state.sidemenu.replyTweet,
     replyAccount: state.sidemenu.replyAccount,
+    isPosting: state.tweetWindow.isPosting,
   };
 }
 

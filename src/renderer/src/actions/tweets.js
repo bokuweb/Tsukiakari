@@ -103,6 +103,7 @@ export const postTweet = (account, status, replyTweet) => dispatch => {
           ? replyTweet.id_str
           : null;
   const params = replyId ? { status, ['in_reply_to_status_id']: replyId } : { status };
+  dispatch(createAction('POST_TWEET_REQUEST')());
   twitter.postTweet(params)
     .then(tweet => {
       const action = createAction('POST_TWEET_SUCCESS');
