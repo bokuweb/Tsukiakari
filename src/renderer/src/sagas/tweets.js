@@ -32,7 +32,11 @@ const subscribe = (stream, account) => (
         if (data.retweeted_status && data.retweeted_status.user.id_str === account.id_str) {
 
         }
-        emit(actions.recieveTweet({ tweet: normalize(data, tweetSchema), account, type: 'Home' }));
+        window.requestIdleCallback(() => {
+          emit(actions.recieveTweet({
+            tweet: normalize(data, tweetSchema), account, type: 'Home',
+          }));
+        }, { timeout: 60000 });
       }
     });
 
