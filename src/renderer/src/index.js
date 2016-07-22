@@ -7,6 +7,11 @@ import App from './containers/app';
 
 const store = configureStore();
 
+document.ondragover = document.ondrop = e => {
+  e.preventDefault();
+  return false;
+};
+
 render(
   <Provider store={store}>
     <App />
