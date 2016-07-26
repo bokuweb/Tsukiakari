@@ -8,6 +8,7 @@ function mapStateToProps(state) {
   return {
     isOpen: state.sidemenu.isTweetWindowOpen,
     accounts: state.accounts.accounts,
+    media: state.tweetWindow.media,
     replyTweet: state.tweetWindow.replyTweet,
     replyAccount: state.tweetWindow.replyAccount,
     isPosting: state.tweetWindow.isPosting,

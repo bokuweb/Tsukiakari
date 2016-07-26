@@ -10,6 +10,7 @@ const defaultState = {
   isPosting: false,
   replyTweet: defaultReplyTweet,
   replyAccount: {},
+  media: [],
 };
 
 export default handleActions({
@@ -22,6 +23,7 @@ export default handleActions({
     isPosting: false,
     replyTweet: defaultReplyTweet,
     replyAccount: {},
+    media: [],
   }),
   POST_TWEET_FAIL: state => ({
     ...state,
@@ -37,5 +39,14 @@ export default handleActions({
     replyTweet: action.payload.tweet,
     replyAccount: action.payload.account,
   }),
+  SUCCESS_UPLOAD_MEDIA: (state, action) => {
+    const id = action.payload.response.media_id_string;
+    const { path } = action.payload.file;
+    const newMedia = [...state.media, { id, path }];
+    return {
+      ...state,
+      media: newMedia,
+    };
+  },
 }, defaultState);
 

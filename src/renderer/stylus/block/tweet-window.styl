@@ -58,10 +58,10 @@
     font-family 
     outline none
     padding 5px 5px 0 5px
-    border-radius 1px
     resize none
     -webkit-font-smoothing antialiased
     text-rendering optimizeLegibility
+    font-family "Helvetica Neue", "Helvetica", "Arial", sans-serif
 
     &::-webkit-scrollbar
       width 5px
@@ -75,6 +75,24 @@
       outline none !important
       border 1px solid #1cc09f
 
+  &__media-field
+    width calc(100% - 30px)    
+    margin -5px 0 0 2px
+    background-color: #fafafa
+    padding: 10px 5px 5px 5px
+    border-right solid 1px #e7eaec
+    border-left solid 1px #e7eaec
+    border-bottom solid 1px #e7eaec
+
+  &__media
+    display inline-block
+    margin 0 0 0 10px
+    height 40px
+    width 40px
+    background-size cover
+    background-position center center
+    border-radius 3px
+
   &__avatar
     cursor pointer
     width 32px
@@ -83,7 +101,7 @@
     border-radius 5px
     border solid 2px rgba(0,0,0,0)
     transition all 0.1s
-    font-family "Helvetica Neue", "Helvetica", "Arial", sans-serif
+
     &:hover
       border solid 2px #BDC3C7
 

@@ -19,14 +19,6 @@ const style = {
 };
 
 export default class TweetWindow extends Component {
-  static defaultProps = {
-    className: '',
-    accounts: [],
-    close: () => null,
-    post: () => null,
-    replyTweet: {},
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -46,8 +38,9 @@ export default class TweetWindow extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.replyTweet.id_str !== this.props.replyTweet.id_str) {
-      this.setState({ status: `@${nextProps.replyTweet.user.screen_name}` });
+    const nextId = nextProps.replyTweet.id_str;
+    if (nextId && nextId !== this.props.replyTweet.id_str) {
+      this.setState({ status: `@${nextProps.replyTweet.user.screen_name} ` });
     }
     if (nextProps.isOpen !== this.props.isOpen) {
       this.setState({ destroyTooltip: true });
@@ -67,11 +60,13 @@ export default class TweetWindow extends Component {
   }
 
   onResize(_, size) {
+    log.debug(size);
     this.setState({ height: size.height, destroyTooltip: true });
   }
 
   onClick() {
     this.props.post(this.state.selectedAccount, this.state.status, this.props.replyTweet);
+    // TODO: move to reducer, if post failed note delete status
     this.setState({ status: '', destroyTooltip: true });
   }
 
@@ -134,12 +129,29 @@ export default class TweetWindow extends Component {
     );
   }
 
+  renderMedia() {
+    return this.props.media.map(m => (
+      <div className={b('media')} style={{ backgroundImage: `url('${m.path}')` }} /> 
+    ));
+  }
+
+  renderMediaField() {
+    if (this.props.media.length === 0) return null;
+    return (
+      <div
+        className={b('media-field')}
+        style={{ borderRadius: '0 0 3px 3px' }}
+      >
+        {this.renderMedia()}
+      </div>
+    );
+  }
+
   render() {
     const remain = 140 - twttr.txt.getTweetLength(this.state.status);
     let buttonState = undefined;
     if (remain < 0 || remain === 140) buttonState = 'isDisabled';
     else if (this.props.isPosting) buttonState = 'isLoading';
-
     return (
       <div
         style={
@@ -156,17 +168,20 @@ export default class TweetWindow extends Component {
         }
       >
         <ResizableAndMovable
+          x={100}
+          y={300}
           width={this.state.width}
-          height={this.state.height}
-          minWidth={280}
+          height={this.props.media.length === 0 ? this.state.height : this.state.height + 60}
+          minWidth={300}
           minHeight={150}
           maxWidth={800}
-          maxHeight={600}
+          maxHeight={800}
           style={style}
           bounds="parent"
           className={b()}
           onResize={this.onResize}
           onDrag={this.onDrag}
+          canUpdateSizeByParent
         >
           <div className={b('title-wrapper')}>
             <span className={b('title')}>
@@ -183,12 +198,16 @@ export default class TweetWindow extends Component {
             <div className={b('textarea-wrapper')}>
               <textarea
                 onChange={this.onChange}
-                style={{ height: this.state.height - 96 }}
+                style={{
+                  height: this.state.height - 96,
+                  borderRadius: this.props.media.length === 0 ? '3px' : '3px 3px 0 0',
+                }}
                 value={this.state.status}
                 placeholder="What's happening?"
                 readOnly={false}
                 className={b('textarea')}
               />
+              {this.renderMediaField()}
               <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                 <div style={{ width: '20px', margin: '0 auto 0 0', padding: '14px 0 0 0', position: 'relative' }}>
                   <i className="fa fa-camera" style={{ fontSize: '16px', color: '#666', position: 'absolute', top: '14px', left: 0 }} />
