@@ -9,17 +9,6 @@ export default class TwitterClient {
       access_token_key: accessToken,
       access_token_secret: accessTokenSecret,
     });
-    //this.stream = this.client.stream('user', stream => {
-    //  stream.on('data', (data) => {
-    //    console.log(data);
-    //    // if (data.text) {
-    //    //  this.pushTweet(data)
-    //    // }
-    //  });
-    //});
-    // this.stream.on('tweet', tweet => {
-    //   console.log(tweet)
-    // });
   }
 
   getEndpoint(type) {
@@ -41,6 +30,18 @@ export default class TwitterClient {
         (error, tweets) => {
           if (error) reject(error);
           else resolve(tweets);
+        });
+    });
+  }
+
+  uploadMedia(params) {
+    return new Promise((resolve, reject) => {
+      this.client.post(
+        'media/upload',
+        { media_data: params.media },
+        (error, media, res) => {
+          if (error) reject(error);
+          else resolve(res);
         });
     });
   }

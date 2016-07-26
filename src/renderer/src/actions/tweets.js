@@ -102,7 +102,7 @@ export const postTweet = (account, status, replyTweet) => dispatch => {
   const replyId = ~status.indexOf(`@${replyTweet.user.screen_name}`)
           ? replyTweet.id_str
           : null;
-  const params = replyId ? { status, ['in_reply_to_status_id']: replyId } : { status };
+  const params = replyId ? { status, in_reply_to_status_id: replyId } : { status };
   dispatch(createAction('POST_TWEET_REQUEST')());
   twitter.postTweet(params)
     .then(tweet => {
@@ -116,3 +116,6 @@ export const postTweet = (account, status, replyTweet) => dispatch => {
     });
 };
 
+export const uploadMedia = createAction('UPLOAD_MEDIA');
+
+export const successUploadMedia = createAction('SUCCESS_UPLOAD_MEDIA');

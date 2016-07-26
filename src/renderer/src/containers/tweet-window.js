@@ -18,6 +18,7 @@ function mapDispatchToProps(dispatch) {
   return {
     post: bindActionCreators(tweets.postTweet, dispatch),
     close: bindActionCreators(sidemenu.closeTweetWindow, dispatch),
+    uploadMedia: bindActionCreators(tweets.uploadMedia, dispatch),
   };
 }
 

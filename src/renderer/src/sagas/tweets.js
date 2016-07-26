@@ -21,6 +21,14 @@ const showNotification = ({ body, icon}) => {
 
 const subscribe = (stream, account) => (
   eventChannel(emit => {
+    const rejectStream = () => {
+      stream.removeAllListeners('data');
+      stream.removeAllListeners('error');
+      stream.removeAllListeners('favorite');
+      stream.removeAllListeners('end');
+      stream.destroy();
+    };
+
     stream.on('data', data => {
       if (data.friends) {
 
@@ -53,21 +61,13 @@ const subscribe = (stream, account) => (
 
     stream.on('error', (error) => {
       log.error('Error occurred on stream', error);
-      stream.removeAllListeners('data');
-      stream.removeAllListeners('error');
-      stream.removeAllListeners('favorite');
-      stream.removeAllListeners('end');
-      stream.destroy();
+      rejectStream();
       emit(actions.connectStream({ account, error }));
     });
 
     ipcRenderer.once('suspend', () => {
       log.debug('suspend');
-      stream.removeAllListeners('data');
-      stream.removeAllListeners('error');
-      stream.removeAllListeners('favorite');
-      stream.removeAllListeners('end');
-      stream.destroy();
+      rejectStream();
       log.debug('stream destroied');
     });
 
@@ -115,6 +115,39 @@ function* watchConnect() {
   }
 }
 
+function readMedia(file) {
+  return new Promise((resolve, reject) => {
+    log.debug('read media file');
+    const reader = new FileReader();
+    reader.onload = (() => {
+      log.debug('media reading complete');
+      resolve(reader.result.replace('data:image/png;base64,', ''));
+    });
+    // TODO: support multiple files
+    reader.readAsDataURL(file);
+  });
+}
+
+function* watchMediaUpload() {
+  while (true) {
+    const { payload: { account, files } } = yield take('UPLOAD_MEDIA');
+    const { accessToken, accessTokenSecret } = account;
+    const twitter = new T(accessToken, accessTokenSecret);
+    log.debug('==== upload files ====');
+    log.debug(files);
+    // TODO: support multiple files
+    if (!/^image\//.test(files[0].type)) continue;
+    const media = yield readMedia(files[0]);
+    log.debug(media);
+    try {
+      const res = yield call(::twitter.uploadMedia, { media });
+      yield put(actions.successUploadMedia(res));
+    } catch (error) {
+      log.error(error);
+    }
+  }
+}
+
 function* destroyRetweet(account, tweet) {
   const { accessToken, accessTokenSecret } = account;
   const twitter = new T(accessToken, accessTokenSecret);
@@ -138,6 +171,7 @@ export default function* tweetsSaga() {
   yield [
     fork(watchDestroyRetweet),
     fork(watchConnect),
+    fork(watchMediaUpload),
   ];
 }
 

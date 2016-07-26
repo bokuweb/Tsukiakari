@@ -15,7 +15,7 @@ const style = {
   position: 'absolute',
   top: '0px',
   left: '0px',
-  pointerEvents: 'auto', // HACK:
+  pointerEvents: 'auto',
 };
 
 export default class TweetWindow extends Component {
@@ -42,6 +42,7 @@ export default class TweetWindow extends Component {
     this.onClick = ::this.onClick;
     this.onChange = ::this.onChange;
     this.onAccountSelect = ::this.onAccountSelect;
+    this.onSelectFile = ::this.onSelectFile;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -76,6 +77,10 @@ export default class TweetWindow extends Component {
 
   onChange({ target: { value } }) {
     this.setState({ status: value });
+  }
+
+  onSelectFile({ target: { files } }) {
+    this.props.uploadMedia({ account: this.state.selectedAccount, files });
   }
 
   close() {
@@ -132,7 +137,7 @@ export default class TweetWindow extends Component {
   render() {
     const remain = 140 - twttr.txt.getTweetLength(this.state.status);
     let buttonState = undefined;
-    if (remain < 0) buttonState = 'isDisabled';
+    if (remain < 0 || remain === 140) buttonState = 'isDisabled';
     else if (this.props.isPosting) buttonState = 'isLoading';
 
     return (
@@ -198,7 +203,8 @@ export default class TweetWindow extends Component {
                       left: 0,
                       display: 'block',
 
-                    }}
+                     }}
+                    onChange={this.onSelectFile}
                     type="file"
                     placeholder=""
                   />
