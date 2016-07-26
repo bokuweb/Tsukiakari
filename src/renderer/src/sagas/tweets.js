@@ -138,12 +138,12 @@ function* watchMediaUpload() {
     // TODO: support multiple files
     if (!/^image\//.test(files[0].type)) continue;
     const media = yield readMedia(files[0]);
-    log.debug(media);
     try {
-      const res = yield call(::twitter.uploadMedia, { media });
-      yield put(actions.successUploadMedia(res));
+      const response = yield call(::twitter.uploadMedia, { media });
+      yield put(actions.successUploadMedia({ response, file: files[0] }));
     } catch (error) {
       log.error(error);
+      yield put(actions.failUploadMedia(error));
     }
   }
 }

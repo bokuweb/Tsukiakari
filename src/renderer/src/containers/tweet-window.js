@@ -8,8 +8,8 @@ function mapStateToProps(state) {
   return {
     isOpen: state.sidemenu.isTweetWindowOpen,
     accounts: state.accounts.accounts,
-    replyTweet: state.sidemenu.replyTweet,
-    replyAccount: state.sidemenu.replyAccount,
+    replyTweet: state.tweetWindow.replyTweet,
+    replyAccount: state.tweetWindow.replyAccount,
     isPosting: state.tweetWindow.isPosting,
   };
 }

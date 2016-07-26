@@ -119,3 +119,5 @@ export const postTweet = (account, status, replyTweet) => dispatch => {
 export const uploadMedia = createAction('UPLOAD_MEDIA');
 
 export const successUploadMedia = createAction('SUCCESS_UPLOAD_MEDIA');
+
+export const failUploadMedia = createAction('FAIL_UPLOAD_MEDIA');

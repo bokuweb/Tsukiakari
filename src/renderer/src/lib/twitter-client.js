@@ -39,7 +39,7 @@ export default class TwitterClient {
       this.client.post(
         'media/upload',
         { media_data: params.media },
-        (error, media, res) => {
+        (error, res) => {
           if (error) reject(error);
           else resolve(res);
         });
