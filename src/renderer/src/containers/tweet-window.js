@@ -12,6 +12,7 @@ function mapStateToProps(state) {
     replyTweet: state.tweetWindow.replyTweet,
     replyAccount: state.tweetWindow.replyAccount,
     isPosting: state.tweetWindow.isPosting,
+    isMediaUploading: state.tweetWindow.isMediaUploading,
   };
 }
 

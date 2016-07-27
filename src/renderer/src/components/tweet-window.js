@@ -130,8 +130,14 @@ export default class TweetWindow extends Component {
   }
 
   renderMedia() {
-    return this.props.media.map(m => (
-      <div className={b('media')} style={{ backgroundImage: `url('${m.path}')` }} /> 
+    return this.props.media.map((m, i) => (
+      <div
+        key={i}
+        className={b('media')}
+        style={{ backgroundImage: `url('${m.path}')` }}
+      >
+        <i className="fa fa-cross" />aaa
+      </div>
     ));
   }
 
@@ -255,6 +261,7 @@ export default class TweetWindow extends Component {
               </div>
             </div>
           </div>
+      {this.props.isMediaUploading ? <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: '#fff', opacity: '0.7'}} /> : null}
         </ResizableAndMovable>
       </div>
     );
