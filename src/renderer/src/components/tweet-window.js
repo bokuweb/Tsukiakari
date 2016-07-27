@@ -59,9 +59,9 @@ export default class TweetWindow extends Component {
     this.setState({ selectedAccount: account, destroyTooltip: true });
   }
 
-  onResize(_, size) {
-    log.debug(size);
-    this.setState({ height: size.height, destroyTooltip: true });
+  onResize(_, size, client) {
+    log.debug(size, client);
+    this.setState({ height: size.height, width: size.width, destroyTooltip: true });
   }
 
   onClick() {
@@ -171,12 +171,19 @@ export default class TweetWindow extends Component {
           x={100}
           y={300}
           width={this.state.width}
-          height={this.props.media.length === 0 ? this.state.height : this.state.height + 60}
+          height={this.state.height}
           minWidth={300}
           minHeight={150}
           maxWidth={800}
           maxHeight={800}
-          style={style}
+          style={{
+            backgroundColor: '#fff',
+            position: 'absolute',
+            top: '0px',
+            left: '0px',
+            pointerEvents: 'auto',
+            padding: this.props.media.length === 0 ? '0 0 4px 0' : '0 0 64px 0',
+          }}
           bounds="parent"
           className={b()}
           onResize={this.onResize}
@@ -199,7 +206,7 @@ export default class TweetWindow extends Component {
               <textarea
                 onChange={this.onChange}
                 style={{
-                  height: this.state.height - 96,
+                  height: this.state.height - 110,
                   borderRadius: this.props.media.length === 0 ? '3px' : '3px 3px 0 0',
                 }}
                 value={this.state.status}
@@ -208,8 +215,8 @@ export default class TweetWindow extends Component {
                 className={b('textarea')}
               />
               {this.renderMediaField()}
-              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <div style={{ width: '20px', margin: '0 auto 0 0', padding: '14px 0 0 0', position: 'relative' }}>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '0 0 16px' }}>
+                <div style={{ width: '20px', margin: '0 auto 0 0', padding: '14px 0 0px 0', position: 'relative' }}>
                   <i className="fa fa-camera" style={{ fontSize: '16px', color: '#666', position: 'absolute', top: '14px', left: 0 }} />
                   <input
                     style={{
