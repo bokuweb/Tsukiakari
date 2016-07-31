@@ -6,6 +6,7 @@ import AccountList from './account-list';
 import { Button } from 're-bulma';
 import { isEqual } from 'lodash';
 import 'twitter-text';
+import Spinner from './spinner';
 import log from '../lib/log';
 
 const b = B.with('tweet-window');
@@ -261,7 +262,11 @@ export default class TweetWindow extends Component {
               </div>
             </div>
           </div>
-      {this.props.isMediaUploading ? <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: '#fff', opacity: '0.7'}} /> : null}
+      {
+        this.props.isMediaUploading
+          ? <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: '#fff', opacity: '0.7'}}><Spinner style={{ padding: '10% 0 0 80px' }} /></div>
+          : null
+      }
         </ResizableAndMovable>
       </div>
     );
