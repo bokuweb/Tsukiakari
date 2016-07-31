@@ -137,7 +137,7 @@ export default class TweetWindow extends Component {
         className={b('media')}
         style={{ backgroundImage: `url('${m.path}')` }}
       >
-        <i className="fa fa-cross" />aaa
+        <i className="fa fa-close" />
       </div>
     ));
   }
