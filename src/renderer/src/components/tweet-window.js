@@ -8,16 +8,9 @@ import { isEqual } from 'lodash';
 import 'twitter-text';
 import Spinner from './spinner';
 import log from '../lib/log';
+import UploadMedia from '../containers/upload-media';
 
 const b = B.with('tweet-window');
-
-const style = {
-  backgroundColor: '#fff',
-  position: 'absolute',
-  top: '0px',
-  left: '0px',
-  pointerEvents: 'auto',
-};
 
 export default class TweetWindow extends Component {
   constructor(props) {
@@ -130,30 +123,6 @@ export default class TweetWindow extends Component {
     );
   }
 
-  renderMedia() {
-    return this.props.media.map((m, i) => (
-      <div
-        key={i}
-        className={b('media')}
-        style={{ backgroundImage: `url('${m.path}')` }}
-      >
-        <i className="fa fa-close" />
-      </div>
-    ));
-  }
-
-  renderMediaField() {
-    if (this.props.media.length === 0) return null;
-    return (
-      <div
-        className={b('media-field')}
-        style={{ borderRadius: '0 0 3px 3px' }}
-      >
-        {this.renderMedia()}
-      </div>
-    );
-  }
-
   render() {
     const remain = 140 - twttr.txt.getTweetLength(this.state.status);
     let buttonState = undefined;
@@ -221,7 +190,7 @@ export default class TweetWindow extends Component {
                 readOnly={false}
                 className={b('textarea')}
               />
-              {this.renderMediaField()}
+              <UploadMedia media={this.props.media} />
               <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '0 0 16px' }}>
                 <div style={{ width: '20px', margin: '0 auto 0 0', padding: '14px 0 0px 0', position: 'relative' }}>
                   <i className="fa fa-camera" style={{ fontSize: '16px', color: '#666', position: 'absolute', top: '14px', left: 0 }} />
@@ -236,7 +205,7 @@ export default class TweetWindow extends Component {
                       left: 0,
                       display: 'block',
 
-                     }}
+                    }}
                     onChange={this.onSelectFile}
                     type="file"
                     placeholder=""
@@ -264,7 +233,7 @@ export default class TweetWindow extends Component {
           </div>
       {
         this.props.isMediaUploading
-          ? <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: '#fff', opacity: '0.7'}}><Spinner style={{ padding: '10% 0 0 80px' }} /></div>
+          ? <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: '#fff', opacity: '0.7' }}><Spinner style={{ padding: '10% 0 0 80px' }} /></div>
           : null
       }
         </ResizableAndMovable>

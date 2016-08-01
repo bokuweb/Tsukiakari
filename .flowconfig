@@ -4,5 +4,9 @@
 [include]
 
 [libs]
+./src/decls
+node_modules/iflow-lodash/index.js.flow
+node_modules/iflow-react-redux/index.js.flow
 
 [options]
+esproposal.class_static_fields=enable

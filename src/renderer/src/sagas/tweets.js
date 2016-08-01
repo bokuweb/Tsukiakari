@@ -10,7 +10,7 @@ import log from '../lib/log';
 
 const tweetSchema = new Schema('tweets', { idAttribute: 'id_str' });
 
-const showNotification = ({ body, icon}) => {
+const showNotification = ({ body, icon }) => {
   log.debug(data);
   /* eslint-disable no-new */
   new Notification('Favorited', {
@@ -108,7 +108,7 @@ function* connectStream(account) {
 function* watchConnect() {
   const connection = {};
   while (true) {
-    // FIXME: 
+    // FIXME:
     const { payload: { account } } = yield take('CONNECT_STREAM');
     if (connection[account.id]) yield cancel(connection[account.id]);
     connection[account.id] = yield fork(connectStream, account);
