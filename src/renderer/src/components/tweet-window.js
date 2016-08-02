@@ -21,6 +21,7 @@ export default class TweetWindow extends Component {
       status: '',
       destroyTooltip: false,
       selectedAccount: props.accounts[0],
+      path: null,
     };
     this.onResize = ::this.onResize;
     this.close = ::this.close;
@@ -38,6 +39,9 @@ export default class TweetWindow extends Component {
     }
     if (nextProps.isOpen !== this.props.isOpen) {
       this.setState({ destroyTooltip: true });
+    }
+    if (nextProps.media.length !== this.props.media.length) {
+      this.setState({ path: null });
     }
   }
 
@@ -68,8 +72,11 @@ export default class TweetWindow extends Component {
     this.setState({ status: value });
   }
 
-  onSelectFile({ target: { files } }) {
-    this.props.uploadMedia({ account: this.state.selectedAccount, files });
+  onSelectFile({ target }) {
+    // TODO: accounce
+    if (this.props.media.length >= 4) return;
+    this.setState({ path: target.value });
+    this.props.uploadMedia({ account: this.state.selectedAccount, files: target.files });
   }
 
   close() {
@@ -204,7 +211,7 @@ export default class TweetWindow extends Component {
                       top: '-5px',
                       left: 0,
                       display: 'block',
-
+                      value: this.state.path,
                     }}
                     onChange={this.onSelectFile}
                     type="file"
