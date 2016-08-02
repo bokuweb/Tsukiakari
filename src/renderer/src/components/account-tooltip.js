@@ -1,17 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import { Button } from 'react-bulma';
+import { Button } from 're-bulma';
 import B from '../lib/bem';
 
 const b = B.with('account-tooltip');
 
 export default class AccountTooltip extends Component {
-  static propTypes = {
-    account: PropTypes.object.isRequired,
-    self: PropTypes.bool,
-    buttonText: PropTypes.string,
-    onButtonClick: PropTypes.func,
-  }
-
   static defaultProps = {
     self: true,
     buttonText: '',

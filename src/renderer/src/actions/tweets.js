@@ -95,14 +95,19 @@ export const connectStream = createAction('CONNECT_STREAM');
 
 export const reply = createAction('REPLY');
 
-export const postTweet = (account, status, replyTweet) => dispatch => {
+export const postTweet = (account, status, replyTweet) => (dispatch, getState) => {
   if (status === '') return;
+  const media = getState().tweetWindow.media;
+  const mediaIds = media.map(m => m.id).join(',');
   const { accessToken, accessTokenSecret } = account;
   const twitter = new Twitter(accessToken, accessTokenSecret);
   const replyId = ~status.indexOf(`@${replyTweet.user.screen_name}`)
           ? replyTweet.id_str
           : null;
-  const params = replyId ? { status, ['in_reply_to_status_id']: replyId } : { status };
+  const params = { status };
+  if (replyId) params.in_reply_to_status_id = replyId;
+  if (mediaIds) params.media_ids = mediaIds;
+  dispatch(createAction('POST_TWEET_REQUEST')());
   twitter.postTweet(params)
     .then(tweet => {
       const action = createAction('POST_TWEET_SUCCESS');
@@ -115,3 +120,8 @@ export const postTweet = (account, status, replyTweet) => dispatch => {
     });
 };
 
+export const uploadMedia = createAction('UPLOAD_MEDIA');
+
+export const successUploadMedia = createAction('SUCCESS_UPLOAD_MEDIA');
+
+export const failUploadMedia = createAction('FAIL_UPLOAD_MEDIA');

@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import Timeline from './timeline';
 import { isEqual } from 'lodash';
 import B from '../lib/bem';
@@ -6,17 +6,6 @@ import B from '../lib/bem';
 const b = B.with('timeline-box');
 
 export default class TimelineBox extends Component {
-  static propTypes = {
-    timeline: PropTypes.object,
-    accounts: PropTypes.array,
-    column: PropTypes.object,
-    deleteRequest: PropTypes.func,
-    createFavorite: PropTypes.func,
-    destroyFavorite: PropTypes.func,
-    reply: PropTypes.func,
-    openLightBox: PropTypes.func,
-  };
-
   static defaultProps = {
 
   };
@@ -24,6 +13,10 @@ export default class TimelineBox extends Component {
   constructor(props) {
     super(props);
     this.onClose = ::this.onClose;
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return !isEqual(this.props, nextProps);
   }
 
   onMouseDown(e) {
@@ -59,14 +52,7 @@ export default class TimelineBox extends Component {
           id={id}
           results={results}
           timeline={this.props.timeline}
-          createReply={this.props.createReply}
-          createFavorite={this.props.createFavorite}
-          createRetweet={this.props.createRetweet}
-          destroyFavorite={this.props.destroyFavorite}
-          destroyRetweet={this.props.destroyRetweet}
-          reply={this.props.reply}
           accounts={this.props.accounts}
-          openLightBox={this.props.openLightBox}
         />
       </div>
     );

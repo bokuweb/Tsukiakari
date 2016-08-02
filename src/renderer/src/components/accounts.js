@@ -1,15 +1,10 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import Account from './account';
 import B from '../lib/bem';
 
 const b = B.with('accounts');
 
 export default class Accounts extends Component {
-  static propTypes = {
-    accounts: PropTypes.array,
-    addAccount: PropTypes.func.isRequired,
-  }
-
   static defaultProps = {
     accounts: [],
   };

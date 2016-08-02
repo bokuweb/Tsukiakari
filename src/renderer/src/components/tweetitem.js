@@ -1,8 +1,9 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import B from '../lib/bem';
 import log from '../lib/log';
 import { decodeHtml } from '../utils/utils';
-import TweetItemFooter from './tweetitem-footer';
+import { isEqual } from 'lodash';
+import TweetItemFooter from '../containers/tweetitem-footer';
 import { link } from 'autolinker';
 import { htmlEscape } from 'twitter-text';
 import { default as Video, Controls, Play, Mute, Seek, Time, Overlay } from 'react-html5video';
@@ -12,20 +13,16 @@ import AccountTooltip from './account-tooltip';
 const b = B.with('tweetitem');
 
 export default class TweetItem extends Component {
-  static propTypes = {
-    accounts: PropTypes.array,
-    tweet: PropTypes.object,
-    createFavorite: PropTypes.func,
-    destroyFavorite: PropTypes.func,
-    reply: PropTypes.func,
-    openLightBox: PropTypes.func,
-  };
-
   constructor(props) {
     super(props);
     this.state = { destroyTooltip: false };
     this.onAccountClick = ::this.onAccountClick;
   }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return !isEqual(this.props, nextProps) || !isEqual(this.state, nextState);
+  }
+
 
   onAccountClick() {
 
@@ -94,10 +91,7 @@ export default class TweetItem extends Component {
     const onClick = this.onImageClick.bind(this, 0);
     return (
       <div className={b('media-wrapper', { [id]: true })} onClick={onClick}>
-        <img
-          className={b('media-image')}
-          src={url}
-        />
+        <img className={b('media-image')} src={url} alt="mediaImage" />
       </div>
     );
   }
@@ -250,16 +244,7 @@ export default class TweetItem extends Component {
           </span>
           {this.renderQuotedTweet()}
           {this.renderMediaContents()}
-          <TweetItemFooter
-            tweet={tweet}
-            createReply={this.props.createReply}
-            createFavorite={this.props.createFavorite}
-            createRetweet={this.props.createRetweet}
-            destroyFavorite={this.props.destroyFavorite}
-            destroyRetweet={this.props.destroyRetweet}
-            reply={this.props.reply}
-            accounts={this.props.accounts}
-          />
+          <TweetItemFooter id={this.props.id} timelineKey={this.props.timelineKey} />
         </div>
       </div>
     );
@@ -273,7 +258,6 @@ export default class TweetItem extends Component {
   }
 
   render() {
-    log.debug('render tweet item');
     return (
       <div className={b()}>
         {this.renderRetweetedMessage()}

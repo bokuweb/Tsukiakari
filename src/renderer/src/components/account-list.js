@@ -1,16 +1,10 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { isEmpty } from 'lodash';
 import B from '../lib/bem';
 
 const b = B.with('account-selector');
 
 export default class AccountList extends Component {
-  static propTypes = {
-    onSelect: PropTypes.func,
-    accounts: PropTypes.array,
-    selectedAccount: PropTypes.object,
-  };
-
   static defaultProps = {
     onSelect: () => null,
     accounts: [],

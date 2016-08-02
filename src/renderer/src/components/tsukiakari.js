@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import NotificationContainer from '../containers/notification';
 import AccountsContainer from '../containers/accounts';
 import ContentsContainer from '../containers/contents';
 import AddColumnMenuContainer from '../containers/add-column-menu';
@@ -27,7 +28,9 @@ export default class Tsukiakari extends Component {
   }
 
   render() {
-    if (this.props.accountLength === 0) return <Spinner style={{ padding: '10% 0 0 80px' }} />;
+    if (this.props.accountLength === 0) {
+      return <Spinner style={{ padding: '10% 0 0 80px' }} />;
+    }
     return (
       <div className={b(null, { blur: this.props.isLightBoxOpen })}>
         <AccountsContainer />
@@ -39,6 +42,7 @@ export default class Tsukiakari extends Component {
           backdropClosesModal
         />
         <TweetWindowContainer />
+        <NotificationContainer />
       </div>
     );
   }

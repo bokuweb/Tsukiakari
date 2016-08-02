@@ -1,22 +1,23 @@
 .tweet-window
   background #fff
   border solid 1px #e7eaec
-  padding 0 0 28px 0
-  border-radius 1px
+  border-radius 3px
   box-shadow 0 6px 12px rgba(0,0,0,0.05)
-  animation-duration 0.2s
+  animation-duration 0.1s
   animation-fill-mode both  
   animation-name fadeInZoom
 
   &__title-wrapper
     border-bottom 1px solid #e7eaec
-    padding 10px
+    padding 12px 10px 6px 10px
+    background #fdfdfd
 
   &__title
     font-size 1.4rem
     display inline-block
-    width calc(100% - 32px)
+    width calc(100% - 36px)
     padding 0 0 0 6px
+    color $grey-dark
 
   &__username
     font-size 1.0rem
@@ -27,10 +28,15 @@
   &__icon
     font-size 1.4rem
     cursor pointer
-    margin 0 12px 0 0
+    margin 10px 6px 0 0
+    padding 5px
+    border-radius 50%
+
+    &:hover
+      background #f0f0f0
 
   &__body
-    padding 5px 2px 4px 0px
+    padding 5px 2px 0 0px
     display flex
 
   &__textarea-wrapper
@@ -44,32 +50,47 @@
   &__textarea
     width calc(100% - 30px)
     height 100%
-    margin 10px 0 0 6px
-    font-size 1.3rem
-    color #2C3E50
+    margin 10px 0 0 2px
+    font-size 1.4rem
+    color $grey-dark
     border solid 1px #e7eaec
+    font-family 
     outline none
-    padding 5px 5px 2px 5px
-    border-radius 1px
+    padding 5px 5px 0 5px
     resize none
+    -webkit-font-smoothing antialiased
+    text-rendering optimizeLegibility
+    font-family "Helvetica Neue", "Helvetica", "Arial", sans-serif
+
+    &::-webkit-scrollbar
+      width 5px
+      height 5px
+
+    &::-webkit-scrollbar-thumb
+      background #34495E
+      border-radius 2px
+
+    &:focus
+      outline none !important
+      border 1px solid #1cc09f
 
   &__avatar
     cursor pointer
     width 32px
     height 32px
-    margin 10px
+    margin 8px 10px 10px 10px
     border-radius 5px
     border solid 2px rgba(0,0,0,0)
-    transition all 0.2s
+    transition all 0.1s
 
     &:hover
       border solid 2px #BDC3C7
 
   &__tooltip
-    background #f5f5f5
+    background #fafafa
     border-radius 3px
     padding 1px
     box-shadow 0 6px 12px rgba(0,0,0,0.075)
-    animation-duration 0.2s
+    animation-duration 0.1s
     animation-fill-mode both  
     animation-name fadeInZoom

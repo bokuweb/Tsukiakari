@@ -10,8 +10,25 @@ import log from '../lib/log';
 
 const tweetSchema = new Schema('tweets', { idAttribute: 'id_str' });
 
+const showNotification = ({ body, icon }) => {
+  log.debug(data);
+  /* eslint-disable no-new */
+  new Notification('Favorited', {
+    body: `your tweet is favorited by ${data.source.name}`,
+    icon: data.source.profile_image_url_https,
+  });
+};
+
 const subscribe = (stream, account) => (
   eventChannel(emit => {
+    const rejectStream = () => {
+      stream.removeAllListeners('data');
+      stream.removeAllListeners('error');
+      stream.removeAllListeners('favorite');
+      stream.removeAllListeners('end');
+      stream.destroy();
+    };
+
     stream.on('data', data => {
       if (data.friends) {
 
@@ -20,10 +37,14 @@ const subscribe = (stream, account) => (
       } else if (data.delete) {
 
       } else if (data.created_at) {
-        //if (data.retweeted_status && data.retweeted_status.user.id_str === user.id_str) {
-        // eventEmitter.emit('retweet', data);
-        //}
-        emit(actions.recieveTweet({ tweet: normalize(data, tweetSchema), account, type: 'Home' }));
+        if (data.retweeted_status && data.retweeted_status.user.id_str === account.id_str) {
+
+        }
+        window.requestIdleCallback(() => {
+          emit(actions.recieveTweet({
+            tweet: normalize(data, tweetSchema), account, type: 'Home',
+          }));
+        }, { timeout: 60000 });
       }
     });
 
@@ -40,21 +61,13 @@ const subscribe = (stream, account) => (
 
     stream.on('error', (error) => {
       log.error('Error occurred on stream', error);
-      stream.removeAllListeners('data');
-      stream.removeAllListeners('error');
-      stream.removeAllListeners('favorite');
-      stream.removeAllListeners('end');
-      stream.destroy();
+      rejectStream();
       emit(actions.connectStream({ account, error }));
     });
 
     ipcRenderer.once('suspend', () => {
       log.debug('suspend');
-      stream.removeAllListeners('data');
-      stream.removeAllListeners('error');
-      stream.removeAllListeners('favorite');
-      stream.removeAllListeners('end');
-      stream.destroy();
+      rejectStream();
       log.debug('stream destroied');
     });
 
@@ -64,7 +77,7 @@ const subscribe = (stream, account) => (
         if (!navigator.onLine) return;
         clearInterval(id);
         emit(actions.connectStream({ account }));
-      }, 1000);
+      }, 3000);
     });
   })
 );
@@ -95,10 +108,43 @@ function* connectStream(account) {
 function* watchConnect() {
   const connection = {};
   while (true) {
-    // FIXME: 
+    // FIXME:
     const { payload: { account } } = yield take('CONNECT_STREAM');
     if (connection[account.id]) yield cancel(connection[account.id]);
     connection[account.id] = yield fork(connectStream, account);
+  }
+}
+
+function readMedia(file) {
+  return new Promise((resolve, reject) => {
+    log.debug('read media file');
+    const reader = new FileReader();
+    reader.onload = (() => {
+      log.debug('media reading complete');
+      resolve(reader.result.replace('data:image/png;base64,', ''));
+    });
+    // TODO: support multiple files
+    reader.readAsDataURL(file);
+  });
+}
+
+function* watchMediaUpload() {
+  while (true) {
+    const { payload: { account, files } } = yield take('UPLOAD_MEDIA');
+    const { accessToken, accessTokenSecret } = account;
+    const twitter = new T(accessToken, accessTokenSecret);
+    log.debug('==== upload files ====');
+    log.debug(files);
+    // TODO: support multiple files
+    if (!/^image\//.test(files[0].type)) continue;
+    const media = yield readMedia(files[0]);
+    try {
+      const response = yield call(::twitter.uploadMedia, { media });
+      yield put(actions.successUploadMedia({ response, file: files[0] }));
+    } catch (error) {
+      log.error(error);
+      yield put(actions.failUploadMedia(error));
+    }
   }
 }
 
@@ -125,6 +171,7 @@ export default function* tweetsSaga() {
   yield [
     fork(watchDestroyRetweet),
     fork(watchConnect),
+    fork(watchMediaUpload),
   ];
 }
 

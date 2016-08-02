@@ -1,11 +1,6 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 
 export default class ItemSelector extends Component {
-  static propTypes = {
-    onClick: PropTypes.func,
-    items: PropTypes.array,
-  };
-
   static defaultProps = {
     items: [],
   }

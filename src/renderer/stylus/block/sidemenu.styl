@@ -3,11 +3,11 @@
   width 220px
   background #233749
   height 100%
-  transition width 0.2s
+  transition width 0.1s
 
   @media screen and (max-width: 640px)
     display none
-    transition width 0.2s
+    transition width 0.1s
 
   &__wrapper
     height calc(100% - 58px)
@@ -19,9 +19,9 @@
     border-bottom solid 1px #233749
 
   &__logo
-    width 160px
+    width 150px
     height auto
-    margin 10px auto 0 auto
+    margin 10px 6px 10px  
     display block
     padding-right 50px
 
@@ -32,7 +32,7 @@
     font-size 2rem
     padding 0 0 0 40px
     cursor pointer
-    transition opacity 0.2s
+    transition opacity 0.1s
 
     &:hover
       opacity 0.8
@@ -46,7 +46,7 @@
     width 200px
     line-height 42px
     border-radius 2px 0 0 2px
-    transition all 0.2s
+    transition all 0.1s
     cursor pointer
 
   &__button--addcolumn:hover
@@ -111,9 +111,17 @@
   &__menu-icon
     color #fff
     position absolute
-    top 29px
+    top 24px
     left 236px
-    font-size 16px
+    font-size 13px
+    padding 6px 8px
+    background #1F2F44
     cursor pointer
+    border-radius 5px
+    transition background 0.1s
+
+    &:hover
+      background #1cc09f
+
 
 

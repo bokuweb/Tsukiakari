@@ -1,6 +1,6 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import ReactList from 'react-list';
-import TweetItem from './tweetitem';
+import TweetItem from '../containers/tweetitem';
 import Spinner from './spinner';
 import B from '../lib/bem';
 import log from '../lib/log';
@@ -8,29 +8,20 @@ import log from '../lib/log';
 const b = B.with('timeline');
 
 export default class Timeline extends Component {
-  static propTypes = {
-    results: PropTypes.array,
-    timeline: PropTypes.object,
-    id: PropTypes.string,
-    createFavorite: PropTypes.func,
-    destroyFavorite: PropTypes.func,
-    openLightBox: PropTypes.func,
-    reply: PropTypes.func,
-  };
-
   constructor(props) {
     super(props);
     this.onMouseDown = ::this.onMouseDown;
     this.onScroll = ::this.onScroll;
+    this.renderItems = ::this.renderItems;
     this.scrollTimer = null;
   }
 
   componentDidMount() {
-    this.refs.scroll.addEventListener('scroll', this.onScroll);
+    // this.refs.scroll.addEventListener('scroll', this.onScroll);
   }
 
   componentWillUnmount() {
-    this.refs.scroll.removeEventListener('scroll', this.onScroll);
+    // this.refs.scroll.removeEventListener('scroll', this.onScroll);
   }
 
   onScrollEnd() {
@@ -69,17 +60,7 @@ export default class Timeline extends Component {
         key={id}
         ref={ref}
       >
-        <TweetItem
-          tweet={this.props.timeline[key].entities.tweets[id]}
-          createReply={this.props.createReply}
-          createFavorite={this.props.createFavorite}
-          createRetweet={this.props.createRetweet}
-          destroyFavorite={this.props.destroyFavorite}
-          destroyRetweet={this.props.destroyRetweet}
-          reply={this.props.reply}
-          accounts={this.props.accounts}
-          openLightBox={this.props.openLightBox}
-        />
+        <TweetItem id={id} timelineKey={key} />
       </div>
     );
   }
@@ -96,10 +77,12 @@ export default class Timeline extends Component {
               ? <Spinner style={{ padding: '50px 0 0 40px' }} />
               : (
                   <ReactList
-                    itemRenderer={::this.renderItems}
+                    ref="list"
+                    itemRenderer={this.renderItems}
                     length={this.props.results.length}
                     type="variable"
-                    pageSize={20}
+                    threshold={300}
+                    pageSize={5}
                     useTranslate3d
                   />
               )
