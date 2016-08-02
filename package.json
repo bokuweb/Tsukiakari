@@ -85,7 +85,7 @@
     "moment": "^2.13.0",
     "normalizr": "^2.0.2",
     "rc-tooltip": "^3.3.2",
-    "re-bulma": "0.0.23",
+    "re-bulma": "^0.2.0",
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
     "react-html5video": "^1.2.10",

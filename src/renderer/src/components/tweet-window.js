@@ -3,12 +3,12 @@ import B from '../lib/bem';
 import ResizableAndMovable from 'react-resizable-and-movable';
 import Tooltip from 'rc-tooltip';
 import AccountList from './account-list';
-import { Button } from 're-bulma';
 import { isEqual } from 'lodash';
 import 'twitter-text';
 import Spinner from './spinner';
 import log from '../lib/log';
 import UploadMedia from '../containers/upload-media';
+import TweetWindowFooter from './tweet-window-footer';
 
 const b = B.with('tweet-window');
 
@@ -194,7 +194,7 @@ export default class TweetWindow extends Component {
             className={b('body')}
             onDragLeave={() => console.log('leave')}
             onDragOver={() => console.log('asd')}
-        onDrop={this.onDropFile.bind(this)}
+            onDrop={this.onDropFile.bind(this)}
           >
             {this.renderAccount()}
             <div className={b('textarea-wrapper')}>
@@ -210,44 +210,12 @@ export default class TweetWindow extends Component {
                 className={b('textarea')}
               />
               <UploadMedia media={this.props.media} />
-              <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '0 0 16px' }}>
-                <div style={{ width: '20px', margin: '0 auto 0 0', padding: '14px 0 0px 0', position: 'relative' }}>
-                  <i className="fa fa-camera" style={{ fontSize: '16px', color: '#666', position: 'absolute', top: '14px', left: 0 }} />
-                  <input
-                    style={{
-                      width: '20px',
-                      height: '34px',
-                      cursor: 'pointer',
-                      opacity: 0,
-                      position: 'absolute',
-                      top: '-5px',
-                      left: 0,
-                      display: 'block',
-                      value: this.state.path,
-                    }}
-                    onChange={this.onSelectFile}
-                    type="file"
-                    placeholder=""
-                  />
-                </div>
-                <div style={{ width: '20px', padding: '16px 0 0 0', color: remain < 0 ? '#ed6c63' : '#666' }}>
-                  {remain}
-                </div>
-                <Button
-                  onClick={this.onClick}
-                  color="isPrimary"
-                  style={{
-                    margin: '6px 16px 0',
-                    width: '80px',
-                    display: 'block',
-                    color: '#fff',
-                    background: '#1cc09f',
-                  }}
-                  state={buttonState}
-                >
-                  <i className="icon-tweet" /> Tweet
-                </Button>
-              </div>
+              <TweetWindowFooter
+                remain={remain}
+                onClick={this.onClick}
+                onSelectFile={this.onSelectFile}
+                buttonState={buttonState}
+              />
             </div>
           </div>
       {
