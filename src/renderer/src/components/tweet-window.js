@@ -79,6 +79,13 @@ export default class TweetWindow extends Component {
     this.props.uploadMedia({ account: this.state.selectedAccount, files: target.files });
   }
 
+  onDropFile({ dataTransfer }) {
+    // TODO: accounce
+    if (this.props.media.length >= 4) return;
+    this.setState({ path: dataTransfer.path });
+    this.props.uploadMedia({ account: this.state.selectedAccount, files: dataTransfer.files });
+  }
+
   close() {
     this.props.close();
     this.setState({ destroyTooltip: true });
@@ -183,7 +190,12 @@ export default class TweetWindow extends Component {
               onClick={this.close}
             />
           </div>
-          <div className={b('body')}>
+          <div
+            className={b('body')}
+            onDragLeave={() => console.log('leave')}
+            onDragOver={() => console.log('asd')}
+        onDrop={this.onDropFile.bind(this)}
+          >
             {this.renderAccount()}
             <div className={b('textarea-wrapper')}>
               <textarea
