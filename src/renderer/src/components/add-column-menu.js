@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import ItemSelector from './item-selector';
 import AccountSelector from './account-selector';
 import B from '../lib/bem';
