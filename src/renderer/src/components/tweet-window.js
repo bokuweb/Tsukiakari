@@ -10,6 +10,7 @@ import 'twitter-text';
 import Spinner from './spinner';
 import log from '../lib/log';
 import UploadMedia from '../containers/upload-media';
+import TweetWindowHeader from './tweet-window-header';
 import TweetWindowFooter from './tweet-window-footer';
 
 const b = B.with('tweet-window');
@@ -186,16 +187,7 @@ export default class TweetWindow extends Component {
           onDrag={this.onDrag}
           canUpdateSizeByParent
         >
-          <div className={b('title-wrapper')}>
-            <span className={b('title')}>
-              <i className={`${b('icon')} icon-tweet`} />
-              New Tweet
-            </span>
-            <i
-              className={`${b('icon')} lnr lnr-cross`}
-              onClick={this.close}
-            />
-          </div>
+          <TweetWindowHeader close={this.close} />
           <div
             className={b('body')}
              onDragOver={() => {
