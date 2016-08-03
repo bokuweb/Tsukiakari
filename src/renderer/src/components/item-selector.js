@@ -21,8 +21,8 @@ export default class ItemSelector extends Component {
     return (
       <div className="item-selector" style={this.props.style}>
         <div className="item-selector__title-wrapper" >
-          <i className="item-selector__icon--users fa fa-check-square-o" />
-          <span className="item-selector__title">Choose column type</span>
+          <i className="item-selector__icon--users lnr lnr-list" />
+          <span className="item-selector__title">Column type</span>
         </div>
         <div className="item-selector__items" >
           <ul className="item-selector__ul">

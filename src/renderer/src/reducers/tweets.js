@@ -190,7 +190,7 @@ export default handleActions({
       title,
       icon,
       contents: [{ account, type, key }],
-      results: timeline.results,
+      results: timeline.results.map(result => ({ key, id: result })),
     }]);
     return {
       ...state,

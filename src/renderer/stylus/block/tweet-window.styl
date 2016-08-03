@@ -11,6 +11,7 @@
     border-bottom 1px solid #e7eaec
     padding 12px 10px 6px 10px
     background #fdfdfd
+    position relative
 
   &__title
     font-size 1.4rem
@@ -84,13 +85,15 @@
     transition all 0.1s
 
     &:hover
-      border solid 2px #BDC3C7
+      border solid 2px #F0F0F0
 
   &__tooltip
     background #fafafa
     border-radius 3px
     padding 1px
-    box-shadow 0 6px 12px rgba(0,0,0,0.075)
+    box-shadow 0 6px 12px rgba(0,0,0,0.05)
     animation-duration 0.1s
     animation-fill-mode both  
     animation-name fadeInZoom
+
+@import 'tweet-window-footer'

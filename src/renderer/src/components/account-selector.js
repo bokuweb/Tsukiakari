@@ -25,7 +25,7 @@ export default class AccountSelector extends Component {
     return (
       <div className={b()}>
         <div className={b('title-wrapper')}>
-          <i className={`${b('icon', { users: true })} lnr lnr-users`} />
+          <i className={`${b('icon', { users: true })} lnr lnr-user`} />
           <span className={b('title')}>Choose account</span>
         </div>
         <div className={b('accounts')}>
@@ -37,16 +37,21 @@ export default class AccountSelector extends Component {
         </div>
         <div className={b('buttons')}>
           <Button
+             style={{
+               marginRight: '6px',
+               background: '#1cc09f',
+               color: '#fff',
+               border: 'none',
+             }}
+            onClick={this.props.onCreate.bind(this, this.state.selectedAccount)}
+          >
+            Create
+          </Button>
+          <Button
             className={b('button', { back: true })}
             onClick={this.props.onBackClick}
           >
             Back
-          </Button>
-          <Button
-            style={{ marginLeft: '6px' }}
-            onClick={this.props.onCreate.bind(this, this.state.selectedAccount)}
-          >
-            Create
           </Button>
         </div>
       </div>

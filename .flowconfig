@@ -2,6 +2,7 @@
 .*/node_modules/.*
 
 [include]
+./src/decls
 
 [libs]
 ./src/decls

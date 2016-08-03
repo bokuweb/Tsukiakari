@@ -1,14 +1,16 @@
+/* @flow */
+
 import React, { Component } from 'react';
 import B from '../lib/bem';
 import ResizableAndMovable from 'react-resizable-and-movable';
 import Tooltip from 'rc-tooltip';
 import AccountList from './account-list';
-import { Button } from 're-bulma';
 import { isEqual } from 'lodash';
 import 'twitter-text';
 import Spinner from './spinner';
 import log from '../lib/log';
 import UploadMedia from '../containers/upload-media';
+import TweetWindowFooter from './tweet-window-footer';
 
 const b = B.with('tweet-window');
 
@@ -23,13 +25,13 @@ export default class TweetWindow extends Component {
       selectedAccount: props.accounts[0],
       path: null,
     };
-    this.onResize = ::this.onResize;
-    this.close = ::this.close;
-    this.onDrag = ::this.onDrag;
-    this.onClick = ::this.onClick;
-    this.onChange = ::this.onChange;
-    this.onAccountSelect = ::this.onAccountSelect;
-    this.onSelectFile = ::this.onSelectFile;
+    this.onResize = this.onResize.bind(this);
+    this.close = this.close.bind(this);
+    this.onDrag = this.onDrag.bind(this);
+    this.onClick = this.onClick.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.onAccountSelect = this.onAccountSelect.bind(this);
+    this.onSelectFile = this.onSelectFile.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -41,7 +43,7 @@ export default class TweetWindow extends Component {
       this.setState({ destroyTooltip: true });
     }
     if (nextProps.media.length !== this.props.media.length) {
-      this.setState({ path: null });
+      this.setState({ path: null, isDragOver: false });
     }
   }
 
@@ -77,6 +79,13 @@ export default class TweetWindow extends Component {
     if (this.props.media.length >= 4) return;
     this.setState({ path: target.value });
     this.props.uploadMedia({ account: this.state.selectedAccount, files: target.files });
+  }
+
+  onDropFile({ dataTransfer }) {
+    // TODO: accounce
+    if (this.props.media.length >= 4) return;
+    this.setState({ path: dataTransfer.path });
+    this.props.uploadMedia({ account: this.state.selectedAccount, files: dataTransfer.files });
   }
 
   close() {
@@ -183,7 +192,14 @@ export default class TweetWindow extends Component {
               onClick={this.close}
             />
           </div>
-          <div className={b('body')}>
+          <div
+            className={b('body')}
+            onDragOver={() => {
+              this.setState({ isDragOver: true })
+              console.log('over');
+            }}
+            onDrop={this.onDropFile.bind(this)}
+          >
             {this.renderAccount()}
             <div className={b('textarea-wrapper')}>
               <textarea
@@ -191,51 +207,46 @@ export default class TweetWindow extends Component {
                 style={{
                   height: this.state.height - 110,
                   borderRadius: this.props.media.length === 0 ? '3px' : '3px 3px 0 0',
-                }}
+                 }}
                 value={this.state.status}
                 placeholder="What's happening?"
                 readOnly={false}
                 className={b('textarea')}
               />
+              {
+                this.state.isDragOver && !this.props.isMediaUploading
+                  ? <div
+                      style={{
+                        width: '100%',
+                         height: '100%',
+                         background: 'rgba(255, 255, 255, 0.8)',
+                         position: 'absolute',
+                         top: 0,
+                         left: 0,
+                         border: 'dashed 2px #1cc09f',
+                         boxSizing: 'border-box',
+                         zIndex: 9999,
+                         display: 'flex',
+                         alignItems: 'center',
+                         justifyCcontent: 'center',
+                         textAlign: 'center',
+                         color: '#888'
+                         }}
+                         onDragLeave={() => {
+                           this.setState({ isDragOver: false });
+                           console.log('leave');
+                         }}
+                  ><div style={{ margin: '0 auto', fontSize: '18px'}}>Plaese drop here</div></div>
+                  : null
+
+              }
               <UploadMedia media={this.props.media} />
-              <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '0 0 16px' }}>
-                <div style={{ width: '20px', margin: '0 auto 0 0', padding: '14px 0 0px 0', position: 'relative' }}>
-                  <i className="fa fa-camera" style={{ fontSize: '16px', color: '#666', position: 'absolute', top: '14px', left: 0 }} />
-                  <input
-                    style={{
-                      width: '20px',
-                      height: '34px',
-                      cursor: 'pointer',
-                      opacity: 0,
-                      position: 'absolute',
-                      top: '-5px',
-                      left: 0,
-                      display: 'block',
-                      value: this.state.path,
-                    }}
-                    onChange={this.onSelectFile}
-                    type="file"
-                    placeholder=""
-                  />
-                </div>
-                <div style={{ width: '20px', padding: '16px 0 0 0', color: remain < 0 ? '#ed6c63' : '#666' }}>
-                  {remain}
-                </div>
-                <Button
-                  onClick={this.onClick}
-                  color="isPrimary"
-                  style={{
-                    margin: '6px 16px 0',
-                    width: '80px',
-                    display: 'block',
-                    color: '#fff',
-                    background: '#1cc09f',
-                  }}
-                  state={buttonState}
-                >
-                  <i className="icon-tweet" /> Tweet
-                </Button>
-              </div>
+              <TweetWindowFooter
+                remain={remain}
+                onClick={this.onClick}
+                onSelectFile={this.onSelectFile}
+                buttonState={buttonState}
+              />
             </div>
           </div>
       {
