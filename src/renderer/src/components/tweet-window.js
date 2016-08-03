@@ -10,6 +10,7 @@ import 'twitter-text';
 import Spinner from './spinner';
 import log from '../lib/log';
 import UploadMedia from '../containers/upload-media';
+import TweetWindowHeader from './tweet-window-header';
 import TweetWindowFooter from './tweet-window-footer';
 
 const b = B.with('tweet-window');
@@ -44,6 +45,9 @@ export default class TweetWindow extends Component {
     }
     if (nextProps.media.length !== this.props.media.length) {
       this.setState({ path: null, isDragOver: false });
+    }
+    if (!nextProps.isMediaUploading) {
+      this.setState({ isDragOver: false });
     }
   }
 
@@ -154,6 +158,7 @@ export default class TweetWindow extends Component {
             left: '0px',
             width: '100%',
             height: '100%',
+            zIndex: 200,
           } : {
             display: 'none',
           }
@@ -182,19 +187,11 @@ export default class TweetWindow extends Component {
           onDrag={this.onDrag}
           canUpdateSizeByParent
         >
-          <div className={b('title-wrapper')}>
-            <span className={b('title')}>
-              <i className={`${b('icon')} icon-tweet`} />
-              New Tweet
-            </span>
-            <i
-              className={`${b('icon')} lnr lnr-cross`}
-              onClick={this.close}
-            />
-          </div>
+          <TweetWindowHeader close={this.close} />
           <div
             className={b('body')}
-            onDragOver={() => {
+             onDragOver={() => {
+              if (this.props.media.length >= 4) return null;
               this.setState({ isDragOver: true })
               console.log('over');
             }}
@@ -219,16 +216,16 @@ export default class TweetWindow extends Component {
                       style={{
                         width: '100%',
                          height: '100%',
-                         background: 'rgba(255, 255, 255, 0.8)',
+                         background: 'rgba(255, 255, 255, 0.9)',
                          position: 'absolute',
                          top: 0,
                          left: 0,
-                         border: 'dashed 2px #1cc09f',
                          boxSizing: 'border-box',
+                         flexDirection: 'column',
                          zIndex: 9999,
                          display: 'flex',
                          alignItems: 'center',
-                         justifyCcontent: 'center',
+                         justifyContent: 'center',
                          textAlign: 'center',
                          color: '#888'
                          }}
@@ -236,7 +233,8 @@ export default class TweetWindow extends Component {
                            this.setState({ isDragOver: false });
                            console.log('leave');
                          }}
-                  ><div style={{ margin: '0 auto', fontSize: '18px'}}>Plaese drop here</div></div>
+                  >
+                  <div style={{fontSize: '48px', pointerEvents: 'none', height: '60px'}}><i className="lnr lnr-picture" /></div><div style={{fontSize: '20px', pointerEvents: 'none'}}>Please drag photo here</div></div>
                   : null
 
               }
