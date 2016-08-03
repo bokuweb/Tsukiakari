@@ -62,6 +62,14 @@ export default handleActions({
       isMediaUploading: false,
     };
   },
+
+  FAIL_UPLOAD_MEDIA: (state, action) => {
+    return {
+      ...state,
+      isMediaUploading: false,
+    };
+  },
+
   [deleteMedia.toString()]: (state: State, action: ActionType): State => {
     const id: string = action.payload.id;
     const newMedia = state.media.filter((m: Media): bool => m.id !== id);

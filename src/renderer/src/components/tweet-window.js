@@ -1,3 +1,5 @@
+/* @flow */
+
 import React, { Component } from 'react';
 import B from '../lib/bem';
 import ResizableAndMovable from 'react-resizable-and-movable';
@@ -23,13 +25,13 @@ export default class TweetWindow extends Component {
       selectedAccount: props.accounts[0],
       path: null,
     };
-    this.onResize = ::this.onResize;
-    this.close = ::this.close;
-    this.onDrag = ::this.onDrag;
-    this.onClick = ::this.onClick;
-    this.onChange = ::this.onChange;
-    this.onAccountSelect = ::this.onAccountSelect;
-    this.onSelectFile = ::this.onSelectFile;
+    this.onResize = this.onResize.bind(this);
+    this.close = this.close.bind(this);
+    this.onDrag = this.onDrag.bind(this);
+    this.onClick = this.onClick.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.onAccountSelect = this.onAccountSelect.bind(this);
+    this.onSelectFile = this.onSelectFile.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -41,7 +43,10 @@ export default class TweetWindow extends Component {
       this.setState({ destroyTooltip: true });
     }
     if (nextProps.media.length !== this.props.media.length) {
-      this.setState({ path: null });
+      this.setState({ path: null, isDragOver: false });
+    }
+    if (!nextProps.isMediaUploading) {
+      this.setState({ isDragOver: false });
     }
   }
 
@@ -152,6 +157,7 @@ export default class TweetWindow extends Component {
             left: '0px',
             width: '100%',
             height: '100%',
+            zIndex: 200,
           } : {
             display: 'none',
           }
@@ -192,8 +198,11 @@ export default class TweetWindow extends Component {
           </div>
           <div
             className={b('body')}
-            onDragLeave={() => console.log('leave')}
-            onDragOver={() => console.log('asd')}
+             onDragOver={() => {
+              if (this.props.media.length >= 4) return null;
+              this.setState({ isDragOver: true })
+              console.log('over');
+            }}
             onDrop={this.onDropFile.bind(this)}
           >
             {this.renderAccount()}
@@ -203,12 +212,40 @@ export default class TweetWindow extends Component {
                 style={{
                   height: this.state.height - 110,
                   borderRadius: this.props.media.length === 0 ? '3px' : '3px 3px 0 0',
-                }}
+                 }}
                 value={this.state.status}
                 placeholder="What's happening?"
                 readOnly={false}
                 className={b('textarea')}
               />
+              {
+                this.state.isDragOver && !this.props.isMediaUploading
+                  ? <div
+                      style={{
+                        width: '100%',
+                         height: '100%',
+                         background: 'rgba(255, 255, 255, 0.9)',
+                         position: 'absolute',
+                         top: 0,
+                         left: 0,
+                         boxSizing: 'border-box',
+                         flexDirection: 'column',
+                         zIndex: 9999,
+                         display: 'flex',
+                         alignItems: 'center',
+                         justifyContent: 'center',
+                         textAlign: 'center',
+                         color: '#888'
+                         }}
+                         onDragLeave={() => {
+                           this.setState({ isDragOver: false });
+                           console.log('leave');
+                         }}
+                  >
+                  <div style={{fontSize: '48px', pointerEvents: 'none', height: '60px'}}><i className="lnr lnr-picture" /></div><div style={{fontSize: '20px', pointerEvents: 'none'}}>Please drop here</div></div>
+                  : null
+
+              }
               <UploadMedia media={this.props.media} />
               <TweetWindowFooter
                 remain={remain}
