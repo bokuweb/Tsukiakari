@@ -1,7 +1,7 @@
 {
   "extends": "airbnb",
   "parser": "babel-eslint",
-    "env": {
+  "env": {
     "browser": true,
     "mocha": true,
   },

@@ -8,5 +8,12 @@
     "transform-react-inline-elements",
     "babel-plugin-transform-flow-strip-types",
     "transform-inline-environment-variables",
-  ]
+  ],
+  "env": {
+    "development": {
+      "presets": [
+        "power-assert"
+      ]
+    }
+  }
 }
