@@ -242,7 +242,7 @@ export default class TweetWindow extends Component {
                            console.log('leave');
                          }}
                   >
-                  <div style={{fontSize: '48px', pointerEvents: 'none', height: '60px'}}><i className="lnr lnr-picture" /></div><div style={{fontSize: '20px', pointerEvents: 'none'}}>Please drop here</div></div>
+                  <div style={{fontSize: '48px', pointerEvents: 'none', height: '60px'}}><i className="lnr lnr-picture" /></div><div style={{fontSize: '20px', pointerEvents: 'none'}}>Please drag photo here</div></div>
                   : null
 
               }
