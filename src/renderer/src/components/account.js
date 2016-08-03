@@ -37,7 +37,7 @@ export default class Account extends Component {
           }
           destroyTooltipOnHide={this.state.destroyTooltip}
           placement="rightBottom"
-          mouseLeaveDelay={0}
+          mouseLeaveDelay={0.2}
           overlayStyle={{
             position: 'absolute',
             left: '50px',
