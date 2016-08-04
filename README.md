@@ -4,23 +4,10 @@ Twitter Client built on Electron.
 
 This repository is heavily under development and unstable.
 
+[![Build Status](https://img.shields.io/travis/bokuweb/Tsukiakari.svg?style=flat-square)](https://travis-ci.org/bokuweb/Tsukiakari)
 [![Code Climate](https://img.shields.io/codeclimate/github/bokuweb/tsukiakari/badges/gpa.svg?style=flat-square)](https://codeclimate.com/github/bokuweb/tsukiakari)
 
 ![screenshot](https://raw.githubusercontent.com/bokuweb/tsukiakari/master/doc/screenshot.png)
-
-## TASK
-
-- [x] Support photo preview
-- [x] Support animate gif
-- [x] Support youtube
-- [ ] Support multi account
-- [ ] Support mixed timeline
-- [ ] Support notifiation
-- [ ] Add timeline filtering
-- [ ] Add favorite animation
-- [ ] Support vine
-- [ ] Support instagram photo
-- [ ] Support twitter card
 
 ## Development
 
