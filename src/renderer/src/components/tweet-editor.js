@@ -21,6 +21,7 @@ type State = {
 const emojiPlugin = createEmojiPlugin({
   imagePath: 'http://cdn.jsdelivr.net/emojione/assets/svg/',
 });
+
 const { EmojiSuggestions } = emojiPlugin;
 
 export default class TweetEditor extends PureComponent {

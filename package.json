@@ -98,6 +98,7 @@
     "b_": "^1.3.3",
     "draft-js": "^0.7.0",
     "draft-js-emoji-plugin": "^1.2.3",
+    "draft-js-mention-plugin": "^1.1.2",
     "draft-js-plugins-editor": "^1.1.0",
     "electron-prebuilt": "^1.3.0",
     "flow-bin": "^0.30.0",
