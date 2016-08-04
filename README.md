@@ -33,6 +33,12 @@ npm run dev
 
 ## LICENSE
 
+### EmojiOne
+
+Attribution to EmojiOne
+
+The beautiful Emoji art used in this plugin is provided by the Emoji One project. Personal or non-commercial use of the emojis do not require attribution. For the rights to use our emojis still for free in commercial projects proper attribution in form of a link is required. More here: http://emojione.com/licensing.
+
 ### Linearicons Free
 
 url : https://linearicons.com/free   

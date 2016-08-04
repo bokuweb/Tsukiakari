@@ -1,7 +1,9 @@
 /* @flow */
 
 import React, { PureComponent } from 'react';
-import { Editor, EditorState } from 'draft-js';
+import { EditorState } from 'draft-js';
+import Editor from 'draft-js-plugins-editor';
+import createEmojiPlugin from 'draft-js-emoji-plugin';
 import B from '../lib/bem';
 
 const b = B.with('tweet-editor');
@@ -14,6 +16,12 @@ type State = {
   editorState: Object,
 };
 
+// Creates an Instance. At this step, a configuration object can be passed in
+// as an argument.
+const emojiPlugin = createEmojiPlugin({
+  imagePath: 'http://cdn.jsdelivr.net/emojione/assets/svg/',
+});
+const { EmojiSuggestions } = emojiPlugin;
 
 export default class TweetEditor extends PureComponent {
   constructor(props: Props) {
@@ -39,8 +47,10 @@ export default class TweetEditor extends PureComponent {
           editorState={editorState}
           placeholder="What's happening?"
           onChange={this.onChange}
+          plugins={[emojiPlugin]}
           spellCheck
         />
+        <EmojiSuggestions />
       </div>
     );
   }
