@@ -4929,6 +4929,11 @@
       "from": "node-status-codes@>=1.0.0 <2.0.0",
       "resolved": "https://registry.npmjs.org/node-status-codes/-/node-status-codes-1.0.0.tgz"
     },
+    "node-twitter-api": {
+      "version": "1.7.4",
+      "from": "node-twitter-api@latest",
+      "resolved": "https://registry.npmjs.org/node-twitter-api/-/node-twitter-api-1.7.4.tgz"
+    },
     "node-uuid": {
       "version": "1.4.7",
       "from": "node-uuid@>=1.4.7 <1.5.0",
@@ -5017,6 +5022,11 @@
       "version": "1.3.8",
       "from": "nwmatcher@>=1.3.7 <2.0.0",
       "resolved": "https://registry.npmjs.org/nwmatcher/-/nwmatcher-1.3.8.tgz"
+    },
+    "oauth": {
+      "version": "0.9.14",
+      "from": "oauth@>=0.8.4",
+      "resolved": "https://registry.npmjs.org/oauth/-/oauth-0.9.14.tgz"
     },
     "oauth-sign": {
       "version": "0.8.2",
