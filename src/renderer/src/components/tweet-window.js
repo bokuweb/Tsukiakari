@@ -20,14 +20,11 @@ export default class TweetWindow extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      width: 380,
-      height: 180,
       status: '',
       destroyTooltip: false,
       selectedAccount: props.accounts[0],
       path: null,
     };
-    this.onResize = this.onResize.bind(this);
     this.close = this.close.bind(this);
     this.onDrag = this.onDrag.bind(this);
     this.onClick = this.onClick.bind(this);
@@ -62,11 +59,6 @@ export default class TweetWindow extends Component {
 
   onAccountSelect(account) {
     this.setState({ selectedAccount: account, destroyTooltip: true });
-  }
-
-  onResize(_, size, client) {
-    log.debug(size, client);
-    this.setState({ height: size.height, width: size.width, destroyTooltip: true });
   }
 
   onClick() {
@@ -168,8 +160,8 @@ export default class TweetWindow extends Component {
         <ResizableAndMovable
           x={100}
           y={300}
-          width={this.state.width}
-          height={this.state.height}
+          width={380}
+          height={180}
           minWidth={300}
           minHeight={150}
           maxWidth={800}
@@ -184,7 +176,6 @@ export default class TweetWindow extends Component {
           }}
           bounds="parent"
           className={b()}
-          onResize={this.onResize}
           onDrag={this.onDrag}
           canUpdateSizeByParent
         >
@@ -194,16 +185,12 @@ export default class TweetWindow extends Component {
              onDragOver={() => {
               if (this.props.media.length >= 4) return null;
               this.setState({ isDragOver: true })
-              console.log('over');
             }}
             onDrop={this.onDropFile.bind(this)}
           >
             {this.renderAccount()}
         <div className={b('textarea-wrapper')}>
-          <TweetEditor
-            onChange={this.onChange}
-            status={this.state.status}
-          />
+          <TweetEditor onChange={this.onChange} />
               {
                 this.state.isDragOver && !this.props.isMediaUploading
                   ? <div
