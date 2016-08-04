@@ -4,7 +4,7 @@ Twitter Client built on Electron.
 
 This repository is heavily under development and unstable.
 
-[![Build Status](https://img.shields.io/travis/bokuweb/Tsukiakari.svg?style=flat-square)](https://travis-ci.org/bokuweb/Tsukiakari)
+[![Build Status](https://img.shields.io/travis/bokuweb/tsukiakari.svg?style=flat-square)](https://travis-ci.org/bokuweb/tsukiakari)
 [![Code Climate](https://img.shields.io/codeclimate/github/bokuweb/tsukiakari/badges/gpa.svg?style=flat-square)](https://codeclimate.com/github/bokuweb/tsukiakari)
 
 ![screenshot](https://raw.githubusercontent.com/bokuweb/tsukiakari/master/doc/screenshot.png)
