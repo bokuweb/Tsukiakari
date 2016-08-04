@@ -11,6 +11,7 @@ import Spinner from './spinner';
 import log from '../lib/log';
 import UploadMedia from '../containers/upload-media';
 import TweetWindowHeader from './tweet-window-header';
+import TweetEditor from './tweet-Editor';
 import TweetWindowFooter from './tweet-window-footer';
 
 const b = B.with('tweet-window');
@@ -74,8 +75,8 @@ export default class TweetWindow extends Component {
     this.setState({ status: '', destroyTooltip: true });
   }
 
-  onChange({ target: { value } }) {
-    this.setState({ status: value });
+  onChange(status) {
+    this.setState({ status });
   }
 
   onSelectFile({ target }) {
@@ -198,18 +199,11 @@ export default class TweetWindow extends Component {
             onDrop={this.onDropFile.bind(this)}
           >
             {this.renderAccount()}
-            <div className={b('textarea-wrapper')}>
-              <textarea
-                onChange={this.onChange}
-                style={{
-                  height: this.state.height - 110,
-                  borderRadius: this.props.media.length === 0 ? '3px' : '3px 3px 0 0',
-                 }}
-                value={this.state.status}
-                placeholder="What's happening?"
-                readOnly={false}
-                className={b('textarea')}
-              />
+        <div className={b('textarea-wrapper')}>
+          <TweetEditor
+            onChange={this.onChange}
+            status={this.state.status}
+          />
               {
                 this.state.isDragOver && !this.props.isMediaUploading
                   ? <div

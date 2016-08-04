@@ -26,6 +26,7 @@
   &__body
     padding 5px 2px 0 0px
     display flex
+    height calc(100% - 108px)
 
   &__textarea-wrapper
     width 100%
@@ -34,33 +35,6 @@
   &__item-title
     padding 0 10px
     font-size 1.2rem
-
-  &__textarea
-    width calc(100% - 30px)
-    height 100%
-    margin 10px 0 0 2px
-    font-size 1.4rem
-    color $grey-dark
-    border solid 1px #e7eaec
-    font-family 
-    outline none
-    padding 5px 5px 0 5px
-    resize none
-    -webkit-font-smoothing antialiased
-    text-rendering optimizeLegibility
-    font-family "Helvetica Neue", "Helvetica", "Arial", sans-serif
-
-    &::-webkit-scrollbar
-      width 5px
-      height 5px
-
-    &::-webkit-scrollbar-thumb
-      background #34495E
-      border-radius 2px
-
-    &:focus
-      outline none !important
-      border 1px solid #1cc09f
 
   &__avatar
     cursor pointer
@@ -84,4 +58,5 @@
     animation-name fadeInZoom
 
 @import 'tweet-window-header'
+@import 'tweet-editor'
 @import 'tweet-window-footer'
