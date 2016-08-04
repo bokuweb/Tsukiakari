@@ -11,6 +11,7 @@ import Spinner from './spinner';
 import log from '../lib/log';
 import UploadMedia from '../containers/upload-media';
 import TweetWindowHeader from './tweet-window-header';
+import TweetEditor from './tweet-Editor';
 import TweetWindowFooter from './tweet-window-footer';
 
 const b = B.with('tweet-window');
@@ -19,14 +20,11 @@ export default class TweetWindow extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      width: 380,
-      height: 180,
       status: '',
       destroyTooltip: false,
       selectedAccount: props.accounts[0],
       path: null,
     };
-    this.onResize = this.onResize.bind(this);
     this.close = this.close.bind(this);
     this.onDrag = this.onDrag.bind(this);
     this.onClick = this.onClick.bind(this);
@@ -63,19 +61,14 @@ export default class TweetWindow extends Component {
     this.setState({ selectedAccount: account, destroyTooltip: true });
   }
 
-  onResize(_, size, client) {
-    log.debug(size, client);
-    this.setState({ height: size.height, width: size.width, destroyTooltip: true });
-  }
-
   onClick() {
     this.props.post(this.state.selectedAccount, this.state.status, this.props.replyTweet);
     // TODO: move to reducer, if post failed note delete status
     this.setState({ status: '', destroyTooltip: true });
   }
 
-  onChange({ target: { value } }) {
-    this.setState({ status: value });
+  onChange(status) {
+    this.setState({ status });
   }
 
   onSelectFile({ target }) {
@@ -167,8 +160,8 @@ export default class TweetWindow extends Component {
         <ResizableAndMovable
           x={100}
           y={300}
-          width={this.state.width}
-          height={this.state.height}
+          width={380}
+          height={180}
           minWidth={300}
           minHeight={150}
           maxWidth={800}
@@ -183,7 +176,6 @@ export default class TweetWindow extends Component {
           }}
           bounds="parent"
           className={b()}
-          onResize={this.onResize}
           onDrag={this.onDrag}
           canUpdateSizeByParent
         >
@@ -193,23 +185,12 @@ export default class TweetWindow extends Component {
              onDragOver={() => {
               if (this.props.media.length >= 4) return null;
               this.setState({ isDragOver: true })
-              console.log('over');
             }}
             onDrop={this.onDropFile.bind(this)}
           >
             {this.renderAccount()}
-            <div className={b('textarea-wrapper')}>
-              <textarea
-                onChange={this.onChange}
-                style={{
-                  height: this.state.height - 110,
-                  borderRadius: this.props.media.length === 0 ? '3px' : '3px 3px 0 0',
-                 }}
-                value={this.state.status}
-                placeholder="What's happening?"
-                readOnly={false}
-                className={b('textarea')}
-              />
+        <div className={b('textarea-wrapper')}>
+          <TweetEditor onChange={this.onChange} />
               {
                 this.state.isDragOver && !this.props.isMediaUploading
                   ? <div
