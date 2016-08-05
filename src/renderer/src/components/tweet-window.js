@@ -24,6 +24,8 @@ export default class TweetWindow extends Component {
       destroyTooltip: false,
       selectedAccount: props.accounts[0],
       path: null,
+      isDragging: false,
+      isResizing: false,
     };
     this.close = this.close.bind(this);
     this.onDrag = this.onDrag.bind(this);
@@ -54,7 +56,7 @@ export default class TweetWindow extends Component {
   }
 
   onDrag() {
-    this.setState({ destroyTooltip: true });
+    this.setState({ destroyTooltip: true, isDragging: true });
   }
 
   onAccountSelect(account) {
@@ -145,13 +147,13 @@ export default class TweetWindow extends Component {
       <div
         style={
           this.props.isOpen ? {
-            pointerEvents: 'none',
+            pointerEvents: this.state.isDragging || this.state.isResizing ? 'auto' : 'none',
             position: 'absolute',
             top: '0px',
             left: '0px',
             width: '100%',
             height: '100%',
-            zIndex: 200,
+            zIndex: 9999,
           } : {
             display: 'none',
           }
@@ -177,6 +179,9 @@ export default class TweetWindow extends Component {
           bounds="parent"
           className={b()}
           onDrag={this.onDrag}
+          onResize={() => this.setState({ isResizing: true })}
+          onResizeStop={() => this.setState({ isResizing: false })}
+          onDragStop={() => this.setState({ isDragging: false })}
           canUpdateSizeByParent
         >
           <TweetWindowHeader close={this.close} />
