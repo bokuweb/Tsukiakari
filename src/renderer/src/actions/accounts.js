@@ -17,3 +17,5 @@ export const successLoadAccounts = createAction('SUCCESS_LOAD_ACCOUNTS');
 export const removeAccount = createAction('REMOVE_ACCOUNT');
 
 export const updateAccounts = createAction('UPDATE_ACCOUNTS');
+
+export const updateAccount = createAction('UPDATE_ACCOUNT');
