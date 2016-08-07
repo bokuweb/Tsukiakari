@@ -6334,6 +6334,11 @@
       "from": "react-swipeable@>=3.1.0 <4.0.0",
       "resolved": "https://registry.npmjs.org/react-swipeable/-/react-swipeable-3.5.1.tgz"
     },
+    "react-window-component": {
+      "version": "0.1.0",
+      "from": "react-window-component@latest",
+      "resolved": "https://registry.npmjs.org/react-window-component/-/react-window-component-0.1.0.tgz"
+    },
     "read-all-stream": {
       "version": "3.1.0",
       "from": "read-all-stream@>=3.0.0 <4.0.0",
