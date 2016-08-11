@@ -1,7 +1,7 @@
 import { createAction } from 'redux-actions';
-import { ipcRenderer } from 'electron';
+import { ipcRenderer } from 'electron'; // eslint-disable-line import/no-unresolved
 
-export const loadAccounts = () => dispatch => {
+export const loadAccounts = () => (dispatch: Dispacth) => {
   ipcRenderer.send('accounts-request');
   ipcRenderer.on('accounts-request-reply', (_, accounts) => {
     const action = createAction('UPDATE_ACCOUNTS');

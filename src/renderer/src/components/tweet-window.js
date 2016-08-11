@@ -123,7 +123,7 @@ export default class TweetWindow extends Component {
           position: 'absolute',
           top: '5px',
           left: '50px',
-          zIndex: '9999',
+          zIndex: '99999',
         }}
       >
         {this.renderAvatar()}
@@ -165,7 +165,7 @@ export default class TweetWindow extends Component {
         >
         {this.renderAccount()}
         <div className={b('textarea-wrapper')}>
-          <TweetEditor onChange={this.onChange} />
+          <TweetEditor onChange={this.onChange} mentions={this.props.mentions} />
           {
             this.state.isDragOver && !this.props.isMediaUploading
               ? <div
@@ -183,7 +183,7 @@ export default class TweetWindow extends Component {
                        alignItems: 'center',
                        justifyContent: 'center',
                        textAlign: 'center',
-                       color: '#888'
+                       color: '#888',
                      }}
                      onDragLeave={() => {
                        this.setState({ isDragOver: false });

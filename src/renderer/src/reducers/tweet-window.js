@@ -2,10 +2,13 @@
 
 import { handleActions } from 'redux-actions';
 import { deleteMedia } from '../actions/upload-media';
+import { loadFriends } from '../actions/tweets';
+import { fromJS } from 'immutable';
 
 import type { Media } from '../../../interfaces/media';
 import type { State } from 'redux';
-import type { ActionType } from '../actions/upload-media';
+import type { UploadMediaActionType } from '../actions/upload-media';
+import type { TweetActionType } from '../actions/tweets';
 
 const defaultReplyTweet = {
   user: {
@@ -19,6 +22,7 @@ const defaultState = {
   replyTweet: defaultReplyTweet,
   replyAccount: {},
   media: [],
+  mentions: fromJS([]),
 };
 
 export default handleActions({
@@ -69,13 +73,24 @@ export default handleActions({
       isMediaUploading: false,
     };
   },
-
-  [deleteMedia.toString()]: (state: State, action: ActionType): State => {
+  [deleteMedia.toString()]: (state: State, action: UploadMediaActionType): State => {
     const id: string = action.payload.id;
     const newMedia = state.media.filter((m: Media): bool => m.id !== id);
     return {
       ...state,
       media: newMedia,
+    };
+  },
+  [loadFriends.toString()]: (state: State, action: TweetActionType): State => {
+    const { friends } = action.payload;
+    const mentions = fromJS(friends.users.map((f: Object): Array<Object> => ({
+      name: f.screen_name,
+      avatar: f.profile_image_url_https,
+      link: `https://twitter.com/${f.screen_name}`,
+    })));
+    return {
+      ...state,
+      mentions: state.mentions.merge(mentions),
     };
   },
 }, defaultState);

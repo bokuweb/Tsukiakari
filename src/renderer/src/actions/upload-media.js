@@ -1,8 +1,8 @@
 /* @flow */
 
 import { createAction } from 'redux-actions';
-
-export type ActionType = {
+P
+export type UploadMediaActionType = {
   type: 'DELETE_MEDIA',
   payload: { id: string },
 }

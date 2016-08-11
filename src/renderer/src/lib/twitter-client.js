@@ -129,6 +129,18 @@ export default class TwitterClient {
         });
     });
   }
+
+  getFriends(params) {
+    return new Promise((resolve, reject) => {
+      this.client.get(
+        'friends/list',
+        params,
+        (error, followers) => {
+          if (error) reject(error);
+          else resolve(followers);
+        });
+    });
+  }
   /*
   getProfile(params) {
     var d = Q.defer();
