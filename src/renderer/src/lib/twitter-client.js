@@ -118,6 +118,29 @@ export default class TwitterClient {
     });
   }
 
+  getUser(id, name) {
+    return new Promise((resolve, reject) => {
+      this.client.get(
+        'users/show',
+        { user_id: id, screen_name: name },
+        (error, user) => {
+          if (error) reject(error);
+          else resolve(user);
+        });
+    });
+  }
+
+  getFriends(params) {
+    return new Promise((resolve, reject) => {
+      this.client.get(
+        'friends/list',
+        params,
+        (error, followers) => {
+          if (error) reject(error);
+          else resolve(followers);
+        });
+    });
+  }
   /*
   getProfile(params) {
     var d = Q.defer();

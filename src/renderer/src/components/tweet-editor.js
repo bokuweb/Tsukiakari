@@ -4,6 +4,7 @@ import React, { PureComponent } from 'react';
 import { EditorState } from 'draft-js';
 import Editor from 'draft-js-plugins-editor';
 import createEmojiPlugin from 'draft-js-emoji-plugin';
+import createMentionPlugin, { defaultSuggestionsFilter } from 'draft-js-mention-plugin';
 import B from '../lib/bem';
 
 const b = B.with('tweet-editor');
@@ -16,6 +17,9 @@ type State = {
   editorState: Object,
 };
 
+const mentionPlugin = createMentionPlugin({ mentionTrigger: '@', mentionPrefix: '@' });
+const { MentionSuggestions } = mentionPlugin;
+
 // Creates an Instance. At this step, a configuration object can be passed in
 // as an argument.
 const emojiPlugin = createEmojiPlugin({
@@ -27,8 +31,12 @@ const { EmojiSuggestions } = emojiPlugin;
 export default class TweetEditor extends PureComponent {
   constructor(props: Props) {
     super(props);
-    this.state = { editorState: EditorState.createEmpty() };
+    this.state = {
+      editorState: EditorState.createEmpty(),
+      suggestions: props.mentions,
+    };
     this.onChange = this.onChange.bind(this);
+    this.onSearchChange = this.onSearchChange.bind(this);
   }
 
   state: State;
@@ -40,6 +48,12 @@ export default class TweetEditor extends PureComponent {
     this.props.onChange(editorState.getCurrentContent().getPlainText());
   }
 
+  onSearchChange({ value }) {
+    this.setState({
+      suggestions: defaultSuggestionsFilter(value, this.props.mentions),
+    });
+  }
+
   render(): ?React$Element<*> {
     const { editorState } = this.state;
     return (
@@ -48,8 +62,12 @@ export default class TweetEditor extends PureComponent {
           editorState={editorState}
           placeholder="What's happening?"
           onChange={this.onChange}
-          plugins={[emojiPlugin]}
+          plugins={[emojiPlugin, mentionPlugin]}
           spellCheck
+        />
+        <MentionSuggestions
+          onSearchChange={this.onSearchChange}
+          suggestions={this.state.suggestions}
         />
         <EmojiSuggestions />
       </div>

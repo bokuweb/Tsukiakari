@@ -2074,14 +2074,14 @@
       "resolved": "https://registry.npmjs.org/draft-js-emoji-plugin/-/draft-js-emoji-plugin-1.2.3.tgz"
     },
     "draft-js-mention-plugin": {
-      "version": "1.1.2",
-      "from": "draft-js-mention-plugin@>=1.1.2 <2.0.0",
-      "resolved": "https://registry.npmjs.org/draft-js-mention-plugin/-/draft-js-mention-plugin-1.1.2.tgz"
+      "version": "2.0.0-beta1",
+      "from": "draft-js-mention-plugin@2.0.0-beta1",
+      "resolved": "https://registry.npmjs.org/draft-js-mention-plugin/-/draft-js-mention-plugin-2.0.0-beta1.tgz"
     },
     "draft-js-plugins-editor": {
-      "version": "1.1.0",
-      "from": "draft-js-plugins-editor@>=1.1.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/draft-js-plugins-editor/-/draft-js-plugins-editor-1.1.0.tgz"
+      "version": "2.0.0-beta.2",
+      "from": "draft-js-plugins-editor@beta",
+      "resolved": "https://registry.npmjs.org/draft-js-plugins-editor/-/draft-js-plugins-editor-2.0.0-beta.2.tgz"
     },
     "duplexer2": {
       "version": "0.0.2",
@@ -4463,6 +4463,11 @@
       "from": "lodash.escape@>=3.0.0 <4.0.0",
       "resolved": "https://registry.npmjs.org/lodash.escape/-/lodash.escape-3.2.0.tgz"
     },
+    "lodash.escaperegexp": {
+      "version": "4.1.2",
+      "from": "lodash.escaperegexp@latest",
+      "resolved": "https://registry.npmjs.org/lodash.escaperegexp/-/lodash.escaperegexp-4.1.2.tgz"
+    },
     "lodash.get": {
       "version": "4.4.1",
       "from": "lodash.get@>=4.0.0 <5.0.0",
@@ -6333,6 +6338,11 @@
       "version": "3.5.1",
       "from": "react-swipeable@>=3.1.0 <4.0.0",
       "resolved": "https://registry.npmjs.org/react-swipeable/-/react-swipeable-3.5.1.tgz"
+    },
+    "react-window-component": {
+      "version": "0.1.0",
+      "from": "react-window-component@latest",
+      "resolved": "https://registry.npmjs.org/react-window-component/-/react-window-component-0.1.0.tgz"
     },
     "read-all-stream": {
       "version": "3.1.0",

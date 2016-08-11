@@ -4,6 +4,9 @@ import log from '../lib/log';
 
 export const recieveTweet = createAction('RECIEVE_TWEET');
 
+export type TweetActionType =
+  { type: 'LOAD_FREINDS', payload: { friends: Object } };
+
 export const fetchHome = (account, type) => dispatch => {
   const { accessToken, accessTokenSecret } = account;
   const twitter = new Twitter(accessToken, accessTokenSecret);
@@ -125,3 +128,5 @@ export const uploadMedia = createAction('UPLOAD_MEDIA');
 export const successUploadMedia = createAction('SUCCESS_UPLOAD_MEDIA');
 
 export const failUploadMedia = createAction('FAIL_UPLOAD_MEDIA');
+
+export const loadFriends = createAction('LOAD_FREINDS');

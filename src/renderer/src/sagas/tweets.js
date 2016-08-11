@@ -5,7 +5,7 @@ import { eventChannel } from 'redux-saga';
 import { fork, take, call, put, cancel } from 'redux-saga/effects';
 import * as actions from '../actions/tweets';
 import { normalize, Schema } from 'normalizr';
-import { ipcRenderer } from 'electron';
+import { ipcRenderer } from 'electron'; // eslint-disable-line import/no-unresolved
 import log from '../lib/log';
 
 const tweetSchema = new Schema('tweets', { idAttribute: 'id_str' });
