@@ -49,11 +49,9 @@ export default class TweetEditor extends PureComponent {
   }
 
   onSearchChange(e: SyntheticEvent): void { // eslint-disable-line flowtype/require-return-type
-    if (e.target instanceof HTMLElement) {
-      this.setState({
-        suggestions: defaultSuggestionsFilter(e.target.value, this.props.mentions),
-      });
-    }
+    this.setState({
+      suggestions: defaultSuggestionsFilter(e.value, this.props.mentions),
+    });
   }
 
   render(): ?React$Element<*> {

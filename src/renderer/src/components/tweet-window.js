@@ -14,11 +14,19 @@ import TweetEditor from './tweet-editor';
 import TweetWindowFooter from './tweet-window-footer';
 
 import type { Account } from '../../../types/account';
+import type { Media } from '../../../types/media';
+import type { Mentions } from '../../../types/mentions';
 
 const b = B.with('tweet-window');
 
 type Props = {
   isOpen: boolean;
+  media: Array<Media>;
+  mentions: Mentions;
+  accounts: Array<Account>;
+  close: Function;
+  post: Function;
+  uploadMedia: Function;
 };
 
 type State = {
@@ -26,6 +34,8 @@ type State = {
   destroyTooltip : boolean;
   selectedAccount: Account;
   path: string;
+  suggestions: Mentions;
+  isDragOver: boolean;
 };
 
 export default class TweetWindow extends Component {
@@ -37,6 +47,8 @@ export default class TweetWindow extends Component {
       destroyTooltip: false,
       selectedAccount: props.accounts[0],
       path: '',
+      suggestions: props.mentions,
+      isDragOver: false,
     };
     this.close = this.close.bind(this);
     this.onClick = this.onClick.bind(this);
@@ -47,8 +59,16 @@ export default class TweetWindow extends Component {
     this.onDragOver = this.onDragOver.bind(this);
   }
 
-  props: Props; // eslint-disable-line react/sort-comp
-  state: State; // eslint-disable-line react/sort-comp
+  /* eslint-disable react/sort-comp */
+  props: Props;
+  state: State;
+  close: Function;
+  onClick: Function;
+  onChange: Function;
+  onAccountSelect: Function;
+  onSelectFile: Function;
+  onDropFile: Function;
+  onDragOver: Function;
 
   componentWillReceiveProps(nextProps: Props) {
     const nextId = nextProps.replyTweet.id_str;
@@ -59,7 +79,7 @@ export default class TweetWindow extends Component {
       this.setState({ destroyTooltip: true });
     }
     if (nextProps.media.length !== this.props.media.length) {
-      this.setState({ path: null, isDragOver: false });
+      this.setState({ path: '', isDragOver: false });
     }
     if (!nextProps.isMediaUploading) {
       this.setState({ isDragOver: false });
@@ -113,7 +133,7 @@ export default class TweetWindow extends Component {
 
   renderAvatar(): ?React$Element<*> {
     // TODO:
-    if (!this.state.selectedAccount) return <span>loading</span>;
+    if (!this.state.selectedAccount) return null;
     return (
       <img
         src={this.state.selectedAccount.profile_image_url}
