@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import B from '../lib/bem';
 import { isEqual } from 'lodash';
 
-import type { Media } from '../../../interfaces/media';
+import type { Media } from '../../../types/media';
 
 type Props = {
   media: Array<Media>,

@@ -8,29 +8,47 @@ import AccountList from './account-list';
 import { isEqual } from 'lodash';
 import 'twitter-text';
 import Spinner from './spinner';
-import log from '../lib/log';
 import UploadMedia from '../containers/upload-media';
 import TweetWindowHeader from './tweet-window-header';
 import TweetEditor from './tweet-editor';
 import TweetWindowFooter from './tweet-window-footer';
 
+import type { Account } from '../../../types/account';
+
 const b = B.with('tweet-window');
 
+type Props = {
+  isOpen: boolean;
+};
+
+type State = {
+  status: string;
+  destroyTooltip : boolean;
+  selectedAccount: Account;
+  path: string;
+};
+
 export default class TweetWindow extends Component {
+
   constructor(props: Props) {
     super(props);
     this.state = {
       status: '',
       destroyTooltip: false,
       selectedAccount: props.accounts[0],
-      path: null,
+      path: '',
     };
     this.close = this.close.bind(this);
     this.onClick = this.onClick.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onAccountSelect = this.onAccountSelect.bind(this);
     this.onSelectFile = this.onSelectFile.bind(this);
+    this.onDropFile = this.onDropFile.bind(this);
+    this.onDragOver = this.onDragOver.bind(this);
   }
+
+  props: Props; // eslint-disable-line react/sort-comp
+  state: State; // eslint-disable-line react/sort-comp
 
   componentWillReceiveProps(nextProps: Props) {
     const nextId = nextProps.replyTweet.id_str;
@@ -52,7 +70,7 @@ export default class TweetWindow extends Component {
     return !isEqual(this.props, nextProps) || !isEqual(this.state, nextState);
   }
 
-  onAccountSelect(account) {
+  onAccountSelect(account: Account) {
     this.setState({ selectedAccount: account, destroyTooltip: true });
   }
 
@@ -62,15 +80,17 @@ export default class TweetWindow extends Component {
     this.setState({ status: '', destroyTooltip: true });
   }
 
-  onChange(status: String) {
+  onChange(status: string) {
     this.setState({ status });
   }
 
-  onSelectFile({ target }) {
+  onSelectFile(e: SyntheticEvent): void { // eslint-disable-line flowtype/require-return-type
     // TODO: accounce
     if (this.props.media.length >= 4) return;
-    this.setState({ path: target.value });
-    this.props.uploadMedia({ account: this.state.selectedAccount, files: target.files });
+    if (e.target instanceof HTMLElement) {
+      this.setState({ path: e.target.value });
+      this.props.uploadMedia({ account: this.state.selectedAccount, files: e.target.files });
+    }
   }
 
   onDropFile({ dataTransfer }) {
@@ -80,23 +100,30 @@ export default class TweetWindow extends Component {
     this.props.uploadMedia({ account: this.state.selectedAccount, files: dataTransfer.files });
   }
 
+  // eslint-disable-next-line flowtype/require-return-type
+  onDragOver(): void {
+    if (this.props.media.length >= 4) return;
+    this.setState({ isDragOver: true });
+  }
+
   close() {
     this.props.close();
     this.setState({ destroyTooltip: true });
   }
 
-  renderAvatar() {
+  renderAvatar(): ?React$Element<*> {
     // TODO:
     if (!this.state.selectedAccount) return <span>loading</span>;
     return (
       <img
         src={this.state.selectedAccount.profile_image_url}
         className={b('avatar')}
+        alt="avatar"
       />
     );
   }
 
-  renderTooltip() {
+  renderTooltip(): ?React$Element<*> {
     return (
       <div className={b('tooltip')}>
         <AccountList
@@ -108,8 +135,10 @@ export default class TweetWindow extends Component {
     );
   }
 
-  renderAccount() {
-    if (this.props.accounts.length === 0) return <i className="fa fa-spin fa-spinner" />;
+  renderAccount(): ?React$Element<*> {
+    if (this.props.accounts.length === 0) {
+      return <i className="fa fa-spin fa-spinner" />;
+    }
     return (
       <Tooltip
         trigger="click"
@@ -131,84 +160,115 @@ export default class TweetWindow extends Component {
     );
   }
 
-  render() {
+  renderDropOverlay(): ?React$Element<*> {
+    if (!this.state.isDragOver || this.props.isMediaUploading) return null;
+    return (
+      <div
+        style={{
+          width: '100%',
+          height: '100%',
+          background: 'rgba(255, 255, 255, 0.9)',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          boxSizing: 'border-box',
+          flexDirection: 'column',
+          zIndex: 9999,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          textAlign: 'center',
+          color: '#888',
+        }}
+        onDragLeave={() => {
+          this.setState({ isDragOver: false });
+        }}
+      >
+        <div
+          style={{
+            fontSize: '48px',
+            pointerEvents: 'none',
+            height: '60px',
+          }}
+        >
+          <i className="lnr lnr-picture" />
+        </div>
+        <div
+          style={{
+            fontSize: '20px',
+            pointerEvents: 'none',
+          }}
+        >
+          Please drag photo here
+        </div>
+      </div>
+    );
+  }
+
+  renderUploadSpinner(): ?React$Element<*> {
+    if (!this.props.isMediaUploading) return null;
+    return (
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          background: '#fff',
+          opacity: '0.7',
+        }}
+      >
+        <Spinner style={{ padding: '10% 0 0 80px' }} />
+      </div>
+    );
+  }
+
+  render(): ?React$Element<*> {
+    // eslint-disable-next-line no-undef
     const remain = 140 - twttr.txt.getTweetLength(this.state.status);
     let buttonState = undefined;
     if (remain < 0 || remain === 140) buttonState = 'isDisabled';
     else if (this.props.isPosting) buttonState = 'isLoading';
     return (
       <Window
-         isOpen={this.props.isOpen}
-         x={100}
-         y={300}
-         width={380}
-         height={180}
-         minWidth={300}
-         minHeight={150}
-         maxWidth={800}
-         maxHeight={800}
-         style={{
-           backgroundColor: '#fff',
-           pointerEvents: 'auto',
-           padding: this.props.media.length === 0 ? '0 0 4px 0' : '0 0 64px 0',
-         }}
-         className={b()}
+        isOpen={this.props.isOpen}
+        x={100}
+        y={300}
+        width={380}
+        height={180}
+        minWidth={300}
+        minHeight={150}
+        maxWidth={800}
+        maxHeight={800}
+        style={{
+          backgroundColor: '#fff',
+          pointerEvents: 'auto',
+          padding: this.props.media.length === 0 ? '0 0 4px 0' : '0 0 64px 0',
+        }}
+        className={b()}
       >
         <TweetWindowHeader close={this.close} />
         <div
-           className={b('body')}
-           onDragOver={() => {
-             if (this.props.media.length >= 4) return null;
-             this.setState({ isDragOver: true })
-        }}
-        onDrop={this.onDropFile.bind(this)}
+          className={b('body')}
+          onDragOver={this.onDragOver}
+          onDrop={this.onDropFile}
         >
-        {this.renderAccount()}
-        <div className={b('textarea-wrapper')}>
-          <TweetEditor onChange={this.onChange} mentions={this.props.mentions} />
-          {
-            this.state.isDragOver && !this.props.isMediaUploading
-              ? <div
-                     style={{
-                       width: '100%',
-                       height: '100%',
-                       background: 'rgba(255, 255, 255, 0.9)',
-                       position: 'absolute',
-                       top: 0,
-                       left: 0,
-                       boxSizing: 'border-box',
-                       flexDirection: 'column',
-                       zIndex: 9999,
-                       display: 'flex',
-                       alignItems: 'center',
-                       justifyContent: 'center',
-                       textAlign: 'center',
-                       color: '#888',
-                     }}
-                     onDragLeave={() => {
-                       this.setState({ isDragOver: false });
-                       console.log('leave');
-                     }}
-              >
-              <div style={{fontSize: '48px', pointerEvents: 'none', height: '60px'}}><i className="lnr lnr-picture" /></div><div style={{fontSize: '20px', pointerEvents: 'none'}}>Please drag photo here</div></div>
-              : null
-            
-          }
-          <UploadMedia media={this.props.media} />
-          <TweetWindowFooter
-             remain={remain}
-             onClick={this.onClick}
-             onSelectFile={this.onSelectFile}
-             buttonState={buttonState}
-             />
+          {this.renderAccount()}
+          <div className={b('textarea-wrapper')}>
+            <TweetEditor onChange={this.onChange} mentions={this.props.mentions} />
+            {this.renderDropOverlay()}
+            <UploadMedia media={this.props.media} />
+            <TweetWindowFooter
+              remain={remain}
+              onClick={this.onClick}
+              onSelectFile={this.onSelectFile}
+              buttonState={buttonState}
+            />
+          </div>
         </div>
-</div>
-{
-  this.props.isMediaUploading
-    ? <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: '#fff', opacity: '0.7' }}><Spinner style={{ padding: '10% 0 0 80px' }} /></div>
-    : null
-}
-  </Window>
+        {this.renderUploadSpinner()}
+      </Window>
     );
   }
 }
