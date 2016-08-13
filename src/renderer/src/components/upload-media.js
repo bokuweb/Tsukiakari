@@ -26,7 +26,7 @@ export default class UploadMedia extends Component {
   props: Props;
   deleteMedia: Function;
 
-  deleteMedia(e: SyntheticEvent): void {
+  deleteMedia(e: SyntheticEvent): void { // eslint-disable-line flowtype/require-return-type
     // Dynamic Type Tests. See. https://flowtype.org/docs/dynamic-type-tests.html#_
     if (e.target instanceof HTMLElement) {
       this.props.deleteMedia({ id: e.target.dataset.id });
