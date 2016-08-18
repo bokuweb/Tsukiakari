@@ -96,6 +96,8 @@ export const failureDestroyRetweet = createAction('FAILURE_DESTROY_RETWEET');
 
 export const connectStream = createAction('CONNECT_STREAM');
 
+export const connectSearchStream = createAction('CONNECT_SEARCH_STREAM');
+
 export const reply = createAction('REPLY');
 
 export const postTweet = (account, status, replyTweet) => (dispatch, getState) => {
