@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import B from '../lib/bem';
 import { isEqual } from 'lodash';
 
-import type { Media } from '../../../interfaces/media';
+import type { Media } from '../../../types/media';
 
 type Props = {
   media: Array<Media>,
@@ -26,7 +26,7 @@ export default class UploadMedia extends Component {
   props: Props;
   deleteMedia: Function;
 
-  deleteMedia(e: SyntheticEvent): void {
+  deleteMedia(e: SyntheticEvent): void { // eslint-disable-line flowtype/require-return-type
     // Dynamic Type Tests. See. https://flowtype.org/docs/dynamic-type-tests.html#_
     if (e.target instanceof HTMLElement) {
       this.props.deleteMedia({ id: e.target.dataset.id });

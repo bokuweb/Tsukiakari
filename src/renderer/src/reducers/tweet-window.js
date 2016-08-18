@@ -5,10 +5,11 @@ import { deleteMedia } from '../actions/upload-media';
 import { loadFriends } from '../actions/tweets';
 import { fromJS } from 'immutable';
 
-import type { Media } from '../../../interfaces/media';
+import type { Media } from '../../../types/media';
 import type { State } from 'redux';
 import type { UploadMediaActionType } from '../actions/upload-media';
 import type { TweetActionType } from '../actions/tweets';
+import type { Mention } from '../../../types/mentions';
 
 const defaultReplyTweet = {
   user: {
@@ -47,16 +48,16 @@ export default handleActions({
     replyTweet: defaultReplyTweet,
     replyAccount: {},
   }),
-  REPLY: (state, action) => ({
+  REPLY: (state:State, action) => ({
     ...state,
     replyTweet: action.payload.tweet,
     replyAccount: action.payload.account,
   }),
-  UPLOAD_MEDIA: (state, action) => ({
+  UPLOAD_MEDIA: (state: State, action) => ({
     ...state,
     isMediaUploading: true,
   }),
-  SUCCESS_UPLOAD_MEDIA: (state, action) => {
+  SUCCESS_UPLOAD_MEDIA: (state: State, action): State => {
     const id = action.payload.response.media_id_string;
     const { path } = action.payload.file;
     const newMedia = [...state.media, { id, path }];
@@ -67,7 +68,7 @@ export default handleActions({
     };
   },
 
-  FAIL_UPLOAD_MEDIA: (state, action) => {
+  FAIL_UPLOAD_MEDIA: (state: State, action): State => {
     return {
       ...state,
       isMediaUploading: false,
@@ -83,7 +84,7 @@ export default handleActions({
   },
   [loadFriends.toString()]: (state: State, action: TweetActionType): State => {
     const { friends } = action.payload;
-    const mentions = fromJS(friends.users.map((f: Object): Array<Object> => ({
+    const mentions = fromJS(friends.users.map((f: Object): Mention => ({
       name: f.screen_name,
       avatar: f.profile_image_url_https,
       link: `https://twitter.com/${f.screen_name}`,
