@@ -109,7 +109,7 @@
     "moment": "^2.13.0",
     "node-twitter-api": "^1.7.4",
     "normalizr": "^2.0.2",
-    "rc-tooltip": "^3.3.2",
+    "rc-tooltip": "^3.4.2",
     "re-bulma": "^0.2.0",
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
