@@ -5,6 +5,7 @@ import Contents from '../containers/contents';
 import AddColumnMenu from '../containers/add-column-menu';
 import Lightbox from '../containers/lightbox';
 import Sidemenu from '../containers/sidemenu';
+import ThinSidemenu from '../containers/thin-sidemenu';
 import TweetWindow from '../containers/tweet-window';
 import Spinner from './spinner';
 import bem from '../lib/bem';
@@ -21,6 +22,20 @@ export default class Tsukiakari extends PureComponent {
     this.props.initialize();
   }
 
+  renderMenu() {
+    if (this.props.isSideMenuOpen) {
+      return (
+        <div style={{ display: 'flex' }} className={b('menu-wrapper')}>
+          <Accounts />
+          <Sidemenu />
+        </div>
+      );
+    }
+    return (
+      <ThinSidemenu />
+    );
+  }
+
   render() {
     if (this.props.accountLength === 0) {
       return <Spinner style={{ padding: '10% 0 0 80px' }} />;
@@ -30,14 +45,14 @@ export default class Tsukiakari extends PureComponent {
         <div
           style={{
             display: 'flex',
-            width: this.props.isSideMenuOpen ? '420px' : '72px',
-            transition: 'width 0.2s',
-            willChange: 'width',
+            minWidth: this.props.isSideMenuOpen ? '280px' : '60px',
+            transition: 'min-width 0.2s',
+            willChange: 'min-width',
             overflow: 'hidden',
+            backgroundColor: '#233749',
           }}
         >
-          <Accounts />
-          <Sidemenu />
+          {this.renderMenu()}
         </div>
         <Contents />
         <AddColumnMenu />
