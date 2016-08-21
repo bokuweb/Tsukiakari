@@ -4,17 +4,27 @@ import { eventChannel } from 'redux-saga';
 import { take, fork, put } from 'redux-saga/effects';
 import { ipcRenderer } from 'electron';
 import { updateAccounts, successLoadAccounts } from '../actions/accounts';
+import { connectStream } from '../actions/tweets';
+
+const connect = (emit, accounts) => {
+  for (let i = 0; i < accounts.length; i++) {
+    emit(connectStream({ account: accounts[i] }));
+  }
+};
 
 const subscribe = () => (
   eventChannel(emit => {
     ipcRenderer.on('remove-account-request-reply', (event, accounts) => {
       emit(updateAccounts({ accounts }));
+      connect(emit, accounts);
     });
     ipcRenderer.on('authenticate-request-reply', (event, accounts) => {
       emit(updateAccounts({ accounts }));
+      connect(emit, accounts);
     });
     ipcRenderer.on('accounts-request-reply', (_, accounts) => {
       emit(successLoadAccounts({ accounts }));
+      connect(emit, accounts);
     });
     return () => {};
   })

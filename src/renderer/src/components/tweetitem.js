@@ -210,6 +210,7 @@ export default class TweetItem extends Component {
         >
           <Tooltip
             trigger="hover"
+            prefixCls="tweetitem-tooltip"
             overlay={
               <AccountTooltip
                 account={user}
@@ -266,3 +267,4 @@ export default class TweetItem extends Component {
     );
   }
 }
+

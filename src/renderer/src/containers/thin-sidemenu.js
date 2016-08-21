@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Sidemenu from '../components/sidemenu';
+import Sidemenu from '../components/thin-sidemenu';
 import * as sidemenu from '../actions/sidemenu';
 
 function mapStateToProps(state: State): Props {

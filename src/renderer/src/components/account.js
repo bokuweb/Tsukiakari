@@ -28,6 +28,7 @@ export default class Account extends Component {
       >
         <Tooltip
           trigger="hover"
+          prefixCls="account"
           overlay={
             <AccountTooltip
               account={account}

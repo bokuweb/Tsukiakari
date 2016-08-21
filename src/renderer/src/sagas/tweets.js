@@ -19,6 +19,36 @@ const showNotification = ({ body, icon }) => {
   });
 };
 
+const subscribe2 = (stream, account) => (
+  eventChannel(emit => {
+    const rejectStream = () => {
+      stream.removeAllListeners('data');
+      stream.removeAllListeners('error');
+      stream.destroy();
+    };
+
+    stream.on('data', data => {
+      log.debug('Recieve serach tweet.');
+      log.debug(data);
+    });
+
+    ipcRenderer.once('suspend', () => {
+      log.debug('suspend');
+      rejectStream();
+      log.debug('stream destroied');
+    });
+
+    ipcRenderer.once('resume', () => {
+      log.debug('resume!!');
+      const id = setInterval(() => {
+        if (!navigator.onLine) return;
+        clearInterval(id);
+        emit(actions.connectStream({ account }));
+      }, 3000);
+    });
+  })
+);
+
 const subscribe = (stream, account) => (
   eventChannel(emit => {
     const rejectStream = () => {
@@ -91,6 +121,15 @@ function connectUserStream({ accessToken, accessTokenSecret }) {
   });
 }
 
+function connectSearchStream2({ accessToken, accessTokenSecret }) {
+  const t = new T(accessToken, accessTokenSecret);
+  return new Promise(resolve => {
+    t.client.stream('statuses/filter', { track: 'react' }, stream => {
+      resolve(stream);
+    });
+  });
+}
+
 function* connectStream(account) {
   let channel;
   try {
@@ -105,6 +144,21 @@ function* connectStream(account) {
   }
 }
 
+function* connectSearchStream(account) {
+  let channel;
+  try {
+    const stream = yield connectSearchStream2(account);
+    channel = yield call(subscribe2, stream, account);
+  } catch (error) {
+    log.log(error);
+  }
+  console.log('serach')
+  while (true) {
+    const action = yield take(channel);
+    yield put(action);
+  }
+}
+
 function* watchConnect() {
   const connection = {};
   while (true) {
@@ -112,6 +166,17 @@ function* watchConnect() {
     const { payload: { account } } = yield take('CONNECT_STREAM');
     if (connection[account.id]) yield cancel(connection[account.id]);
     connection[account.id] = yield fork(connectStream, account);
+  }
+}
+
+function* watchConnectSearch() {
+  const connection = {};
+  while (true) {
+    // FIXME:
+    const { payload: { account } } = yield take('CONNECT_SEARCH_STREAM');
+    console.log('asdasda')
+    if (connection[account.id]) yield cancel(connection[account.id]);
+    connection[account.id] = yield fork(connectSearchStream, account);
   }
 }
 
@@ -174,6 +239,7 @@ export default function* tweetsSaga() {
   yield [
     fork(watchDestroyRetweet),
     fork(watchConnect),
+    fork(watchConnectSearch),
     fork(watchMediaUpload),
   ];
 }
