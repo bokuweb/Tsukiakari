@@ -47,13 +47,17 @@ export default class ThinSidemenu extends PureComponent {
   render() {
     return (
       <div className={b()}>
-        <div className={b('menu-icon-wrapper')}>
-          <i className={`${b('menu-icon')} fa fa-bars`} onClick={this.props.onMenuClick} />
+        <div className={b('wrapper')}>
+          <div className={b('menu-icon-wrapper')}>
+            <i className={`${b('menu-icon')} fa fa-bars`} onClick={this.props.onMenuClick} />
+          </div>
+          <div className={b('column-wrapper')}>
+            {this.renderColumList()}
+          </div>
+          {this.renderAddColumnButton()}
         </div>
-        <div className={b('column-wrapper')}>
-          {this.renderColumList()}
-        </div>
-        {this.renderAddColumnButton()}
+        <div className={b('account')} />
+        <div className={b('tweet')} />
       </div>
     );
   }
