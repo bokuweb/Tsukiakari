@@ -7,6 +7,7 @@ function mapStateToProps(state) {
   return {
     accountLength: state.accounts.accounts.length,
     isLightBoxOpen: state.lightbox.isLightBoxOpen,
+    isSideMenuOpen: state.sidemenu.isSideMenuOpen,
   };
 }
 

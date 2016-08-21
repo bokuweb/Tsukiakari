@@ -1,28 +1,16 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
 import B from '../lib/bem';
 
 const b = B.with('sidemenu');
 
-export default class Sidemenu extends Component {
-  static propTypes = {
-    openAddColumnMenu: PropTypes.func,
-    closeAddColumnMenu: PropTypes.func,
-    isAddColumnMenuOpen: PropTypes.bool,
-    isTweetWindowOpen: PropTypes.bool,
-    columns: PropTypes.array,
-    openTweetWindow: PropTypes.func,
-    closeTweetWindow: PropTypes.func,
-  };
-
+export default class Sidemenu extends PureComponent {
   static defaultProps = {
-    openAddColumnMenu: () => null,
-    closeAddColumnMenu: () => null,
     columns: [],
   }
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
-    this.onAddColumnClick = ::this.onAddColumnClick;
+    this.onAddColumnClick = this.onAddColumnClick.bind(this);
   }
 
   onAddColumnClick() {
@@ -88,8 +76,8 @@ export default class Sidemenu extends Component {
       <div className={b()}>
         <div className={b('wrapper')}>
           <div className={b('logo-wrapper')}>
-            <img className={b('logo')} src="images/logo.png" />
-            <i className={`${b('menu-icon')} fa fa-bars`} />
+            <img className={b('logo')} src="images/logo.png" alt="tsukiakari" />
+            <i className={`${b('menu-icon')} fa fa-bars`} onClick={this.props.onMenuClick} />
           </div>
           <ul className={b('ul')}>
             {this.renderColumList()}

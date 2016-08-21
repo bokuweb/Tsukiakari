@@ -1,11 +1,11 @@
-import React, { Component, PropTypes } from 'react';
-import NotificationContainer from '../containers/notification';
-import AccountsContainer from '../containers/accounts';
-import ContentsContainer from '../containers/contents';
-import AddColumnMenuContainer from '../containers/add-column-menu';
-import LightboxContainer from '../containers/lightbox';
-import SidemenuContainer from '../containers/sidemenu';
-import TweetWindowContainer from '../containers/tweet-window';
+import React, { PureComponent } from 'react';
+import Notification from '../containers/notification';
+import Accounts from '../containers/accounts';
+import Contents from '../containers/contents';
+import AddColumnMenu from '../containers/add-column-menu';
+import Lightbox from '../containers/lightbox';
+import Sidemenu from '../containers/sidemenu';
+import TweetWindow from '../containers/tweet-window';
 import Spinner from './spinner';
 import bem from '../lib/bem';
 import { whyDidYouUpdate } from 'why-did-you-update';
@@ -16,13 +16,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 const b = bem.with('tsukiakari');
 
-export default class Tsukiakari extends Component {
-  static propTypes = {
-    initialize: PropTypes.func.isRequired,
-    isLightBoxOpen: PropTypes.bool,
-    accountLength: PropTypes.number,
-  };
-
+export default class Tsukiakari extends PureComponent {
   componentWillMount() {
     this.props.initialize();
   }
@@ -33,16 +27,26 @@ export default class Tsukiakari extends Component {
     }
     return (
       <div className={b(null, { blur: this.props.isLightBoxOpen })}>
-        <AccountsContainer />
-        <SidemenuContainer />
-        <ContentsContainer />
-        <AddColumnMenuContainer />
-        <LightboxContainer
+        <div
+          style={{
+            display: 'flex',
+            width: this.props.isSideMenuOpen ? '420px' : '72px',
+            transition: 'width 0.2s',
+            willChange: 'width',
+            overflow: 'hidden',
+          }}
+        >
+          <Accounts />
+          <Sidemenu />
+        </div>
+        <Contents />
+        <AddColumnMenu />
+        <Lightbox
           showImageCount={false}
           backdropClosesModal
         />
-        <TweetWindowContainer />
-        <NotificationContainer />
+        <TweetWindow />
+        <Notification />
       </div>
     );
   }
