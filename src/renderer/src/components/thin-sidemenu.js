@@ -56,8 +56,12 @@ export default class ThinSidemenu extends PureComponent {
           </div>
           {this.renderAddColumnButton()}
         </div>
-        <div className={b('account')} />
-        <div className={b('tweet')} />
+        <div className={b('account')}>
+          <i className="fa fa-user-plus" />
+        </div>
+        <div className={b('tweet')}>
+          <i className="icon-tweet" />
+        </div>
       </div>
     );
   }
