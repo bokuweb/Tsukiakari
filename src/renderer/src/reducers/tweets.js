@@ -185,13 +185,13 @@ export default handleActions({
 
     const timeline = state.timeline[key] || { results: [] }; // TODO: implement mixed timeline
     const { columns } = state;
-    Array.prototype.push.apply(columns, [{
+    columns.unshift({
       id,
       title,
       icon,
       contents: [{ account, type, key }],
       results: timeline.results.map(result => ({ key, id: result })),
-    }]);
+    });
     return {
       ...state,
       columns: [...columns],
