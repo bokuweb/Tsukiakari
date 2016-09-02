@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Sidemenu from '../components/thin-sidemenu';
 import * as sidemenu from '../actions/sidemenu';
+import * as accounts from '../actions/accounts';
 
 function mapStateToProps(state: State): Props {
   return {
@@ -18,6 +19,7 @@ function mapDispatchToProps(dispatch: Dispatch): Props {
     closeTweetWindow: bindActionCreators(sidemenu.closeTweetWindow, dispatch),
     openSideMenu: bindActionCreators(sidemenu.openSideMenu, dispatch),
     closeSideMenu: bindActionCreators(sidemenu.closeSideMenu, dispatch),
+    addAccount: bindActionCreators(accounts.addAccount, dispatch),
   };
 }
 
@@ -26,6 +28,9 @@ function mergeProps(stateProps: Props, dispatchProps: Props, ownProps: Props): P
     ...ownProps,
     ...stateProps,
     ...dispatchProps,
+    onTweetButtonClick: stateProps.isTweetWindowOpen
+      ? dispatchProps.closeTweetWindow
+      : dispatchProps.openTweetWindow,
     onMenuClick: stateProps.isSideMenuOpen
       ? dispatchProps.closeSideMenu
       : dispatchProps.openSideMenu,

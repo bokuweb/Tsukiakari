@@ -11,6 +11,7 @@ export default class Sidemenu extends PureComponent {
   constructor(props: Props) {
     super(props);
     this.onAddColumnClick = this.onAddColumnClick.bind(this);
+    this.onTweetButtonClick = this.onTweetButtonClick.bind(this);
   }
 
   onAddColumnClick() {
@@ -86,7 +87,7 @@ export default class Sidemenu extends PureComponent {
         </div>
         <div
           className={b('button', { newtweet: true })}
-          onClick={::this.onTweetButtonClick}
+          onClick={this.onTweetButtonClick}
         >
           {this.renderTweetButtonText()}
         </div>
