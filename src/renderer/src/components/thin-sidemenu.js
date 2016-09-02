@@ -60,7 +60,7 @@ export default class ThinSidemenu extends PureComponent {
           <i className="fa fa-user-plus" />
         </div>
         <div className={b('tweet')} onClick={this.props.onTweetButtonClick}>
-          <i className="icon-tweet" />
+          {this.props.isTweetWindowOpen ? <i className="fa fa-times" /> : <i className="icon-tweet" />}
         </div>
       </div>
     );
