@@ -1,5 +1,3 @@
-/* @flow */
-
 import { handleActions } from 'redux-actions';
 import { deleteMedia } from '../actions/upload-media';
 import { loadFriends } from '../actions/tweets';

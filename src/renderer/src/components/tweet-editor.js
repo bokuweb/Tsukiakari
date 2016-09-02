@@ -1,7 +1,5 @@
-/* @flow */
-
 import React, { PureComponent } from 'react';
-import { EditorState } from 'draft-js';
+import { EditorState, ContentState } from 'draft-js';
 import Editor from 'draft-js-plugins-editor';
 import createEmojiPlugin from 'draft-js-emoji-plugin';
 import createMentionPlugin, { defaultSuggestionsFilter } from 'draft-js-mention-plugin';
@@ -32,7 +30,7 @@ export default class TweetEditor extends PureComponent {
   constructor(props: Props) {
     super(props);
     this.state = {
-      editorState: EditorState.createEmpty(),
+      editorState: EditorState.createWithContent(ContentState.createFromText('')),
       suggestions: props.mentions,
     };
     this.onChange = this.onChange.bind(this);
@@ -46,6 +44,12 @@ export default class TweetEditor extends PureComponent {
   onChange(editorState: Object) {
     this.setState({ editorState });
     this.props.onChange(editorState.getCurrentContent().getPlainText());
+  }
+
+  updateEditorState(text: String) {
+    this.setState({
+      editorState: EditorState.createWithContent(ContentState.createFromText(text)),
+    });
   }
 
   onSearchChange(e: SyntheticEvent): void { // eslint-disable-line flowtype/require-return-type
