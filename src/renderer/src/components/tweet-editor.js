@@ -1,3 +1,5 @@
+/* @flow */
+
 import React, { PureComponent } from 'react';
 import { EditorState, ContentState } from 'draft-js';
 import Editor from 'draft-js-plugins-editor';
@@ -5,14 +7,18 @@ import createEmojiPlugin from 'draft-js-emoji-plugin';
 import createMentionPlugin, { defaultSuggestionsFilter } from 'draft-js-mention-plugin';
 import B from '../lib/bem';
 
+import type { Mentions } from '../../../types/mentions';
+
 const b = B.with('tweet-editor');
 
 type Props = {
-  onChange: Function,
+  onChange: Function;
+  mentions: Mentions;
 };
 
 type State = {
-  editorState: Object,
+  editorState: Object;
+  suggestions: Object;
 };
 
 const mentionPlugin = createMentionPlugin({ mentionTrigger: '@', mentionPrefix: '@' });
@@ -40,19 +46,20 @@ export default class TweetEditor extends PureComponent {
   state: State;
   props: Props;
   onChange: Function;
+  onSearchChange: Function;
 
   onChange(editorState: Object) {
     this.setState({ editorState });
     this.props.onChange(editorState.getCurrentContent().getPlainText());
   }
 
-  updateEditorState(text: String) {
+  updateEditorState(text: string) {
     this.setState({
       editorState: EditorState.createWithContent(ContentState.createFromText(text)),
     });
   }
 
-  onSearchChange(e: SyntheticEvent): void { // eslint-disable-line flowtype/require-return-type
+  onSearchChange(e: HTMLInputElement): void { // eslint-disable-line flowtype/require-return-type
     this.setState({
       suggestions: defaultSuggestionsFilter(e.value, this.props.mentions),
     });
