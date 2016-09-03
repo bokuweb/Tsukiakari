@@ -56,6 +56,22 @@ const styles = {
     left: '50px',
     zIndex: '99999',
   },
+  dropOverlay: {
+    width: '100%',
+    height: '100%',
+    background: 'rgba(255, 255, 255, 0.9)',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    boxSizing: 'border-box',
+    flexDirection: 'column',
+    zIndex: 9999,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    color: '#888',
+  },
 };
 
 export default class TweetWindow extends Component {
@@ -128,7 +144,7 @@ export default class TweetWindow extends Component {
   }
 
   onSelectFile(e: SyntheticEvent): void { // eslint-disable-line flowtype/require-return-type
-    // TODO: accounce
+    // TODO: announce
     if (this.props.media.length >= 4) return;
     if (e.target instanceof HTMLInputElement) {
       this.setState({ path: e.target.value });
@@ -139,7 +155,7 @@ export default class TweetWindow extends Component {
   }
 
   onDropFile(e: SyntheticEvent) {
-    // TODO: accounce
+    // TODO: announce
     if (this.props.media.length >= 4) return;
     if (e.dataTransfer instanceof DataTransfer) {
       // this.setState({ path: dataTransfer.path });
@@ -206,22 +222,7 @@ export default class TweetWindow extends Component {
     if (!this.state.isDragOver || this.props.isMediaUploading) return null;
     return (
       <div
-        style={{
-          width: '100%',
-          height: '100%',
-          background: 'rgba(255, 255, 255, 0.9)',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          boxSizing: 'border-box',
-          flexDirection: 'column',
-          zIndex: 9999,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          textAlign: 'center',
-          color: '#888',
-        }}
+        style={styles.dropOverlay}
         onDragLeave={() => {
           this.setState({ isDragOver: false });
         }}
@@ -259,7 +260,7 @@ export default class TweetWindow extends Component {
   render(): ?React$Element<*> {
     // eslint-disable-next-line no-undef
     const remain = 140 - twttr.txt.getTweetLength(this.state.status);
-    let buttonState = undefined;
+    let buttonState;
     if (remain < 0 || remain === 140) buttonState = 'isDisabled';
     else if (this.props.isPosting) buttonState = 'isLoading';
     return (
