@@ -22,12 +22,12 @@ const defaultItems = [
     value: 'Search',
     icon: 'lnr lnr-magnifier',
     checked: false,
-    input: false,
+    // input: false,
   }, {
     value: 'User',
     icon: 'lnr lnr-user',
     checked: false,
-    input: false,
+    // input: false,
   },
 ];
 
@@ -35,6 +35,12 @@ const defaultState = {
   columnType: null,
   showItemSelector: true,
   showAccount: false,
+};
+
+const styles = {
+  itemSelector : {
+    marginTop: '10px',
+  },
 };
 
 export default class AddColumnMenu extends Component {
@@ -47,9 +53,9 @@ export default class AddColumnMenu extends Component {
   constructor(props) {
     super(props);
     this.state = defaultState;
-    this.onItemClick = ::this.onItemClick;
-    this.onCreate = ::this.onCreate;
-    this.onBack = ::this.onBack;
+    this.onItemClick = this.onItemClick.bind(this);
+    this.onCreate = this.onCreate.bind(this);
+    this.onBack = this.onBack.bind(this);
   }
 
   onCreate(account) {
@@ -75,7 +81,7 @@ export default class AddColumnMenu extends Component {
       <ItemSelector
         onClick={this.onItemClick}
         items={defaultItems}
-        style={{ marginTop: '10px' }}
+        style={styles.itemSelector}
       />
     );
   }
@@ -98,7 +104,7 @@ export default class AddColumnMenu extends Component {
     return (
       <div className={wrapperClass}>
         <div className={b('header')} >
-          <i className={`${b('icon', { header: true })} lnr lnr-cog`} />
+          {/* <i className={`${b('icon', { header: true })} lnr lnr-cog`} /> */}
           <span className={b('title')}>Add new column</span>
           <i className={`${b('icon', { close: true })} lnr lnr-cross`} onClick={this.props.close} />
         </div>
