@@ -1,5 +1,6 @@
 import T from 'twitter';
 import { remote } from 'electron';
+import log from '../lib/log';
 
 export default class TwitterClient {
   constructor(accessToken, accessTokenSecret) {
@@ -12,11 +13,13 @@ export default class TwitterClient {
   }
 
   getEndpoint(type) {
+    log.debug('fetch type');
+    log.debug(type);
     switch (type) {
       case 'Home' : return 'statuses/home_timeline';
       case 'Favorite' : return 'favorites/list';
       case 'Mention' : return 'statuses/mentions_timeline';
-      case 'Seacrh' : return 'search/tweets';
+      case 'Search' : return 'search/tweets';
       default: throw new Error('Unknown fetch type');
     }
   }

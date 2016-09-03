@@ -10,6 +10,7 @@ const iconSelector = {
   Home: 'lnr lnr-home',
   Favorite: 'lnr lnr-heart',
   Mention: 'fa fa-at',
+  Search: 'lnr lnr-magnifier',
 };
 
 const createNewColumns = (state, results, key) => (
