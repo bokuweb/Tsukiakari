@@ -1,4 +1,3 @@
-/* @flow */
 /* eslint-disable no-constant-condition */
 
 import T from '../lib/twitter-client';

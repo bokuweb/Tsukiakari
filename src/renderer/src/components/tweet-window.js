@@ -16,6 +16,7 @@ import TweetWindowFooter from './tweet-window-footer';
 import type { Account } from '../../../types/account';
 import type { Media } from '../../../types/media';
 import type { Mentions } from '../../../types/mentions';
+import type { ReplyTweet } from '../../../types/reply-tweet';
 
 const b = B.with('tweet-window');
 
@@ -27,6 +28,7 @@ type Props = {
   close: Function;
   post: Function;
   uploadMedia: Function;
+  replyTweet: ReplyTweet;
 };
 
 type State = {
@@ -36,6 +38,24 @@ type State = {
   path: string;
   suggestions: Mentions;
   isDragOver: boolean;
+};
+
+const styles = {
+  uploadSpinner: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    background: '#fff',
+    opacity: '0.7',
+  },
+  overlay: {
+    position: 'absolute',
+    top: '5px',
+    left: '50px',
+    zIndex: '99999',
+  },
 };
 
 export default class TweetWindow extends Component {
@@ -69,6 +89,7 @@ export default class TweetWindow extends Component {
   onSelectFile: Function;
   onDropFile: Function;
   onDragOver: Function;
+  editor: TweetEditor;
 
   componentWillReceiveProps(nextProps: Props) {
     const nextId = nextProps.replyTweet.id_str;
@@ -109,17 +130,21 @@ export default class TweetWindow extends Component {
   onSelectFile(e: SyntheticEvent): void { // eslint-disable-line flowtype/require-return-type
     // TODO: accounce
     if (this.props.media.length >= 4) return;
-    if (e.target instanceof HTMLElement) {
+    if (e.target instanceof HTMLInputElement) {
       this.setState({ path: e.target.value });
-      this.props.uploadMedia({ account: this.state.selectedAccount, files: e.target.files });
+      if (e.target instanceof DataTransfer) {
+        this.props.uploadMedia({ account: this.state.selectedAccount, files: e.target.files });
+      }
     }
   }
 
-  onDropFile({ dataTransfer }) {
+  onDropFile(e: SyntheticEvent) {
     // TODO: accounce
     if (this.props.media.length >= 4) return;
-    this.setState({ path: dataTransfer.path });
-    this.props.uploadMedia({ account: this.state.selectedAccount, files: dataTransfer.files });
+    if (e.dataTransfer instanceof DataTransfer) {
+      // this.setState({ path: dataTransfer.path });
+      this.props.uploadMedia({ account: this.state.selectedAccount, files: e.dataTransfer.files });
+    }
   }
 
   // eslint-disable-next-line flowtype/require-return-type
@@ -170,12 +195,7 @@ export default class TweetWindow extends Component {
         destroyTooltipOnHide={this.state.destroyTooltip}
         placement="bottom"
         mouseLeaveDelay={0}
-        overlayStyle={{
-          position: 'absolute',
-          top: '5px',
-          left: '50px',
-          zIndex: '99999',
-        }}
+        overlayStyle={styles.overlay}
       >
         {this.renderAvatar()}
       </Tooltip>
@@ -230,17 +250,7 @@ export default class TweetWindow extends Component {
   renderUploadSpinner(): ?React$Element<*> {
     if (!this.props.isMediaUploading) return null;
     return (
-      <div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          background: '#fff',
-          opacity: '0.7',
-        }}
-      >
+      <div style={styles.uploadSpinner}>
         <Spinner style={{ padding: '10% 0 0 80px' }} />
       </div>
     );
