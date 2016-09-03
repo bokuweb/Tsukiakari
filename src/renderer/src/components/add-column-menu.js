@@ -1,7 +1,11 @@
+/* @flow */
+
 import React, { Component } from 'react';
 import ItemSelector from './item-selector';
 import AccountSelector from './account-selector';
 import B from '../lib/bem';
+
+import type { Account } from '../../../types/account';
 
 const b = B.with('add-column-menu');
 
@@ -38,9 +42,22 @@ const defaultState = {
 };
 
 const styles = {
-  itemSelector : {
+  itemSelector: {
     marginTop: '10px',
   },
+};
+
+type Props = {
+  isOpen: bool;
+  accounts: Array<Account>;
+  onCreate: Function;
+  close: Function;
+};
+
+type State = {
+  columnType: ?string;
+  showItemSelector: bool;
+  showAccount: bool;
 };
 
 export default class AddColumnMenu extends Component {
@@ -50,7 +67,14 @@ export default class AddColumnMenu extends Component {
     accounts: [],
   }
 
-  constructor(props) {
+  /* eslint-disable react/sort-comp */
+  props: Props;
+  state: State;
+  onItemClick: Function;
+  onCreate: Function;
+  onBack: Function;
+
+  constructor(props: Props) {
     super(props);
     this.state = defaultState;
     this.onItemClick = this.onItemClick.bind(this);
@@ -58,12 +82,12 @@ export default class AddColumnMenu extends Component {
     this.onBack = this.onBack.bind(this);
   }
 
-  onCreate(account) {
+  onCreate(account: Account) {
     this.props.onCreate(account, this.state.columnType);
     this.setState(defaultState);
   }
 
-  onItemClick(value) {
+  onItemClick(value: string) {
     this.setState({
       columnType: value,
       showItemSelector: false,
@@ -75,7 +99,7 @@ export default class AddColumnMenu extends Component {
     this.setState(defaultState);
   }
 
-  renderItemSelector() {
+  renderItemSelector(): ?React$Element<*> {
     if (!this.state.showItemSelector) return null;
     return (
       <ItemSelector
@@ -86,7 +110,7 @@ export default class AddColumnMenu extends Component {
     );
   }
 
-  renderAccountSelector() {
+  renderAccountSelector(): ?React$Element<*> {
     if (!this.state.showAccount) return null;
     return (
       <AccountSelector
@@ -97,7 +121,7 @@ export default class AddColumnMenu extends Component {
     );
   }
 
-  render() {
+  render(): ?React$Element<*> {
     const wrapperClass = this.props.isOpen
             ? b('', { 'is-open': true })
             : b();

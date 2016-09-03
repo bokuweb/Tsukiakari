@@ -8,7 +8,7 @@ import type { Item } from '../../../types/add-column-menu';
 const b = B.with('item-selector');
 
 type Props = {
-  items: Array<Item>;
+  items: Array<$Shape<Item>>;
   onClick: Function;
   style: Object;
 };
