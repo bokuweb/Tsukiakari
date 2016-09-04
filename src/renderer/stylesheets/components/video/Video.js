@@ -99,7 +99,7 @@ var Video = React.createClass({
     componentDidMount() {
         // Listen to error of last source.
         this.videoEl.children[this.videoEl.children.length - 1]
-            .addEventListener('error', this._updateStateFromVideo);
+        .addEventListener('error', this._updateStateFromVideo, { passive: true });
     },
 
     /**

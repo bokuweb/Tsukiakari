@@ -58,6 +58,7 @@ type State = {
   columnType: ?string;
   showItemSelector: bool;
   showAccount: bool;
+  showSearchForm: bool;
 };
 
 export default class AddColumnMenu extends Component {
@@ -87,11 +88,14 @@ export default class AddColumnMenu extends Component {
     this.setState(defaultState);
   }
 
-  onItemClick(value: string) {
+  onItemClick(type: string) {
+    const showAccount = type !== 'Search';
+    const showSearchForm = type === 'Search';
     this.setState({
-      columnType: value,
+      columnType: type,
       showItemSelector: false,
-      showAccount: true,
+      showAccount,
+      showSearchForm,
     });
   }
 
@@ -121,6 +125,13 @@ export default class AddColumnMenu extends Component {
     );
   }
 
+  renderSearchForm(): ?React$Element<*> {
+    if (!this.state.showSearchForm) return null;
+    return (
+      <div>search</div>
+    );
+  }
+
   render(): ?React$Element<*> {
     const wrapperClass = this.props.isOpen
             ? b('', { 'is-open': true })
@@ -134,6 +145,7 @@ export default class AddColumnMenu extends Component {
         </div>
         {this.renderItemSelector()}
         {this.renderAccountSelector()}
+        {this.renderSearchForm()}
       </div>
     );
   }
