@@ -25,7 +25,6 @@ export default class AccountSelector extends Component {
     return (
       <div className={b()}>
         <div className={b('title-wrapper')}>
-          <i className={`${b('icon', { users: true })} lnr lnr-user`} />
           <span className={b('title')}>Choose account</span>
         </div>
         <div className={b('accounts')}>
