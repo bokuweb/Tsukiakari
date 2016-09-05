@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import ItemSelector from './item-selector';
 import AccountSelector from './account-selector';
+import SearchForm from './add-column-search-form.js';
 import B from '../lib/bem';
 
 import type { Account } from '../../../types/account';
@@ -39,6 +40,8 @@ const defaultState = {
   columnType: null,
   showItemSelector: true,
   showAccount: false,
+  showSearchForm: false,
+  searchWord: '',
 };
 
 const styles = {
@@ -52,6 +55,7 @@ type Props = {
   accounts: Array<Account>;
   onCreate: Function;
   close: Function;
+  searchTweets: Function;
 };
 
 type State = {
@@ -59,10 +63,10 @@ type State = {
   showItemSelector: bool;
   showAccount: bool;
   showSearchForm: bool;
+  searchWord: string;
 };
 
 export default class AddColumnMenu extends Component {
-
   static defaultProps = {
     isOpen: false,
     accounts: [],
@@ -74,6 +78,8 @@ export default class AddColumnMenu extends Component {
   onItemClick: Function;
   onCreate: Function;
   onBack: Function;
+  onSearch: Function;
+  onSearchFormChange: Function;
 
   constructor(props: Props) {
     super(props);
@@ -81,6 +87,8 @@ export default class AddColumnMenu extends Component {
     this.onItemClick = this.onItemClick.bind(this);
     this.onCreate = this.onCreate.bind(this);
     this.onBack = this.onBack.bind(this);
+    this.onSearch = this.onSearch.bind(this);
+    this.onSearchFormChange = this.onSearchFormChange.bind(this);
   }
 
   onCreate(account: Account) {
@@ -101,6 +109,16 @@ export default class AddColumnMenu extends Component {
 
   onBack() {
     this.setState(defaultState);
+  }
+
+  onSearch() {
+    this.props.searchTweets({ word: this.state.searchWord });
+  }
+
+  onSearchFormChange(e: SyntheticEvent) {
+    if (e.target instanceof HTMLInputElement) {
+      this.setState({ searchWord: e.target.value });
+    }
   }
 
   renderItemSelector(): ?React$Element<*> {
@@ -128,7 +146,11 @@ export default class AddColumnMenu extends Component {
   renderSearchForm(): ?React$Element<*> {
     if (!this.state.showSearchForm) return null;
     return (
-      <div>search</div>
+      <SearchForm
+        onBackClick={this.onBack}
+        onSearchClick={this.onSearch}
+        onChange={this.onSearchFormChange}
+      />
     );
   }
 
