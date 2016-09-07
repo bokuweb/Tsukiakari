@@ -22,7 +22,7 @@ const fetch = (store, account, type) => {
               ? normalize(tweets.statuses, arrayOf(tweet))
               : normalize(tweets, arrayOf(tweet));
       store.dispatch(action({ account, tweets: normarizedTweets, type }));
-    })
+    }) 
     .catch(error => {
       const action = createAction('FETCH_TIMELINE_FAIL');
       store.dispatch(action({ error }));

@@ -3,8 +3,10 @@
 import React, { Component } from 'react';
 import ItemSelector from './item-selector';
 import AccountSelector from './account-selector';
-import SearchForm from './add-column-search-form.js';
+import SearchForm from './add-column-search-form';
 import B from '../lib/bem';
+import Timeline from './add-column-menu-timeline';
+import log from '../lib/log';
 
 import type { Account } from '../../../types/account';
 
@@ -56,6 +58,7 @@ type Props = {
   onCreate: Function;
   close: Function;
   searchTweets: Function;
+  searchedTweets: Object;
 };
 
 type State = {
@@ -157,7 +160,8 @@ export default class AddColumnMenu extends Component {
   render(): ?React$Element<*> {
     const wrapperClass = this.props.isOpen
             ? b('', { 'is-open': true })
-            : b();
+          : b();
+    const { result, entities } = this.props.searchedTweets;
     return (
       <div className={wrapperClass}>
         <div className={b('header')} >
@@ -168,6 +172,10 @@ export default class AddColumnMenu extends Component {
         {this.renderItemSelector()}
         {this.renderAccountSelector()}
         {this.renderSearchForm()}
+        <Timeline
+          result={result}
+          tweets={entities.tweets}
+        />
       </div>
     );
   }

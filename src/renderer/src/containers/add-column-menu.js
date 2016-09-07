@@ -9,6 +9,7 @@ function mapStateToProps(state: State): Object {
   return {
     accounts: state.accounts.accounts,
     isOpen: state.sidemenu.isAddColumnMenuOpen,
+    searchedTweets: state.addColumnMenu.searchedTweets,
   };
 }
 

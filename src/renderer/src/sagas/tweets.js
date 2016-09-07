@@ -2,11 +2,13 @@
 
 import T from '../lib/twitter-client';
 import { eventChannel } from 'redux-saga';
-import { fork, take, call, put, cancel } from 'redux-saga/effects';
+import { fork, take, call, put, cancel, select } from 'redux-saga/effects';
 import * as actions from '../actions/tweets';
+import { successSearchTweets, failSearchTweets } from '../actions/add-column-menu';
 import { normalize, Schema } from 'normalizr';
 import { ipcRenderer } from 'electron'; // eslint-disable-line import/no-unresolved
 import log from '../lib/log';
+import { getFirstAccount } from './selector';
 
 const tweetSchema = new Schema('tweets', { idAttribute: 'id_str' });
 
@@ -235,12 +237,29 @@ function* watchDestroyRetweet() {
   }
 }
 
+function* watchSearchTweetForMenu() {
+  while (true) {
+    const { payload: { word } } = yield take('SEARCH_TWEETS_FOR_MENU');
+    const { accessToken, accessTokenSecret } = yield select(getFirstAccount);
+    const twitter = new T(accessToken, accessTokenSecret);
+    try {
+      const tweets = yield call(::twitter.fetch, 'Search', { q: word });
+      log.debug(tweets);
+      yield put(successSearchTweets({ tweets: tweets.statuses }));
+    } catch (error) {
+      log.debug(error);
+      yield put(actions.failSearchTweets({ error }));
+    }
+  }
+}
+
 export default function* tweetsSaga() {
   yield [
     fork(watchDestroyRetweet),
     fork(watchConnect),
     fork(watchConnectSearch),
     fork(watchMediaUpload),
+    fork(watchSearchTweetForMenu),
   ];
 }
 
