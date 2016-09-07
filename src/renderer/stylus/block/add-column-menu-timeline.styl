@@ -1,2 +1,16 @@
 .add-column-menu-timeline
   padding 8px
+  height 100%
+
+  &__infinite
+    height calc(100% - 240px)
+    overflow-y scroll
+
+    &::-webkit-scrollbar
+      width 5px
+      height 5px
+
+    &::-webkit-scrollbar-thumb
+      background #34495E
+      border-radius 2px
+

@@ -26,7 +26,7 @@ export default class SearchForm extends Component {
         <div className={b('title-wrapper')} >
           <span className={b('title')}>Search</span>
         </div>
-        <Addons color="isInfo" style={{ width: '136px' }}>
+        <Addons color="isInfo" >
           <Input
             placeholder="search"
             icon="fa fa-search"
