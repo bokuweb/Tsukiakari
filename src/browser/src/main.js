@@ -23,8 +23,9 @@ app.on('ready', () => {
 
   const loadMainWindow = () => {
     mainWindow = new BrowserWindow({
-      minWidth: 320,
+      minWidth: 420,
       minHeight: 400,
+      // frame: false,
     });
 
     mainWindow.webContents.on('new-window', (event, url) => {
