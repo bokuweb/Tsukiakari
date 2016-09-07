@@ -248,7 +248,7 @@ function* watchSearchTweetForMenu() {
       yield put(successSearchTweets({ tweets: tweets.statuses }));
     } catch (error) {
       log.debug(error);
-      yield put(actions.failSearchTweets({ error }));
+      yield put(failSearchTweets({ error }));
     }
   }
 }

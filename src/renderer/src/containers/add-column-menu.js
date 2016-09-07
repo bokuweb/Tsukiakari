@@ -10,6 +10,8 @@ function mapStateToProps(state: State): Object {
     accounts: state.accounts.accounts,
     isOpen: state.sidemenu.isAddColumnMenuOpen,
     searchedTweets: state.addColumnMenu.searchedTweets,
+    searchTweetsWord: state.addColumnMenu.searchTweetsWord,
+    tweetLoadingStatus: state.addColumnMenu.tweetLoadingStatus,
   };
 }
 

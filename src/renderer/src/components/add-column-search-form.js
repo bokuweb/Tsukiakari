@@ -10,6 +10,7 @@ type Props = {
   onBackClick: Function;
   onSearchClick: Function;
   onChange: Function;
+  enableAddButton: bool;
 };
 
 export default class SearchForm extends Component {
@@ -24,19 +25,45 @@ export default class SearchForm extends Component {
     return (
       <div className={b()}>
         <div className={b('title-wrapper')} >
-          <span className={b('title')}>Search</span>
+          <span className={b('title')}>Search tweets</span>
         </div>
-        <Addons color="isInfo" >
+        <Addons color="isInfo" className={b('form')}>
           <Input
             placeholder="search"
-            icon="fa fa-search"
+            icon="lnr lnr-magnifier"
             hasIconRight
             onChange={this.props.onChange}
           />
-          <Button onClick={this.props.onSearchClick}>Search</Button>
+          <Button
+            onClick={this.props.onSearchClick}
+          >
+            <i className="lnr lnr-magnifier" />
+          </Button>
         </Addons>
         <div className={b('button-wrapper')} >
-          <Button onClick={this.props.onBackClick}>Back</Button>
+          <Button
+            style={{
+              marginRight: '6px',
+              color: '#233749',
+              border: 'solid 1px #233749',
+              borderRadius: '2px',
+              background: 'none',
+            }}
+            onClick={this.props.onBackClick}
+          >
+            Back
+          </Button>
+          <Button
+            state={this.props.enableAddButton ? undefined : 'isDisabled'}
+            style={{
+              color: '#233749',
+              border: 'solid 1px #233749',
+              borderRadius: '2px',
+              background: 'none',
+            }}
+          >
+            Add
+          </Button>
         </div>
       </div>
     );

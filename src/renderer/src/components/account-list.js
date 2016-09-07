@@ -26,7 +26,7 @@ export default class AccountList extends Component {
             className={b('avatar')}
             style={
               account.id === this.props.selectedAccount.id
-                ? { border: 'solid 2px #BDC3C7', opacity: 1 }
+                ? { border: 'solid 2px #222324', opacity: 1 }
                 : {}
               }
           />

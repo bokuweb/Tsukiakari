@@ -36,21 +36,29 @@ export default class AccountSelector extends Component {
         </div>
         <div className={b('buttons')}>
           <Button
-             style={{
-               marginRight: '6px',
-               background: '#1cc09f',
-               color: '#fff',
-               border: 'none',
-             }}
-            onClick={this.props.onCreate.bind(this, this.state.selectedAccount)}
-          >
-            Create
-          </Button>
-          <Button
             className={b('button', { back: true })}
             onClick={this.props.onBackClick}
+            style={{
+              marginRight: '6px',
+              color: '#233749',
+              border: 'solid 1px #233749',
+              borderRadius: '2px',
+              background: 'none',
+            }}
           >
             Back
+          </Button>
+          <Button
+            onClick={this.props.onCreate.bind(this, this.state.selectedAccount)}
+            style={{
+              marginRight: '6px',
+              color: '#233749',
+              border: 'solid 1px #233749',
+              borderRadius: '2px',
+              background: 'none',
+            }}
+          >
+            Add
           </Button>
         </div>
       </div>

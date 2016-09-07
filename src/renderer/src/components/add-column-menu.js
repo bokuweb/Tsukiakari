@@ -5,10 +5,12 @@ import ItemSelector from './item-selector';
 import AccountSelector from './account-selector';
 import SearchForm from './add-column-search-form';
 import B from '../lib/bem';
+import { isEqual } from 'lodash';
 import Timeline from './add-column-menu-timeline';
-import log from '../lib/log';
+// import log from '../lib/log';
 
 import type { Account } from '../../../types/account';
+import type { LoadingStatus } from '../../../types/common';
 
 const b = B.with('add-column-menu');
 
@@ -59,6 +61,8 @@ type Props = {
   close: Function;
   searchTweets: Function;
   searchedTweets: Object;
+  searchTweetsWord: string;
+  tweetLoadingStatus: LoadingStatus;
 };
 
 type State = {
@@ -92,6 +96,10 @@ export default class AddColumnMenu extends Component {
     this.onBack = this.onBack.bind(this);
     this.onSearch = this.onSearch.bind(this);
     this.onSearchFormChange = this.onSearchFormChange.bind(this);
+  }
+
+  shouldComponentUpdate(nextProps: Props, nextState: State): bool {
+    return !isEqual(this.props, nextProps) || !isEqual(this.state, nextState);
   }
 
   onCreate(account: Account) {
@@ -147,12 +155,14 @@ export default class AddColumnMenu extends Component {
   }
 
   renderSearchForm(): ?React$Element<*> {
+    const { searchedTweets: { result }, tweetLoadingStatus } = this.props;
     if (!this.state.showSearchForm) return null;
     return (
       <SearchForm
         onBackClick={this.onBack}
         onSearchClick={this.onSearch}
         onChange={this.onSearchFormChange}
+        enableAddButton={result.Length !== 0 && tweetLoadingStatus === 'loaded'}
       />
     );
   }
@@ -173,8 +183,10 @@ export default class AddColumnMenu extends Component {
         {this.renderAccountSelector()}
         {this.renderSearchForm()}
         <Timeline
+          title={`'${this.props.searchTweetsWord}' timeline`}
           result={result}
           tweets={entities.tweets}
+          loadingStatus={this.props.tweetLoadingStatus}
         />
       </div>
     );

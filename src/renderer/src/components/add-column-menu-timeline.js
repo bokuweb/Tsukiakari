@@ -4,35 +4,32 @@ import React, { Component } from 'react';
 import ReactList from 'react-list';
 import TweetItem from '../containers/tweetitem';
 import B from '../lib/bem';
-import log from '../lib/log';
+import Spinner from './spinner';
 
 import type { Tweet } from '../../../types/tweet';
+import type { LoadingStatus } from '../../../types/common';
 
 const b = B.with('add-column-menu-timeline');
 
 type Props = {
   result: Array<string>;
+  title: ?string;
   tweets: {
     [id: string]: Tweet;
   };
+  loadingStatus: LoadingStatus;
 };
 
 export default class Timeline extends Component {
   constructor(props: Props) {
     super(props);
-    this.onMouseDown = this.onMouseDown.bind(this);
     this.renderItems = this.renderItems.bind(this);
   }
 
   /* eslint-disable react/sort-comp */
   props: Props;
-  onMouseDown: Function;
   renderItems: Function;
   infinite: React$Element<*>;
-
-  onMouseDown(e: Event) {
-    e.stopPropagation();
-  }
 
   renderItems(index: number, ref: React$Element<*>): ?React$Element<*> {
     const id = this.props.result[index];
@@ -49,8 +46,19 @@ export default class Timeline extends Component {
   }
 
   render(): ?React$Element<*> {
+    const { loadingStatus, result } = this.props;
+    if (loadingStatus === 'idle') return null;
+    if (loadingStatus === 'loading') return <Spinner style={{ marginTop: '90px' }} />;
+    if (loadingStatus === 'loaded' && result.length === 0) {
+      return (
+        <div className={b()}>not found</div>
+      );
+    }
     return (
-      <div className={b()} onMouseDown={this.onMouseDown}>
+      <div className={b()}>
+        <div className={b('title')}>
+          {this.props.title}
+        </div>
         <div
           className={b('infinite')}
           ref={(c: React$Element<*>) => { this.infinite = c; }}
@@ -58,7 +66,7 @@ export default class Timeline extends Component {
           <ReactList
             ref="list"
             itemRenderer={this.renderItems}
-            length={this.props.result.length}
+            length={result.length}
             type="variable"
             threshold={300}
             pageSize={5}
