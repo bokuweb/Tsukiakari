@@ -167,11 +167,23 @@ export default class AddColumnMenu extends Component {
     );
   }
 
+  renderSearchTimeline(): ?React$Element<*> {
+    if (!this.state.showSearchForm) return null;
+    const { result, entities } = this.props.searchedTweets;
+    return (
+      <Timeline
+        title={`'${this.props.searchTweetsWord}' timeline`}
+        result={result}
+        tweets={entities.tweets}
+        loadingStatus={this.props.tweetLoadingStatus}
+      />
+    );
+  }
+
   render(): ?React$Element<*> {
     const wrapperClass = this.props.isOpen
-            ? b('', { 'is-open': true })
+          ? b('', { 'is-open': true })
           : b();
-    const { result, entities } = this.props.searchedTweets;
     return (
       <div className={wrapperClass}>
         <div className={b('header')} >
@@ -182,12 +194,7 @@ export default class AddColumnMenu extends Component {
         {this.renderItemSelector()}
         {this.renderAccountSelector()}
         {this.renderSearchForm()}
-        <Timeline
-          title={`'${this.props.searchTweetsWord}' timeline`}
-          result={result}
-          tweets={entities.tweets}
-          loadingStatus={this.props.tweetLoadingStatus}
-        />
+        {this.renderSearchTimeline()}
       </div>
     );
   }

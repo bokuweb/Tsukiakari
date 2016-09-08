@@ -16,7 +16,7 @@ const defaultState = {
       tweets: {},
     },
   },
-  isTweetsLoaded: 'idle',
+  tweetLoadingStatus: 'idle',
 };
 
 export default handleActions({
