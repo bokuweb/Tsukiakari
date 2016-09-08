@@ -27,7 +27,11 @@ export default handleActions({
   SUCCESS_SEARCH_TWEETS_FOR_MENU: (state: State, action: AddColumnActions): State => {
     if (action.type !== 'SUCCESS_SEARCH_TWEETS_FOR_MENU') return state;
     const { tweets } = action.payload;
-    return { ...state, searchedTweets: normalize(tweets, arrayOf(tweet)), tweetLoadingStatus: 'loaded' };
+    return {
+      ...state,
+      searchedTweets: normalize(tweets, arrayOf(tweet)),
+      tweetLoadingStatus: 'loaded',
+    };
   },
   FAIL_TWEETS_FOR_MENU: (state: State, action: AddColumnActions): State => {
     if (action.type !== 'FAIL_TWEETS_FOR_MENU') return state;

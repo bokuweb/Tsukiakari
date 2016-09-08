@@ -1,5 +1,5 @@
 declare module 'normalizr' {
-  declare type Schema = any;
-  declare type normalize = any;
-  declare type arrayOf = any;
+  declare var Schema: any;
+  declare var normalize: any;
+  declare var arrayOf: any;
 }
