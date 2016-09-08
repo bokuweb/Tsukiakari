@@ -44,8 +44,8 @@ export default class SearchForm extends Component {
           <Button
             style={{
               marginRight: '6px',
-              color: '#233749',
-              border: 'solid 1px #233749',
+              color: '#4f5f6d',
+              border: 'solid 1px #4f5f6d',
               borderRadius: '2px',
               background: 'none',
             }}
@@ -56,8 +56,8 @@ export default class SearchForm extends Component {
           <Button
             state={this.props.enableAddButton ? undefined : 'isDisabled'}
             style={{
-              color: '#233749',
-              border: 'solid 1px #233749',
+              color: '#4f5f6d',
+              border: 'solid 1px #4f5f6d',
               borderRadius: '2px',
               background: 'none',
             }}

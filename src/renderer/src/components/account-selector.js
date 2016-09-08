@@ -40,8 +40,8 @@ export default class AccountSelector extends Component {
             onClick={this.props.onBackClick}
             style={{
               marginRight: '6px',
-              color: '#233749',
-              border: 'solid 1px #233749',
+              color: '#4f5f6d',
+              border: 'solid 1px #4f5f6d',
               borderRadius: '2px',
               background: 'none',
             }}
@@ -52,8 +52,8 @@ export default class AccountSelector extends Component {
             onClick={this.props.onCreate.bind(this, this.state.selectedAccount)}
             style={{
               marginRight: '6px',
-              color: '#233749',
-              border: 'solid 1px #233749',
+              color: '#4f5f6d',
+              border: 'solid 1px #4f5f6d',
               borderRadius: '2px',
               background: 'none',
             }}
