@@ -2,7 +2,7 @@
 import { createAction } from 'redux-actions';
 import type { Tweet } from '../../../types/tweet';
 
-type Tweets = { tweets: Array<Tweet> };
+// type Tweets = { tweets: Array<Tweet> };
 
 export type AddColumnActions =
   { type: 'SEARCH_TWEETS_FOR_MENU', payload: { word: string } } |

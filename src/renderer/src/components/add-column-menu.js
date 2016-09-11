@@ -102,8 +102,11 @@ export default class AddColumnMenu extends Component {
     return !isEqual(this.props, nextProps) || !isEqual(this.state, nextState);
   }
 
-  onCreate(account: Account, params) {
-    this.props.onCreate(account, this.state.columnType);
+  onCreate(account: Account) {
+    const params = this.state.columnType === 'Search'
+          ? { q: this.props.searchTweetsWord }
+          : {};
+    this.props.onCreate(account, this.state.columnType, params);
     this.setState(defaultState);
   }
 

@@ -42,6 +42,7 @@ export default class SearchForm extends Component {
             Back
           </Button>
           <Button
+            onClick={this.props.onCreate}
             isDisabled={!this.props.enableAddButton}
           >
             Add

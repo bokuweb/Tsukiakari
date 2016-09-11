@@ -49,7 +49,7 @@ export default class Sidemenu extends PureComponent {
         <span className={b('text', { list: true })}>
           {column.title}
           <span className={b('text', { name: true })}>
-            @{column.contents[0].account.screen_name}
+            {column.subTitle}
           </span>
         </span>
       </li>

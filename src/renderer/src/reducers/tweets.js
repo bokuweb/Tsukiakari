@@ -17,7 +17,8 @@ const createNewColumns = (state, results, key) => (
   state.columns.map(column => {
     const newColumn = { ...column };
     column.contents.forEach(content => {
-      if (`${content.account.id}:${content.type}` === key) {
+      if (`${content.account.id}:${content.type}` === key
+          || `${content.subTitle}:${content.type}` === key) {
         newColumn.results = results.map(result => ({ key, id: result }));
       }
     });
@@ -92,8 +93,10 @@ export default handleActions({
   },
   FETCH_TIMELINE_SUCCESS: (state, action) => {
     // TODO: refactor
-    const { account: { id }, tweets, type } = action.payload;
-    const key = `${id}:${type}`;
+    const { account: { id }, tweets, type, params } = action.payload;
+    const key = type === 'Search'
+            ? `${params.q}:${type}`
+            : `${id}:${type}`;
     const timeline = state.timeline[key] || { entities: {} };
     const results = tweets.result
             .filter(result => !(timeline.entities && timeline.entities[result]))
@@ -178,19 +181,25 @@ export default handleActions({
     };
   },
   ADD_COLUMN: (state, action) => {
-    const { account, type } = action.payload;
+    const { account, type, params } = action.payload;
     const id = uuid.v4();
     const title = type; // TODO: If mixed columns, custom timeline
     const icon = iconSelector[type];
-    const key = `${account.id}:${type}`;
+    const key = type === 'Search'
+            ? `${params.q}:${type}`
+            : `${account.id}:${type}`;
 
     const timeline = state.timeline[key] || { results: [] }; // TODO: implement mixed timeline
     const { columns } = state;
+    const subTitle = type === 'Search'
+            ? params.q
+            : `@${account.screen_name}`;
     columns.unshift({
       id,
       title,
+      subTitle,
       icon,
-      contents: [{ account, type, key }],
+      contents: [{ account, type, key, subTitle }],
       results: timeline.results.map(result => ({ key, id: result })),
     });
     return {

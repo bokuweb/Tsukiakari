@@ -29,7 +29,7 @@ export default class TimelineBox extends Component {
   }
 
   render() {
-    const { id, title, icon, contents, results } = this.props.column;
+    const { id, title, icon, subTitle, results } = this.props.column;
     return (
       <div className={b()}>
         <div className={b('wrapper', { title: true })}>
@@ -37,7 +37,7 @@ export default class TimelineBox extends Component {
             <i className={`${b('icon', { title: true })} ${icon}`} />
             <span>{title}</span>
             <span className={b('username')}>
-              @{contents[0].account.screen_name}
+              {subTitle}
             </span>
           </span>
           <i className={`${b('icon')} lnr lnr-cog`} />
