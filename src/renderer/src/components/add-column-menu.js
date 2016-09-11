@@ -102,7 +102,7 @@ export default class AddColumnMenu extends Component {
     return !isEqual(this.props, nextProps) || !isEqual(this.state, nextState);
   }
 
-  onCreate(account: Account) {
+  onCreate(account: Account, params) {
     this.props.onCreate(account, this.state.columnType);
     this.setState(defaultState);
   }
@@ -162,6 +162,7 @@ export default class AddColumnMenu extends Component {
         onBackClick={this.onBack}
         onSearchClick={this.onSearch}
         onChange={this.onSearchFormChange}
+        onCreate={this.onCreate}
         enableAddButton={result.Length !== 0 && tweetLoadingStatus === 'loaded'}
       />
     );
@@ -187,7 +188,6 @@ export default class AddColumnMenu extends Component {
     return (
       <div className={wrapperClass}>
         <div className={b('header')} >
-          {/* <i className={`${b('icon', { header: true })} lnr lnr-cog`} /> */}
           <span className={b('title')}>Add new column</span>
           <i className={`${b('icon', { close: true })} lnr lnr-cross`} onClick={this.props.close} />
         </div>
