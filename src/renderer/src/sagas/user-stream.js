@@ -88,7 +88,7 @@ function* connectStream(account) {
     const stream = yield connectUserStream(account);
     channel = yield call(subscribe, stream, account);
   } catch (error) {
-    log.log(error);
+    log.error(error);
   }
   while (true) {
     const action = yield take(channel);

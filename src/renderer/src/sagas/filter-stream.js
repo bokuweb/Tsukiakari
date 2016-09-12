@@ -19,38 +19,56 @@ const rejectStream = (stream: Object) => {
   stream.removeAllListeners('data');
   stream.removeAllListeners('error');
   stream.destroy();
+  log.debug('destroy stream');
 };
 
-const subscribe = (stream: Object, account: Account, { q }): void => (
+const subscribe = (stream: Object, account: Account, { q }) => (
   eventChannel((emit: EmitterFn) => {
-    stream.on('data', (tweet: Object) => {
-      log.debug('Recieve serach tweet.');
-      window.requestIdleCallback(() => {
-        log.debug(tweet);
-        for (const word of q) {
-          if (tweet.text.includes(word)) {
-            emit(recieveTweet({
-              tweet: normalize(tweet, tweetSchema), account, type: 'Search',
-            }));
-          }
-        }
-      }, { timeout: 60000 });
-    });
-
-    ipcRenderer.once('suspend', () => {
+    let interval = 10000;
+    const suspendHandler = () => {
       log.debug('suspend');
       rejectStream(stream);
       log.debug('stream destroied');
-    });
-
-    ipcRenderer.once('resume', () => {
+    };
+    const resumeHandler = () => {
       log.debug('resume!!');
       const id = setInterval(() => {
         if (!navigator.onLine) return;
         clearInterval(id);
         emit(connectFilterStream({ account }));
       }, 3000);
+    };
+    log.debug('remove ipc render listeners');
+    ipcRenderer.removeListener('suspend', suspendHandler);
+    ipcRenderer.removeListener('resume', resumeHandler);
+
+    stream.on('data', (tweet: Object) => {
+      log.debug('Recieve serach tweet.');
+      interval = 10000;
+      window.requestIdleCallback(() => {
+        log.debug(tweet);
+        for (const word of q) {
+          if (tweet.text.includes(word)) {
+            emit(recieveTweet({
+              tweet: normalize(tweet, tweetSchema), account, type: 'Search', q: word,
+            }));
+          }
+        }
+      }, { timeout: 60000 });
     });
+
+    stream.on('error', () => {
+      log.debug('Stream error occured.');
+      interval *= 2;
+      interval = interval > 240000 ? 240000 : interval;
+      rejectStream(stream);
+      setTimeout(() => {
+        emit(connectFilterStream({ account }));
+      }, interval);
+    });
+
+    ipcRenderer.once('suspend', suspendHandler);
+    ipcRenderer.once('resume', resumeHandler);
   })
 );
 
@@ -81,6 +99,8 @@ export default function* watchConnectFilterStream() {
       yield cancel(connection);
     }
     if (stream) {
+      log.debug('==================');
+      log.debug(stream);
       rejectStream(stream);
     }
     if (params.q) {

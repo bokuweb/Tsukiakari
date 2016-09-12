@@ -1,4 +1,6 @@
+// import T from 'twit';
 import T from 'twitter';
+
 import { remote } from 'electron';
 import log from '../lib/log';
 
@@ -8,6 +10,7 @@ export default class TwitterClient {
       consumer_key: remote.getGlobal('consumerKey'),
       consumer_secret: remote.getGlobal('consumerSecret'),
       access_token_key: accessToken,
+      // access_token: accessToken,
       access_token_secret: accessTokenSecret,
     });
   }

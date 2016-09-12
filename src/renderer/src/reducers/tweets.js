@@ -62,8 +62,8 @@ const updateTweetProperty = (accountId, tweetId, timeline, props) => {
 export default handleActions({
   RECIEVE_TWEET: (state, action) => {
     // TODO: refactor
-    const { account: { id }, tweet, type } = action.payload;
-    const key = `${id}:${type}`;
+    const { account: { id }, tweet, type, q } = action.payload;
+    const key = type === 'Search' ? `${q}:${type}` : `${id}:${type}`;
     const contents = state.columns.filter(column => column.contents[0].key === key);
     if (contents.length === 0) return state;
     const timeline = state.timeline[key] || { entities: { tweets: { } } };
