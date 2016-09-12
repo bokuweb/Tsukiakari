@@ -11,7 +11,7 @@ const tweet = new Schema('tweets', { idAttribute: 'id_str' });
 //   Mention: 60 * 1000,
 // };
 
-const fetch = (store, account, type, params) => {
+const fetch = (store, account, type, params = {}) => {
   const { accessToken, accessTokenSecret } = account;
   const twitter = new Twitter(accessToken, accessTokenSecret);
   twitter.fetch(type, { ...params, count: 200 })

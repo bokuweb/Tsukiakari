@@ -3,7 +3,7 @@
 import T from '../lib/twitter-client';
 import { take, fork, put } from 'redux-saga/effects';
 import { loadAccounts, updateAccount } from '../actions/accounts';
-import { connectStream, connectSearchStream, loadFriends } from '../actions/tweets';
+import { connectStream, loadFriends } from '../actions/tweets';
 import { startTimer } from '../actions/initialize';
 import log from '../lib/log';
 

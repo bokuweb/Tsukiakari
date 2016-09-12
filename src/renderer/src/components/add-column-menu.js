@@ -57,12 +57,13 @@ const styles = {
 type Props = {
   isOpen: bool;
   accounts: Array<Account>;
-  onCreate: Function;
+  createColumn: Function;
   close: Function;
   searchTweets: Function;
   searchedTweets: Object;
   searchTweetsWord: string;
   tweetLoadingStatus: LoadingStatus;
+  connectFilterStream: Function;
 };
 
 type State = {
@@ -83,18 +84,21 @@ export default class AddColumnMenu extends Component {
   props: Props;
   state: State;
   onItemClick: Function;
-  onCreate: Function;
+  addFilterColumn: Function;
+  createColumn: Function;
   onBack: Function;
   onSearch: Function;
   onSearchFormChange: Function;
+  addSearchColumn: Function;
 
   constructor(props: Props) {
     super(props);
     this.state = defaultState;
     this.onItemClick = this.onItemClick.bind(this);
-    this.onCreate = this.onCreate.bind(this);
+    this.createColumn = this.createColumn.bind(this);
     this.onBack = this.onBack.bind(this);
     this.onSearch = this.onSearch.bind(this);
+    this.addSearchColumn = this.addSearchColumn.bind(this);
     this.onSearchFormChange = this.onSearchFormChange.bind(this);
   }
 
@@ -102,11 +106,14 @@ export default class AddColumnMenu extends Component {
     return !isEqual(this.props, nextProps) || !isEqual(this.state, nextState);
   }
 
-  onCreate(account: Account) {
-    const params = this.state.columnType === 'Search'
-          ? { q: this.props.searchTweetsWord }
-          : {};
-    this.props.onCreate(account, this.state.columnType, params);
+  addSearchColumn() {
+    const params = { q: this.props.searchTweetsWord };
+    this.createColumn(this.props.accounts[0], params);
+    this.props.connectFilterStream({ account: this.props.accounts[0], params });
+  }
+
+  createColumn(account: Account, params: ?Object = {}) {
+    this.props.createColumn(account, this.state.columnType, params);
     this.setState(defaultState);
   }
 
@@ -152,7 +159,7 @@ export default class AddColumnMenu extends Component {
       <AccountSelector
         accounts={this.props.accounts}
         onBackClick={this.onBack}
-        onCreate={this.onCreate}
+        onCreate={this.createColumn}
       />
     );
   }
@@ -165,7 +172,7 @@ export default class AddColumnMenu extends Component {
         onBackClick={this.onBack}
         onSearchClick={this.onSearch}
         onChange={this.onSearchFormChange}
-        onCreate={() => this.onCreate(this.props.accounts[0])}
+        onCreate={this.addSearchColumn}
         enableAddButton={result.Length !== 0 && tweetLoadingStatus === 'loaded'}
       />
     );

@@ -4,6 +4,7 @@ import AddColumnMenu from '../components/add-column-menu';
 import * as sidemenu from '../actions/sidemenu';
 import * as column from '../actions/column';
 import * as addColumnMenu from '../actions/add-column-menu.js';
+import { connectFilterStream } from '../actions/tweets';
 
 function mapStateToProps(state: State): Object {
   return {
@@ -18,7 +19,8 @@ function mapStateToProps(state: State): Object {
 function mapDispatchToProps(dispatch: Dispatch): Object {
   return {
     close: bindActionCreators(sidemenu.closeAddColumnMenu, dispatch),
-    onCreate: bindActionCreators(column.addColumn, dispatch),
+    createColumn: bindActionCreators(column.addColumn, dispatch),
+    connectFilterStream: bindActionCreators(connectFilterStream, dispatch),
     searchTweets: bindActionCreators(addColumnMenu.searchTweets, dispatch),
   };
 }

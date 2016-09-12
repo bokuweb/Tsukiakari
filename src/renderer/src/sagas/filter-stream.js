@@ -3,26 +3,43 @@
 import T from '../lib/twitter-client';
 import { eventChannel } from 'redux-saga';
 import { fork, take, call, put, cancel } from 'redux-saga/effects';
-import * as actions from '../actions/tweets';
+import { connectFilterStream, recieveTweet } from '../actions/tweets';
 import { ipcRenderer } from 'electron'; // eslint-disable-line import/no-unresolved
 import log from '../lib/log';
+import { normalize, Schema } from 'normalizr';
 
-const subscribe2 = (stream, account) => (
-  eventChannel(emit => {
-    const rejectStream = () => {
-      stream.removeAllListeners('data');
-      stream.removeAllListeners('error');
-      stream.destroy();
-    };
+import type { Account } from '../../../types/account';
+import type { FilterParams } from '../../../types/tweet';
+import type { Channel } from 'redux-saga/effects';
+import type { EmitterFn } from 'redux-saga';
 
-    stream.on('data', data => {
+const tweetSchema = new Schema('tweets', { idAttribute: 'id_str' });
+
+const rejectStream = (stream: Object) => {
+  stream.removeAllListeners('data');
+  stream.removeAllListeners('error');
+  stream.destroy();
+};
+
+const subscribe = (stream: Object, account: Account, { q }): void => (
+  eventChannel((emit: EmitterFn) => {
+    stream.on('data', (tweet: Object) => {
       log.debug('Recieve serach tweet.');
-      log.debug(data);
+      window.requestIdleCallback(() => {
+        log.debug(tweet);
+        for (const word of q) {
+          if (tweet.text.includes(word)) {
+            emit(recieveTweet({
+              tweet: normalize(tweet, tweetSchema), account, type: 'Search',
+            }));
+          }
+        }
+      }, { timeout: 60000 });
     });
 
     ipcRenderer.once('suspend', () => {
       log.debug('suspend');
-      rejectStream();
+      rejectStream(stream);
       log.debug('stream destroied');
     });
 
@@ -31,29 +48,22 @@ const subscribe2 = (stream, account) => (
       const id = setInterval(() => {
         if (!navigator.onLine) return;
         clearInterval(id);
-        emit(actions.connectStream({ account }));
+        emit(connectFilterStream({ account }));
       }, 3000);
     });
   })
 );
 
-function connectSearchStream2({ accessToken, accessTokenSecret }, params) {
-  const t = new T(accessToken, accessTokenSecret);
-  return new Promise(resolve => {
-    t.client.stream('statuses/filter', { track: params.q }, stream => {
+function connectStream(account: Account, params: FilterParams): Propmise<Object> {
+  const t = new T(account.accessToken, account.accessTokenSecret);
+  return new Promise((resolve: Promise.resolve) => {
+    t.client.stream('statuses/filter', { track: params.q }, (stream: Object) => {
       resolve(stream);
     });
   });
 }
 
-function* connectSearchStream(channel /* account, params */) {
-  // let channel;
-  // try {
-  //   const stream = yield connectSearchStream2(account, params);
-  //   channel = yield call(subscribe2, stream, account);
-  // } catch (error) {
-  //   log.error(error);
-  // }
+function* addChannel(channel: Channel) {
   while (true) {
     const action = yield take(channel);
     yield put(action);
@@ -63,21 +73,23 @@ function* connectSearchStream(channel /* account, params */) {
 export default function* watchConnectFilterStream() {
   let connection;
   let stream;
+  const q = [];
   while (true) {
-    const { payload: { account, params, type } } = yield take('ADD_COLUMN');
-    if (type !== 'Search') continue;
+    const { payload: { account, params = {} } } = yield take('CONNECT_FILTER_STREAM');
+    // if (type !== 'Search') continue;
     if (connection) {
       yield cancel(connection);
     }
     if (stream) {
-      stream.removeAllListeners('data');
-      stream.removeAllListeners('error');
-      stream.destroy();
+      rejectStream(stream);
+    }
+    if (params.q) {
+      q.push(params.q);
     }
     try {
-      stream = yield connectSearchStream2(account, params);
-      const channel = yield call(subscribe2, stream, account);
-      connection = yield fork(connectSearchStream, channel);
+      stream = yield connectStream(account, { q: q.join(',') });
+      const channel = yield call(subscribe, stream, account, { q });
+      connection = yield fork(addChannel, channel);
     } catch (error) {
       log.error(error);
     }

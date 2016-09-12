@@ -1,5 +1,10 @@
 /* @flow */
 
+export type FilterParams = {
+  q?: string;
+  follow?: string;
+};
+
 export type Tweet = {
   contributors: any;
   coordinates: any;
