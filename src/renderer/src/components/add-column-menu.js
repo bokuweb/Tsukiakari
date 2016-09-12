@@ -165,7 +165,7 @@ export default class AddColumnMenu extends Component {
         onBackClick={this.onBack}
         onSearchClick={this.onSearch}
         onChange={this.onSearchFormChange}
-        onCreate={this.onCreate}
+        onCreate={() => this.onCreate(this.props.accounts[0])}
         enableAddButton={result.Length !== 0 && tweetLoadingStatus === 'loaded'}
       />
     );

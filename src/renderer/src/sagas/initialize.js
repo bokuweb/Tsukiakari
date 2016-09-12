@@ -12,7 +12,8 @@ function* connect(accounts: Array<Object>) {
   for (let i = 0; i < accounts.length; i++) {
     yield put(connectStream({ account: accounts[i] }));
   }
-  yield put(connectSearchStream({ account: accounts[0] }));
+  // For debug
+  // yield put(connectSearchStream({ account: accounts[0] }));
 }
 
 // FIXME
