@@ -17,10 +17,13 @@ const subscribe = (stream, account) => (
       stream.removeAllListeners('error');
       stream.removeAllListeners('favorite');
       stream.removeAllListeners('end');
-      stream.destroy();
+      // stream.destroy();
+      stream.stop();
     };
 
-    stream.on('data', data => {
+    // stream.on('data', data => {
+    /*
+    stream.on('tweet', data => {
       if (data.friends) {
 
       } else if (data.event) {
@@ -38,23 +41,26 @@ const subscribe = (stream, account) => (
         }, { timeout: 60000 });
       }
     });
-
+     */
+    /*
     stream.on('favorite', (data) => {
       if (data.source.id_str !== account.id_str) {
         log.debug(data);
-        /* eslint-disable no-new */
+        // eslint-disable no-new
         new Notification('Favorited', {
           body: `your tweet is favorited by ${data.source.name}`,
           icon: data.source.profile_image_url_https,
         });
       }
     });
-
+    */
+    /*
     stream.on('error', (error) => {
       log.error('Error occurred on stream', error);
-      rejectStream();
-      emit(actions.connectStream({ account, error }));
+      // rejectStream();
+      // emit(actions.connectStream({ account, error }));
     });
+     */
 
     ipcRenderer.once('suspend', () => {
       log.debug('suspend');
@@ -76,19 +82,24 @@ const subscribe = (stream, account) => (
 function connectUserStream({ accessToken, accessTokenSecret }) {
   const t = new T(accessToken, accessTokenSecret);
   return new Promise(resolve => {
-    t.client.stream('user', stream => {
-      resolve(stream);
-    });
+    const stream = t.client.stream('user'); // , stream => {
+    console.log(stream)
+    resolve(stream);
+    // });
   });
 }
 
 function* connectStream(account) {
   let channel;
   try {
-    const stream = yield connectUserStream(account);
+    const t = new T(account.accessToken, account.accessTokenSecret);
+    const stream = t.stream('user');
+    // const stream = yield connectUserStream(account);
+    stream.on('tweet', tweet => console.log(tweet));
+    stream.on('error', error => console.dir(error));
     channel = yield call(subscribe, stream, account);
   } catch (error) {
-    log.error(error);
+    log.debug(error);
   }
   while (true) {
     const action = yield take(channel);

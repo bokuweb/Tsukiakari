@@ -18,7 +18,7 @@ const tweetSchema = new Schema('tweets', { idAttribute: 'id_str' });
 const rejectStream = (stream: Object) => {
   stream.removeAllListeners('data');
   stream.removeAllListeners('error');
-  stream.destroy();
+  stream.stop();
   log.debug('destroy stream');
 };
 
@@ -42,7 +42,7 @@ const subscribe = (stream: Object, account: Account, { q }) => (
     ipcRenderer.removeListener('suspend', suspendHandler);
     ipcRenderer.removeListener('resume', resumeHandler);
 
-    stream.on('data', (tweet: Object) => {
+    stream.on('tweet', (tweet: Object) => {
       log.debug('Recieve serach tweet.');
       interval = 10000;
       window.requestIdleCallback(() => {
@@ -75,9 +75,8 @@ const subscribe = (stream: Object, account: Account, { q }) => (
 function connectStream(account: Account, params: FilterParams): Propmise<Object> {
   const t = new T(account.accessToken, account.accessTokenSecret);
   return new Promise((resolve: Promise.resolve) => {
-    t.client.stream('statuses/filter', { track: params.q }, (stream: Object) => {
-      resolve(stream);
-    });
+    const stream = t.stream('statuses/filter', { track: params.q })//, (stream: Object) => {
+    resolve(stream);
   });
 }
 
