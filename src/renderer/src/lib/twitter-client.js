@@ -12,11 +12,12 @@ export default class TwitterClient {
       // access_token_key: accessToken,
       access_token: accessToken,
       access_token_secret: accessTokenSecret,
+      timeout_ms: 60 * 1000,
     });
   }
 
-  stream(name, params) {
-    this.client.stream(name, params);
+  stream(method, params) {
+    return this.client.stream(method, params);
   }
 
   getEndpoint(type) {
