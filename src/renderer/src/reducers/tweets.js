@@ -62,12 +62,13 @@ const updateTweetProperty = (accountId, tweetId, timeline, props) => {
 export default handleActions({
   RECIEVE_TWEET: (state, action) => {
     // TODO: refactor
-    const { account: { id }, tweet, type, q } = action.payload;
-    const key = type === 'Search' ? `${q}:${type}` : `${id}:${type}`;
+    let results;
+    const { account: { id_str }, tweet, type, q } = action.payload;
+    const key = type === 'Search' ? `${q}:${type}` : `${id_str}:${type}`;
     const contents = state.columns.filter(column => column.contents[0].key === key);
     if (contents.length === 0) return state;
     const timeline = state.timeline[key] || { entities: { tweets: { } } };
-    let results;
+
     if (!(timeline.entities && timeline.entities.tweets[tweet.result])) {
       const result = [tweet.result];
       Array.prototype.push.apply(result, timeline.results);
