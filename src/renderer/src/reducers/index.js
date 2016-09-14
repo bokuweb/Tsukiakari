@@ -5,6 +5,7 @@ import sidemenu from './sidemenu';
 import tweetWindow from './tweet-window';
 import lightbox from './lightbox';
 import notification from './notification';
+import addColumnMenu from './add-column-menu';
 
 const rootReducer = combineReducers({
   accounts,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   lightbox,
   notification,
   tweetWindow,
+  addColumnMenu,
 });
 
 export default rootReducer;

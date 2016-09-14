@@ -4,7 +4,9 @@ import TweetItemFooter from '../components/tweetitem-footer';
 import * as tweets from '../actions/tweets';
 
 function mapStateToProps(state, props) {
-  const tweet = state.tweets.timeline[props.timelineKey].entities.tweets[props.id];
+  const tweet = (state.tweets.timeline[props.timelineKey] &&
+                 state.tweets.timeline[props.timelineKey].entities.tweets[props.id]) ||
+          state.addColumnMenu.searchedTweets.entities.tweets[props.id];
   return {
     tweet,
     accounts: state.accounts.accounts,

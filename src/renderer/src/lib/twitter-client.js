@@ -1,22 +1,33 @@
-import T from 'twitter';
+import T from 'twit';
+// import T from 'twitter';
+
 import { remote } from 'electron';
+import log from '../lib/log';
 
 export default class TwitterClient {
   constructor(accessToken, accessTokenSecret) {
     this.client = new T({
       consumer_key: remote.getGlobal('consumerKey'),
       consumer_secret: remote.getGlobal('consumerSecret'),
-      access_token_key: accessToken,
+      // access_token_key: accessToken,
+      access_token: accessToken,
       access_token_secret: accessTokenSecret,
+      timeout_ms: 60 * 1000,
     });
   }
 
+  stream(method, params) {
+    return this.client.stream(method, params);
+  }
+
   getEndpoint(type) {
+    log.debug('fetch type');
+    log.debug(type);
     switch (type) {
       case 'Home' : return 'statuses/home_timeline';
       case 'Favorite' : return 'favorites/list';
       case 'Mention' : return 'statuses/mentions_timeline';
-      case 'Seacrh' : return 'search/tweets';
+      case 'Search' : return 'search/tweets';
       default: throw new Error('Unknown fetch type');
     }
   }

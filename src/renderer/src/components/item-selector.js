@@ -1,31 +1,47 @@
+/* @flow */
+
 import React, { Component } from 'react';
+import B from '../lib/bem';
+
+import type { Item } from '../../../types/add-column-menu';
+
+const b = B.with('item-selector');
+
+type Props = {
+  items: Array<$Shape<Item>>;
+  onClick: Function;
+  style: Object;
+};
 
 export default class ItemSelector extends Component {
   static defaultProps = {
     items: [],
   }
 
-  renderItems() {
-    return this.props.items.map(item => {
+  /* eslint-disable react/sort-comp */
+  props: Props;
+
+  renderItems(): Array<React$Element<*>> {
+    return this.props.items.map((item: Item): React$Element<*> => {
       const onClick = this.props.onClick.bind(this, item.value);
       return (
-        <li className="item-selector__li" key={item.value} onClick={onClick}>
-          <i className={`item-selector__icon--list ${item.icon}`} />
-          <span className="item-selector__text">{item.value}</span>
+        <li className={b('li')} key={item.value} onClick={onClick}>
+          <i className={`${b('icon', { list: true })} ${item.icon}`} />
+          <span className={b('text')}>{item.value}</span>
         </li>
       );
     });
   }
 
-  render() {
+  render(): ?React$Element<*> {
     return (
-      <div className="item-selector" style={this.props.style}>
-        <div className="item-selector__title-wrapper" >
-          <i className="item-selector__icon--users lnr lnr-list" />
-          <span className="item-selector__title">Column type</span>
+      <div className={b()} style={this.props.style}>
+        <div className={b('title-wrapper')} >
+          {/* <i className="item-selector__icon--users lnr lnr-list" /> */}
+          <span className={b('title')}>Column type</span>
         </div>
-        <div className="item-selector__items" >
-          <ul className="item-selector__ul">
+        <div className={b('items')} >
+          <ul className={b('ul')}>
             {this.renderItems()}
           </ul>
         </div>

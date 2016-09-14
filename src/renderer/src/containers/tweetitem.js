@@ -5,7 +5,9 @@ import { openLightBox } from '../actions/lightbox';
 
 function mapStateToProps(state, props) {
   return {
-    tweet: state.tweets.timeline[props.timelineKey].entities.tweets[props.id],
+    tweet: (state.tweets.timeline[props.timelineKey] &&
+            state.tweets.timeline[props.timelineKey].entities.tweets[props.id]) ||
+      state.addColumnMenu.searchedTweets.entities.tweets[props.id],
   };
 }
 

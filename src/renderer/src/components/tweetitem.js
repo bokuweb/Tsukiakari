@@ -238,7 +238,7 @@ export default class TweetItem extends Component {
           <span className={b('text', { tweet: true })}>
             <span
               dangerouslySetInnerHTML={{
-                __html: link(htmlEscape(decodeHtml(text)),
+                __html: link(htmlEscape(decodeHtml(text)).replace(/\r?\n/g, '<br />'),
                 { className: b('link'), replaceFn: this.replaceLink }),
               }}
             />

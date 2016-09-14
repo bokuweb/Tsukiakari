@@ -22,22 +22,24 @@
   & .public-DraftEditor-content
     width calc(100% - 16px)
     height 100%
-    font-size 1.4rem
-    color $grey-dark
-    font-family 
+    font-size 1.3rem
+    color #2C3E50
     outline none
     resize none
     -webkit-font-smoothing antialiased
     text-rendering optimizeLegibility
-    font-family "Helvetica Neue", "Helvetica", "Arial", sans-serif
 
     & > div
-      border solid 1px #1ABC9C
+      -webkit-font-smoothing antialiased
+      text-rendering optimizeLegibility
+      color #2C3E50
+      border solid 1px #aaa
       max-height 100%
       min-height 100%
       overflow-y scroll
       padding 5px
       box-sizing border-box
+      word-break break-all
 
       &::-webkit-scrollbar
         width 5px

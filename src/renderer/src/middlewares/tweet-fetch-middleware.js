@@ -1,6 +1,7 @@
 import Twitter from '../lib/twitter-client';
 import { createAction } from 'redux-actions';
 import { normalize, Schema, arrayOf } from 'normalizr';
+import log from '../lib/log';
 
 const tweet = new Schema('tweets', { idAttribute: 'id_str' });
 
@@ -10,14 +11,18 @@ const tweet = new Schema('tweets', { idAttribute: 'id_str' });
 //   Mention: 60 * 1000,
 // };
 
-const fetch = (store, account, type) => {
+const fetch = (store, account, type, params = {}) => {
   const { accessToken, accessTokenSecret } = account;
   const twitter = new Twitter(accessToken, accessTokenSecret);
-  twitter.fetch(type, { count: 200 })
+  twitter.fetch(type, { ...params, count: 200 })
     .then(tweets => {
+      log.debug(tweets);
       const action = createAction('FETCH_TIMELINE_SUCCESS');
-      store.dispatch(action({ account, tweets: normalize(tweets, arrayOf(tweet)), type }));
-    })
+      const normarizedTweets = type === 'Search'
+              ? normalize(tweets.statuses, arrayOf(tweet))
+              : normalize(tweets, arrayOf(tweet));
+      store.dispatch(action({ account, tweets: normarizedTweets, type, params }));
+    }) 
     .catch(error => {
       const action = createAction('FETCH_TIMELINE_FAIL');
       store.dispatch(action({ error }));
@@ -26,8 +31,8 @@ const fetch = (store, account, type) => {
 
 const hooks = {
   ['ADD_COLUMN'](store, action) {
-    const { account, type } = action.payload;
-    fetch(store, account, type);
+    const { account, type, params } = action.payload;
+    fetch(store, account, type, params);
     return { ...action, payload: { ...action.payload } };
   },
 };

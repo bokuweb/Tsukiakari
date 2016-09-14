@@ -1,7 +1,9 @@
-import { BrowserWindow, app, ipcMain, shell, powerMonitor } from 'electron';
+import { BrowserWindow, app, ipcMain, shell } from 'electron';
 import Auth from './auth';
 import jsonfile from 'jsonfile';
 import _ from 'lodash';
+import { watchUserStreamRequest } from './user-stream';
+import { watchFilterStreamRequest } from './filter-stream';
 
 let mainWindow = null;
 
@@ -15,6 +17,9 @@ app.on('ready', () => {
   global.consumerSecret = 'rTOSMuY11adXXUxHHTlcNRWRZsutORnvgAl9eojb19Y77Ub78M';
   const accountFilePath = `${app.getPath('userData')}/accounts.json`;
 
+  watchUserStreamRequest();
+  watchFilterStreamRequest();
+
   try {
     accounts = jsonfile.readFileSync(accountFilePath);
   } catch (e) {
@@ -23,8 +28,9 @@ app.on('ready', () => {
 
   const loadMainWindow = () => {
     mainWindow = new BrowserWindow({
-      minWidth: 320,
+      minWidth: 420,
       minHeight: 400,
+      // frame: false,
     });
 
     mainWindow.webContents.on('new-window', (event, url) => {
@@ -81,22 +87,12 @@ app.on('ready', () => {
     removeAccount(account.id_str);
     if (accounts.length === 0) {
       mainWindow.destroy();
-      return signIn().then(() => loadMainWindow());
+      return signIn().then(loadMainWindow);
     }
     return event.sender.send('remove-account-request-reply', accounts);
   });
 
   if (accounts[0] !== undefined) loadMainWindow();
   else signIn().then(() => loadMainWindow());
-
-  powerMonitor.on('suspend', () => {
-    console.log('suspend!!!');
-    mainWindow.webContents.send('suspend');
-  });
-
-  powerMonitor.on('resume', () => {
-    console.log('resume');
-    mainWindow.webContents.send('resume');
-  });
 });
 

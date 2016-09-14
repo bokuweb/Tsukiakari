@@ -1,12 +1,14 @@
 .account-selector
-  padding 20px 20px 10px 20px
+  padding 14px 20px 10px 6px
   // border-bottom solid 1px #e7eaec
   // background #e7eaec
-
+  // background-color #fafafa
+  border-bottom solid 1px #eee
+  
   &__accounts
     display flex
     flex-flow row wrap
-    padding 10px 0 0 10px
+    padding 6px 0 0 10px
 
   &__avatar
     cursor pointer
@@ -19,12 +21,13 @@
     transition all 0.1s
 
     &:hover
-      border solid 2px #F0F0F0
+      border solid 2px #f0f0f0
       opacity 1
 
   &__title-wrapper
-    padding 0 0 0 12px
+    padding 0 0 0 6px
     font-size 1.4rem
+    color $navy
 
   &__icon
     font-size 1.4rem
@@ -34,7 +37,7 @@
     font-size 1.4rem
 
   &__buttons
-    padding 20px 0 14px 8px
+    padding 6px 0 14px 12px
 
   &__button--back
-    color #333
+    color $navy-light

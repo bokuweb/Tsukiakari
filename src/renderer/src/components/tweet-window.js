@@ -16,6 +16,7 @@ import TweetWindowFooter from './tweet-window-footer';
 import type { Account } from '../../../types/account';
 import type { Media } from '../../../types/media';
 import type { Mentions } from '../../../types/mentions';
+import type { ReplyTweet } from '../../../types/reply-tweet';
 
 const b = B.with('tweet-window');
 
@@ -27,6 +28,7 @@ type Props = {
   close: Function;
   post: Function;
   uploadMedia: Function;
+  replyTweet: ReplyTweet;
 };
 
 type State = {
@@ -36,6 +38,40 @@ type State = {
   path: string;
   suggestions: Mentions;
   isDragOver: boolean;
+};
+
+const styles = {
+  uploadSpinner: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    background: '#fff',
+    opacity: '0.7',
+  },
+  overlay: {
+    position: 'absolute',
+    top: '5px',
+    left: '50px',
+    zIndex: '99999',
+  },
+  dropOverlay: {
+    width: '100%',
+    height: '100%',
+    background: 'rgba(255, 255, 255, 0.9)',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    boxSizing: 'border-box',
+    flexDirection: 'column',
+    zIndex: 9999,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    color: '#888',
+  },
 };
 
 export default class TweetWindow extends Component {
@@ -69,11 +105,14 @@ export default class TweetWindow extends Component {
   onSelectFile: Function;
   onDropFile: Function;
   onDragOver: Function;
+  editor: TweetEditor;
 
   componentWillReceiveProps(nextProps: Props) {
     const nextId = nextProps.replyTweet.id_str;
     if (nextId && nextId !== this.props.replyTweet.id_str) {
-      this.setState({ status: `@${nextProps.replyTweet.user.screen_name} ` });
+      this.editor.updateEditorState(
+        `@${nextProps.replyTweet.user.screen_name} ${this.state.status}`
+      );
     }
     if (nextProps.isOpen !== this.props.isOpen) {
       this.setState({ destroyTooltip: true });
@@ -105,19 +144,23 @@ export default class TweetWindow extends Component {
   }
 
   onSelectFile(e: SyntheticEvent): void { // eslint-disable-line flowtype/require-return-type
-    // TODO: accounce
+    // TODO: announce
     if (this.props.media.length >= 4) return;
-    if (e.target instanceof HTMLElement) {
+    if (e.target instanceof HTMLInputElement) {
       this.setState({ path: e.target.value });
-      this.props.uploadMedia({ account: this.state.selectedAccount, files: e.target.files });
+      if (e.target instanceof DataTransfer) {
+        this.props.uploadMedia({ account: this.state.selectedAccount, files: e.target.files });
+      }
     }
   }
 
-  onDropFile({ dataTransfer }) {
-    // TODO: accounce
+  onDropFile(e: SyntheticEvent) {
+    // TODO: announce
     if (this.props.media.length >= 4) return;
-    this.setState({ path: dataTransfer.path });
-    this.props.uploadMedia({ account: this.state.selectedAccount, files: dataTransfer.files });
+    if (e.dataTransfer instanceof DataTransfer) {
+      // this.setState({ path: dataTransfer.path });
+      this.props.uploadMedia({ account: this.state.selectedAccount, files: e.dataTransfer.files });
+    }
   }
 
   // eslint-disable-next-line flowtype/require-return-type
@@ -168,12 +211,7 @@ export default class TweetWindow extends Component {
         destroyTooltipOnHide={this.state.destroyTooltip}
         placement="bottom"
         mouseLeaveDelay={0}
-        overlayStyle={{
-          position: 'absolute',
-          top: '5px',
-          left: '50px',
-          zIndex: '99999',
-        }}
+        overlayStyle={styles.overlay}
       >
         {this.renderAvatar()}
       </Tooltip>
@@ -184,22 +222,7 @@ export default class TweetWindow extends Component {
     if (!this.state.isDragOver || this.props.isMediaUploading) return null;
     return (
       <div
-        style={{
-          width: '100%',
-          height: '100%',
-          background: 'rgba(255, 255, 255, 0.9)',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          boxSizing: 'border-box',
-          flexDirection: 'column',
-          zIndex: 9999,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          textAlign: 'center',
-          color: '#888',
-        }}
+        style={styles.dropOverlay}
         onDragLeave={() => {
           this.setState({ isDragOver: false });
         }}
@@ -228,17 +251,7 @@ export default class TweetWindow extends Component {
   renderUploadSpinner(): ?React$Element<*> {
     if (!this.props.isMediaUploading) return null;
     return (
-      <div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          background: '#fff',
-          opacity: '0.7',
-        }}
-      >
+      <div style={styles.uploadSpinner}>
         <Spinner style={{ padding: '10% 0 0 80px' }} />
       </div>
     );
@@ -247,7 +260,7 @@ export default class TweetWindow extends Component {
   render(): ?React$Element<*> {
     // eslint-disable-next-line no-undef
     const remain = 140 - twttr.txt.getTweetLength(this.state.status);
-    let buttonState = undefined;
+    let buttonState;
     if (remain < 0 || remain === 140) buttonState = 'isDisabled';
     else if (this.props.isPosting) buttonState = 'isLoading';
     return (
@@ -276,7 +289,11 @@ export default class TweetWindow extends Component {
         >
           {this.renderAccount()}
           <div className={b('textarea-wrapper')}>
-            <TweetEditor onChange={this.onChange} mentions={this.props.mentions} />
+            <TweetEditor
+              ref={c => { this.editor = c; }}
+              onChange={this.onChange}
+              mentions={this.props.mentions}
+            />
             {this.renderDropOverlay()}
             <UploadMedia media={this.props.media} />
             <TweetWindowFooter

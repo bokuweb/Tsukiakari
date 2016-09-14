@@ -40,6 +40,13 @@ export default class TweetWindowFooter extends PureComponent {
           onClick={this.props.onClick}
           color="isPrimary"
           state={this.props.buttonState}
+          style={{
+            marginRight: '18px',
+            color: '#233749',
+            border: 'solid 1px #233749',
+            borderRadius: '2px',
+            background: 'none',
+          }}
         >
           <i className="icon-tweet" /> Tweet
         </Button>

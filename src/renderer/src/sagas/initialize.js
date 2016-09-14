@@ -1,10 +1,9 @@
-/* @flow */
 /* eslint-disable no-constant-condition */
 
 import T from '../lib/twitter-client';
 import { take, fork, put } from 'redux-saga/effects';
 import { loadAccounts, updateAccount } from '../actions/accounts';
-import { connectStream, connectSearchStream, loadFriends } from '../actions/tweets';
+import { connectStream, loadFriends } from '../actions/tweets';
 import { startTimer } from '../actions/initialize';
 import log from '../lib/log';
 
@@ -13,7 +12,8 @@ function* connect(accounts: Array<Object>) {
   for (let i = 0; i < accounts.length; i++) {
     yield put(connectStream({ account: accounts[i] }));
   }
-  yield put(connectSearchStream({ account: accounts[0] }));
+  // For debug
+  // yield put(connectSearchStream({ account: accounts[0] }));
 }
 
 // FIXME

@@ -7,6 +7,12 @@ import log from '../lib/log';
 
 const b = B.with('timeline');
 
+const styles = {
+  spinner: {
+    padding: '50px 0 0 40px',
+  },
+};
+
 export default class Timeline extends Component {
   constructor(props) {
     super(props);
@@ -74,7 +80,7 @@ export default class Timeline extends Component {
         >
           {
             this.props.results.length === 0
-              ? <Spinner style={{ padding: '50px 0 0 40px' }} />
+              ? <Spinner style={styles.spinner} />
               : (
                   <ReactList
                     ref="list"

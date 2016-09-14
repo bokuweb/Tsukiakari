@@ -1,15 +1,25 @@
 import React, { Component } from 'react';
-import { isEmpty } from 'lodash';
+import { isEmpty, isEqual } from 'lodash';
 import B from '../lib/bem';
 
 const b = B.with('account-selector');
 
+const styles = {
+  avatar: {
+    border: 'solid 2px #8f9fad',
+    opacity: 1,
+  },
+};
+
 export default class AccountList extends Component {
   static defaultProps = {
-    onSelect: () => null,
     accounts: [],
     selectedAccount: {},
   };
+
+  shouldComponentUpdate(nextProps: Props, nextState: State): bool {
+    return !isEqual(this.props, nextProps) || !isEqual(this.state, nextState);
+  }
 
   onSelect(account) {
     this.props.onSelect(account);
@@ -26,8 +36,8 @@ export default class AccountList extends Component {
             className={b('avatar')}
             style={
               account.id === this.props.selectedAccount.id
-                ? { border: 'solid 2px #BDC3C7', opacity: 1 }
-                : {}
+                ? styles.avatar
+                : undefined
               }
           />
         </div>
