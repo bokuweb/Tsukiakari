@@ -8,7 +8,8 @@ type Props = {
   style?: Object;
   onClick?: Function;
   onChange?: Function;
-  className?: string
+  className?: string;
+  value?: string;
 };
 
 export default function searchBox(props: Props): ?React$Element<*> {
@@ -19,6 +20,7 @@ export default function searchBox(props: Props): ?React$Element<*> {
         icon="lnr lnr-magnifier"
         hasIconRight
         onChange={props.onChange}
+        defaultValue={props.value}
       />
       <Button
         onClick={props.onClick}

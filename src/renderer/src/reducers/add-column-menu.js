@@ -37,4 +37,9 @@ export default handleActions({
     if (action.type !== 'FAIL_TWEETS_FOR_MENU') return state;
     return { ...state, tweetLoadingStatus: 'loaded' };
   },
+  ADD_COLUMN: (state: State, action) => {
+    const { type } = action.payload;
+    if (type !== 'Search') return state;
+    return defaultState;
+  },
 }, defaultState);

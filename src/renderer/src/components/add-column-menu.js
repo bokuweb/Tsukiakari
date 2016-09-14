@@ -173,6 +173,7 @@ export default class AddColumnMenu extends Component {
         onSearchClick={this.onSearch}
         onChange={this.onSearchFormChange}
         onCreate={this.addSearchColumn}
+        searchWord={this.props.searchTweetsWord}
         enableAddButton={result.Length !== 0 && tweetLoadingStatus === 'loaded'}
       />
     );
