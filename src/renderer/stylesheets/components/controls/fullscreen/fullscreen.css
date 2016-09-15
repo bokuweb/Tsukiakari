@@ -1,7 +1,14 @@
 .video-fullscreen {
     cursor: pointer;
+    z-index: 9999999;
 }
 
 .video-fullscreen:hover {
     background-color: #1a1a1a;
+}
+
+.video-controls, .video__controls {
+    z-index: 9999999;
+    position: absolute;
+    cursor: pointer;
 }

@@ -6,7 +6,16 @@ import { isEqual } from 'lodash';
 import TweetItemFooter from '../containers/tweetitem-footer';
 import { link } from 'autolinker';
 import { htmlEscape } from 'twitter-text';
-import { default as Video, Controls, Play, Mute, Seek, Time, Overlay } from 'react-html5video';
+import {
+  default as Video,
+  Controls,
+  Play,
+  Mute,
+  Seek,
+  Time,
+  Overlay,
+  Fullscreen,
+} from 'react-html5video';
 import Tooltip from 'rc-tooltip';
 import AccountTooltip from './account-tooltip';
 
@@ -128,10 +137,10 @@ export default class TweetItem extends Component {
           { video.variants.map(variant => <source src={variant.url} />) }
         <Overlay />
         <Controls>
-          <Play />
           <Seek />
           <Time />
           <Mute />
+          <Fullscreen />
         </Controls>
         </Video>
       </div>
