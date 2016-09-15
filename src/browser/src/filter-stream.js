@@ -9,6 +9,7 @@ export const watchFilterStreamRequest = () => {
     if (stream) {
       console.log('Stop filter stream.');
       stream.stop();
+      stream = null;
     }
     console.log('start subscribe filter stream');
     const t = new T({
@@ -18,8 +19,12 @@ export const watchFilterStreamRequest = () => {
       access_token_secret: account.accessTokenSecret,
       timeout_ms: 60 * 1000,
     });
-    console.log(params.q.join(','));
-    stream = t.stream('statuses/filter', { track: params.q.join(',') });
+    const queryString = params.q.join(',');
+    if (queryString === '') {
+      return console.log('query string is empty, can not connect filter stream');
+    }
+    console.log(queryString);
+    stream = t.stream('statuses/filter', { track: queryString });
     stream.on('tweet', tweet => {
       event.sender.send('filterstream-tweet', tweet, params.q);
     });
