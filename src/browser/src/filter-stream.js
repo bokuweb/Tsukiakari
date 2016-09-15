@@ -24,10 +24,19 @@ export const watchFilterStreamRequest = () => {
       return console.log('query string is empty, can not connect filter stream');
     }
     console.log(queryString);
-    stream = t.stream('statuses/filter', { track: queryString });
-    stream.on('tweet', tweet => {
-      event.sender.send('filterstream-tweet', tweet, params.q);
-    });
+    try {
+      stream = t.stream('statuses/filter', { track: queryString });
+      stream.on('tweet', tweet => {
+        event.sender.send('filterstream-tweet', tweet, params.q);
+      });
+      stream.on('error', error => {
+        console.error(error);
+      });
+    } catch (e) {
+      console.log('catch error, on filter stream');
+      console.log(e);
+    }
+
   });
 
   powerMonitor.on('suspend', () => {
