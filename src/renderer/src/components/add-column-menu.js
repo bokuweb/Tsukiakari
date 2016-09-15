@@ -86,8 +86,8 @@ export default class AddColumnMenu extends Component {
   onItemClick: Function;
   addFilterColumn: Function;
   createColumn: Function;
-  onBack: Function;
-  onSearch: Function;
+  back: Function;
+  search: Function;
   onSearchFormChange: Function;
   addSearchColumn: Function;
 
@@ -96,8 +96,8 @@ export default class AddColumnMenu extends Component {
     this.state = defaultState;
     this.onItemClick = this.onItemClick.bind(this);
     this.createColumn = this.createColumn.bind(this);
-    this.onBack = this.onBack.bind(this);
-    this.onSearch = this.onSearch.bind(this);
+    this.back = this.back.bind(this);
+    this.search = this.search.bind(this);
     this.addSearchColumn = this.addSearchColumn.bind(this);
     this.onSearchFormChange = this.onSearchFormChange.bind(this);
   }
@@ -128,11 +128,12 @@ export default class AddColumnMenu extends Component {
     });
   }
 
-  onBack() {
+  back() {
     this.setState(defaultState);
   }
 
-  onSearch() {
+  search() {
+    if (this.state.searchWord.length === 0) return;
     this.props.searchTweets({ word: this.state.searchWord });
   }
 
@@ -158,7 +159,7 @@ export default class AddColumnMenu extends Component {
     return (
       <AccountSelector
         accounts={this.props.accounts}
-        onBackClick={this.onBack}
+        onBackClick={this.back}
         onCreate={this.createColumn}
       />
     );
@@ -169,8 +170,9 @@ export default class AddColumnMenu extends Component {
     if (!this.state.showSearchForm) return null;
     return (
       <SearchForm
-        onBackClick={this.onBack}
-        onSearchClick={this.onSearch}
+        onBackClick={this.back}
+        onSearchClick={this.search}
+        onSubmit={this.search}
         onChange={this.onSearchFormChange}
         onCreate={this.addSearchColumn}
         searchWord={this.props.searchTweetsWord}
