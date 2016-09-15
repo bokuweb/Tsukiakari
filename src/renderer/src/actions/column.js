@@ -4,6 +4,5 @@ export const addColumn = (account, type, params) => (
   createAction('ADD_COLUMN')({ account, type, params })
 );
 
-export const deleteColumn = (id, timerId) => (
-  createAction('DELETE_COLUMN')({ id, timerId })
-);
+export const deleteColumn = createAction('DELETE_COLUMN');
+

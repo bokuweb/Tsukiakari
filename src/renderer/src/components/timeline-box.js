@@ -25,7 +25,7 @@ export default class TimelineBox extends Component {
 
   onClose() {
     const { column } = this.props;
-    this.props.deleteRequest(column.id, column.timerId);
+    this.props.deleteRequest(column);
   }
 
   render() {

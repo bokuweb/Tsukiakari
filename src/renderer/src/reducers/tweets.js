@@ -4,6 +4,7 @@ import uuid from 'uuid';
 const defaultState = {
   timeline: {},
   columns: [],
+  filterQueries: [],
 };
 
 const iconSelector = {
@@ -200,6 +201,8 @@ export default handleActions({
       title,
       subTitle,
       icon,
+      type,
+      params,
       contents: [{ account, type, key, subTitle }],
       results: timeline.results.map(result => ({ key, id: result })),
     });
@@ -207,13 +210,31 @@ export default handleActions({
       ...state,
       columns: [...columns],
     };
-  },
+  }, 
   DELETE_COLUMN: (state, action) => {
-    const { id } = action.payload;
+    const { id, type, params } = action.payload;
+    const queries = [...state.filterQueries];
+    console.log(params.q);
+    if (type === 'Search') {
+      for (let i = 0; i < queries.length; i++) {
+        if (params.q === queries[i]) {
+          queries.splice(i, 1);
+          break;
+        }
+      }
+    }
     const columns = state.columns.filter(column => column.id !== id);
     return {
       ...state,
       columns,
+      filterQueries: queries || [],
+    };
+  },
+  CONNECT_FILTER_STREAM: (state, action) => {
+    const { params } = action.payload;
+    return {
+      ...state,
+      filterQueries: state.filterQueries.concat([params.q]),
     };
   },
 }, defaultState);

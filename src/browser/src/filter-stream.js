@@ -2,17 +2,13 @@ import { ipcMain, powerMonitor } from 'electron';
 import T from 'twit';
 
 export const watchFilterStreamRequest = () => {
-  const q = [];
+  // const q = [];
   let stream;
 
   ipcMain.on('request-filterstream-connection', (event, account, params) => {
     if (stream) {
       console.log('Stop filter stream.');
       stream.stop();
-    }
-    if (params.q) {
-      q.push(params.q);
-      console.log(q);
     }
     console.log('start subscribe filter stream');
     const t = new T({
@@ -22,9 +18,10 @@ export const watchFilterStreamRequest = () => {
       access_token_secret: account.accessTokenSecret,
       timeout_ms: 60 * 1000,
     });
-    stream = t.stream('statuses/filter', { track: q.join(',') });
+    console.log(params.q.join(','));
+    stream = t.stream('statuses/filter', { track: params.q.join(',') });
     stream.on('tweet', tweet => {
-      event.sender.send('filterstream-tweet', tweet, q);
+      event.sender.send('filterstream-tweet', tweet, params.q);
     });
   });
 
