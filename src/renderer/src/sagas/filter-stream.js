@@ -27,7 +27,7 @@ const subscribe = (account: Account) => (
             }));
           }
         }
-      }, { timeout: 1000 });
+      }, { timeout: 20000 });
     });
     const unsubscribe = () => {
       ipcRenderer.removeAllListeners('filterstream-tweet');
