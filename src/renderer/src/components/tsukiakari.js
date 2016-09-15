@@ -23,6 +23,7 @@ export default class Tsukiakari extends PureComponent {
   }
 
   renderMenu() {
+    console.log('render menu')
     if (this.props.isSideMenuOpen) {
       return (
         <div style={{ display: 'flex' }} className={b('menu-wrapper')}>
@@ -40,6 +41,7 @@ export default class Tsukiakari extends PureComponent {
     if (this.props.accountLength === 0) {
       return <Spinner style={{ padding: '10% 0 0 80px' }} />;
     }
+    console.log('render con')
     return (
       <div className={b(null, { blur: this.props.isLightBoxOpen })}>
         <div

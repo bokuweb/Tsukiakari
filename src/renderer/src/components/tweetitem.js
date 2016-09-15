@@ -6,6 +6,7 @@ import { isEqual } from 'lodash';
 import TweetItemFooter from '../containers/tweetitem-footer';
 import { link } from 'autolinker';
 import { htmlEscape } from 'twitter-text';
+import FullScreenButton from './fullscreen-button';
 import {
   default as Video,
   Controls,
@@ -130,18 +131,18 @@ export default class TweetItem extends Component {
     );
   }
 
-  renderVideo(video) {
+  renderVideo(video, thumbnail) {
     return (
       <div className={b('media')}>
-        <Video className={b('video')} controls>
-          { video.variants.map(variant => <source src={variant.url} />) }
-        <Overlay />
-        <Controls>
-          <Seek />
-          <Time />
-          <Mute />
-          <Fullscreen />
-        </Controls>
+        <Video className={b('video')} controls poster={thumbnail}>
+          {video.variants.map(variant => <source src={variant.url} />)}
+          <Overlay />
+          <Controls>
+            <Seek />
+            <Time />
+            <Mute />
+            <FullScreenButton show={this.props.showFullscreenVideo} />
+          </Controls>
         </Video>
       </div>
     );
@@ -192,7 +193,7 @@ export default class TweetItem extends Component {
   renderMediaContents() {
     const entities = this.props.tweet.extended_entities;
     if (!entities || !entities.media) return null;
-    if (entities.media[0].video_info) return this.renderVideo(entities.media[0].video_info);
+    if (entities.media[0].video_info) return this.renderVideo(entities.media[0].video_info, entities.media[0].media_url_https);
     return this.renderImages(entities);
   }
 
