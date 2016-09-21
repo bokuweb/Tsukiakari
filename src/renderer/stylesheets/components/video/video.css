@@ -2,6 +2,7 @@
     position: relative;
     display: inline-block;
     color: #fff;
+    border-radius: 5px;
     font-family: Helvetica;
     background-color: #000;
     -webkit-font-smoothing: antialiased;
@@ -9,10 +10,6 @@
        -moz-user-select: none;
         -ms-user-select: none;
             user-select: none;
-}
-
-.video:focus {
-    outline: thin dotted;
 }
 
 .video__controls {
