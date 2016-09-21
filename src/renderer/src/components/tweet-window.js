@@ -275,9 +275,9 @@ export default class TweetWindow extends Component {
         x={100}
         y={300}
         width={380}
-        height={180}
+        height={220}
         minWidth={340}
-        minHeight={this.props.media.length === 0 ? 210 : 270}
+        minHeight={220}
         maxWidth={800}
         maxHeight={800}
         style={{
