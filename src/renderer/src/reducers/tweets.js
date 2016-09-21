@@ -237,5 +237,12 @@ export default handleActions({
       filterQueries: state.filterQueries.concat([params.q]),
     };
   },
+  SHOW_FULLSCREEN_VIDEO: (state, action) => {
+    const { soueces, currentTime } = action.payload;
+    return {
+      ...state,
+      
+    };
+  },
 }, defaultState);
 

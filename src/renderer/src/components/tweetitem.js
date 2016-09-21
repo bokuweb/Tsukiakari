@@ -141,7 +141,17 @@ export default class TweetItem extends Component {
             <Seek />
             <Time />
             <Mute />
-            <FullScreenButton show={this.props.showFullscreenVideo} />
+            <FullScreenButton
+              show={(time) => {
+                this.props.showFullscreenVideo({
+                  sources: video.variants,
+                  currentTime: time,
+                  direction: video.aspect_ratio[0] > video.aspect_ratio[1]
+                    ? 'horizontal'
+                    : 'vertical',
+                });
+              }}
+            />
           </Controls>
         </Video>
       </div>

@@ -133,4 +133,3 @@ export const failUploadMedia = createAction('FAIL_UPLOAD_MEDIA');
 
 export const loadFriends = createAction('LOAD_FREINDS');
 
-export const showFullscreenVideo = createAction('SHOW_FULLSCREEN_VIDEO');
