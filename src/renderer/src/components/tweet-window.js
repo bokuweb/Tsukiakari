@@ -54,7 +54,7 @@ const styles = {
     position: 'absolute',
     top: '5px',
     left: '50px',
-    zIndex: '99999',
+    zIndex: 9999999999,
   },
   dropOverlay: {
     width: '100%',
@@ -275,9 +275,9 @@ export default class TweetWindow extends Component {
         x={100}
         y={300}
         width={380}
-        height={220}
+        height={210}
         minWidth={340}
-        minHeight={220}
+        minHeight={210}
         maxWidth={800}
         maxHeight={800}
         style={{
