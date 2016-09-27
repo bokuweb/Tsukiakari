@@ -1,11 +1,12 @@
 /* @flow */
 
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { EditorState, ContentState } from 'draft-js';
 import Editor from 'draft-js-plugins-editor';
 import createEmojiPlugin from 'draft-js-emoji-plugin';
 import createMentionPlugin, { defaultSuggestionsFilter } from 'draft-js-mention-plugin';
 import B from '../lib/bem';
+// import { FocusDecorator } from 'draft-js-focus-plugin';
 
 import type { Mentions } from '../../../types/mentions';
 
@@ -23,6 +24,7 @@ type State = {
 
 const mentionPlugin = createMentionPlugin({ mentionTrigger: '@', mentionPrefix: '@' });
 const { MentionSuggestions } = mentionPlugin;
+// const focusPlugin = createFocusPlugin();
 
 // Creates an Instance. At this step, a configuration object can be passed in
 // as an argument.
@@ -32,7 +34,7 @@ const emojiPlugin = createEmojiPlugin({
 
 const { EmojiSuggestions } = emojiPlugin;
 
-export default class TweetEditor extends PureComponent {
+export default class TweetEditor extends Component {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -47,6 +49,11 @@ export default class TweetEditor extends PureComponent {
   props: Props;
   onChange: Function;
   onSearchChange: Function;
+  editor: any;
+
+  focus = () => {
+    this.editor.focus();
+  };
 
   onChange(editorState: Object) {
     this.setState({ editorState });
@@ -68,19 +75,21 @@ export default class TweetEditor extends PureComponent {
   render(): ?React$Element<*> {
     const { editorState } = this.state;
     return (
-      <div className={b()}>
+      <div className={b()} onClick={this.focus}>
         <Editor
           editorState={editorState}
           placeholder="What's happening?"
           onChange={this.onChange}
           plugins={[emojiPlugin, mentionPlugin]}
-          spellCheck
+          ref={(element: React$Element<*>) => { this.editor = element; }}
         />
         <MentionSuggestions
           onSearchChange={this.onSearchChange}
           suggestions={this.state.suggestions}
         />
-        <EmojiSuggestions />
+        <EmojiSuggestions
+          ref={(element: React$Element<*>) => { this.s = element; }}
+        />
       </div>
     );
   }
