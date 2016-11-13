@@ -1,7 +1,24 @@
 .video-fullscreen {
     cursor: pointer;
+    position: relative;
 }
 
 .video-fullscreen:hover {
     background-color: #1a1a1a;
+}
+
+.video-controls, .video__controls {
+    cursor: pointer;
+}
+
+:-webkit-full-screen-ancestor:not(iframe) {
+    z-index: 99999;
+    position: relative;
+    opacity: 0;
+    transform: none;
+    -webkit-filter: none;
+    perspective: none;
+    transform-style: flat;
+    -webkit-mask: none !important;
+    transition: none !important;
 }

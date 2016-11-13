@@ -9,7 +9,6 @@ export const loadAccounts = () => (dispatch: Dispacth) => {
   });
 };
 
-
 export const addAccount = createAction('ADD_ACCOUNT');
 
 export const successLoadAccounts = createAction('SUCCESS_LOAD_ACCOUNTS');

@@ -12,13 +12,12 @@ type Props = {
   onSearchClick: Function;
   onCreate: Function;
   onChange: Function;
+  onSubmit?: Function;
   enableAddButton: bool;
+  searchWord: string;
 };
 
 export default class SearchForm extends Component {
-  static defaultProps = {
-    items: [],
-  }
 
   /* eslint-disable react/sort-comp */
   props: Props;
@@ -31,8 +30,10 @@ export default class SearchForm extends Component {
         </div>
         <SearchBox
           className={b('form')}
+          onSubmit={this.props.onSubmit}
           onChange={this.props.onChange}
           onClick={this.props.onSearchClick}
+          value={this.props.searchWord}
         />
         <div className={b('button-wrapper')} >
           <Button

@@ -54,7 +54,7 @@ const styles = {
     position: 'absolute',
     top: '5px',
     left: '50px',
-    zIndex: '99999',
+    zIndex: 9999999999,
   },
   dropOverlay: {
     width: '100%',
@@ -71,6 +71,16 @@ const styles = {
     justifyContent: 'center',
     textAlign: 'center',
     color: '#888',
+    padding: '16px',
+  },
+  dropOverlayInner: {
+    width: '100%',
+    height: '100%',
+    border: 'dashed 3px #ccc',
+    fontSize: '36px',
+    pointerEvents: 'none',
+    padding: '32px',
+    boxSizing: 'border-box',
   },
 };
 
@@ -227,22 +237,18 @@ export default class TweetWindow extends Component {
           this.setState({ isDragOver: false });
         }}
       >
-        <div
-          style={{
-            fontSize: '48px',
-            pointerEvents: 'none',
-            height: '60px',
-          }}
-        >
-          <i className="lnr lnr-picture" />
-        </div>
-        <div
-          style={{
-            fontSize: '20px',
-            pointerEvents: 'none',
-          }}
-        >
-          Please drag photo here
+        <div style={styles.dropOverlayInner} >
+          <div style={{ height: '60px' }}>
+            <i className="lnr lnr-picture" />
+          </div>
+          <div
+            style={{
+              fontSize: '20px',
+              pointerEvents: 'none',
+            }}
+          >
+            Please drop photo here
+          </div>
         </div>
       </div>
     );
@@ -269,9 +275,9 @@ export default class TweetWindow extends Component {
         x={100}
         y={300}
         width={380}
-        height={180}
-        minWidth={300}
-        minHeight={150}
+        height={210}
+        minWidth={340}
+        minHeight={210}
         maxWidth={800}
         maxHeight={800}
         style={{

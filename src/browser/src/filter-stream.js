@@ -2,17 +2,14 @@ import { ipcMain, powerMonitor } from 'electron';
 import T from 'twit';
 
 export const watchFilterStreamRequest = () => {
-  const q = [];
+  // const q = [];
   let stream;
 
   ipcMain.on('request-filterstream-connection', (event, account, params) => {
     if (stream) {
       console.log('Stop filter stream.');
       stream.stop();
-    }
-    if (params.q) {
-      q.push(params.q);
-      console.log(q);
+      stream = null;
     }
     console.log('start subscribe filter stream');
     const t = new T({
@@ -22,10 +19,24 @@ export const watchFilterStreamRequest = () => {
       access_token_secret: account.accessTokenSecret,
       timeout_ms: 60 * 1000,
     });
-    stream = t.stream('statuses/filter', { track: q.join(',') });
-    stream.on('tweet', tweet => {
-      event.sender.send('filterstream-tweet', tweet, q);
-    });
+    const queryString = params.q.join(',');
+    if (queryString === '') {
+      return console.log('query string is empty, can not connect filter stream');
+    }
+    console.log(queryString);
+    try {
+      stream = t.stream('statuses/filter', { track: queryString });
+      stream.on('tweet', tweet => {
+        event.sender.send('filterstream-tweet', tweet, params.q);
+      });
+      stream.on('error', error => {
+        console.error(error);
+      });
+    } catch (e) {
+      console.log('catch error, on filter stream');
+      console.log(e);
+    }
+
   });
 
   powerMonitor.on('suspend', () => {

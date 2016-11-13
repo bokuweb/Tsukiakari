@@ -132,3 +132,4 @@ export const successUploadMedia = createAction('SUCCESS_UPLOAD_MEDIA');
 export const failUploadMedia = createAction('FAIL_UPLOAD_MEDIA');
 
 export const loadFriends = createAction('LOAD_FREINDS');
+

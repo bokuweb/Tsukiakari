@@ -1,6 +1,7 @@
 /* @flow */
 
 import React, { Component } from 'react';
+import Button from './button';
 import B from '../lib/bem';
 
 import type { Item } from '../../../types/add-column-menu';
@@ -25,9 +26,14 @@ export default class ItemSelector extends Component {
     return this.props.items.map((item: Item): React$Element<*> => {
       const onClick = this.props.onClick.bind(this, item.value);
       return (
-        <li className={b('li')} key={item.value} onClick={onClick}>
-          <i className={`${b('icon', { list: true })} ${item.icon}`} />
-          <span className={b('text')}>{item.value}</span>
+        <li key={item.value} style={{ listStyle: 'none' }}>
+          <Button
+            onClick={onClick}
+            style={{ width: '220px', height: '40px', margin: '12px 0 0 24px' }}
+          >
+            <i className={`${b('icon', { list: true })} ${item.icon}`} />
+            <span className={b('text')}>{item.value}</span>
+          </Button>
         </li>
       );
     });

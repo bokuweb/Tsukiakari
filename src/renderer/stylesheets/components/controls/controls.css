@@ -1,10 +1,11 @@
 .video-controls {
     height: 34px;
-    background-color: rgba(0,0,0,0.8);
+    background-color: #1cc09f;
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
+    border-radius: 0 0 5px 5px;
 }
 
 .video-controls button {
@@ -23,8 +24,3 @@
             box-sizing: border-box;
 }
 
-.video__control--focused,
-.video__control:focus,
-.video-controls button:focus {
-    outline: thin dotted;
-}

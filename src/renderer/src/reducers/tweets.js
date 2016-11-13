@@ -4,6 +4,7 @@ import uuid from 'uuid';
 const defaultState = {
   timeline: {},
   columns: [],
+  filterQueries: [],
 };
 
 const iconSelector = {
@@ -62,12 +63,13 @@ const updateTweetProperty = (accountId, tweetId, timeline, props) => {
 export default handleActions({
   RECIEVE_TWEET: (state, action) => {
     // TODO: refactor
-    const { account: { id }, tweet, type, q } = action.payload;
-    const key = type === 'Search' ? `${q}:${type}` : `${id}:${type}`;
+    let results;
+    const { account: { id_str }, tweet, type, q } = action.payload;
+    const key = type === 'Search' ? `${q}:${type}` : `${id_str}:${type}`;
     const contents = state.columns.filter(column => column.contents[0].key === key);
     if (contents.length === 0) return state;
     const timeline = state.timeline[key] || { entities: { tweets: { } } };
-    let results;
+
     if (!(timeline.entities && timeline.entities.tweets[tweet.result])) {
       const result = [tweet.result];
       Array.prototype.push.apply(result, timeline.results);
@@ -199,6 +201,8 @@ export default handleActions({
       title,
       subTitle,
       icon,
+      type,
+      params,
       contents: [{ account, type, key, subTitle }],
       results: timeline.results.map(result => ({ key, id: result })),
     });
@@ -206,13 +210,38 @@ export default handleActions({
       ...state,
       columns: [...columns],
     };
-  },
+  }, 
   DELETE_COLUMN: (state, action) => {
-    const { id } = action.payload;
+    const { id, type, params } = action.payload;
+    const queries = [...state.filterQueries];
+    console.log(params.q);
+    if (type === 'Search') {
+      for (let i = 0; i < queries.length; i++) {
+        if (params.q === queries[i]) {
+          queries.splice(i, 1);
+          break;
+        }
+      }
+    }
     const columns = state.columns.filter(column => column.id !== id);
     return {
       ...state,
       columns,
+      filterQueries: queries || [],
+    };
+  },
+  CONNECT_FILTER_STREAM: (state, action) => {
+    const { params } = action.payload;
+    return {
+      ...state,
+      filterQueries: state.filterQueries.concat([params.q]),
+    };
+  },
+  SHOW_FULLSCREEN_VIDEO: (state, action) => {
+    const { soueces, currentTime } = action.payload;
+    return {
+      ...state,
+      
     };
   },
 }, defaultState);

@@ -10,20 +10,29 @@ export const watchUserStreamRequest = () => {
       access_token_secret: account.accessTokenSecret,
       timeout_ms: 60 * 1000,
     });
-    const stream = t.stream('user');
-    stream.on('tweet', tweet => {
-      event.sender.send('userstream-tweet', tweet);
-    });
+    try {
+      const stream = t.stream('user');
+      stream.on('tweet', tweet => {
+        event.sender.send('userstream-tweet', tweet);
+      });
 
-    powerMonitor.on('suspend', () => {
-      console.log('suspend!!!');
-      if (stream) stream.stop();
-    });
+      stream.on('error', error => {
+        console.error(error);
+      });
 
-    powerMonitor.on('resume', () => {
-      console.log('resume');
-      if (stream) stream.start();
-    });
+      powerMonitor.on('suspend', () => {
+        console.log('suspend!!!');
+        if (stream) stream.stop();
+      });
+
+      powerMonitor.on('resume', () => {
+        console.log('resume');
+        if (stream) stream.start();
+      });
+    } catch (e) {
+      console.log('catch error');
+      console.log(e);
+    }
   });
 };
 
