@@ -21,7 +21,7 @@
     "test": "npm run unittest:view",
     "unittest:view": "karma start",
     "unittest:view-watch": "karma start --auto-watch --no-single-run",
-    "prepush": "npm run flow && npm run unittest:view"
+    "prepush": "npm run unittest:view"
   },
   "repository": {
     "type": "git",
