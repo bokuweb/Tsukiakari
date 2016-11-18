@@ -1,4 +1,5 @@
 const BrowserWindow = require('electron').BrowserWindow;
+const shell = require('electron').shell;
 const TwitterApi = require('node-twitter-api');
 
 module.exports = class Auth {
@@ -43,7 +44,12 @@ module.exports = class Auth {
                 });
               }
             });
-          }
+          } 
+        });
+
+        loginWindow.webContents.on('new-window', (event, url) => {
+          event.preventDefault();
+          shell.openExternal(url);
         });
 
         // loginWindow.webContents.session.clearStorageData({ storages: ["cookies"] }, () => {});
