@@ -50,6 +50,7 @@ export default class TweetEditor extends Component {
   onChange: Function;
   onSearchChange: Function;
   editor: any;
+  s: React$Element<*>;
 
   focus = () => {
     this.editor.focus();
