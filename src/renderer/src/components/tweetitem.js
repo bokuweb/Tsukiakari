@@ -45,7 +45,7 @@ export default class TweetItem extends Component {
     return this.props.openLightBox(images, index);
   }
 
-  replaceLink(linker, match) {
+  replaceLink(match) {
     switch (match.getType()) {
       case 'url' :
         return true;

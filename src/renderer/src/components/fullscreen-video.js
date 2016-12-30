@@ -14,6 +14,8 @@ import {
 const b = B.with('fullscreen-video');
 
 type Props = {
+  direction: string;
+  sources: any[];
   close: () => {};
 };
 
