@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Button } from 're-bulma';
 import B from '../lib/bem';
+import T from '../lib/twitter-client';
 
 const b = B.with('account-tooltip');
 
@@ -16,8 +17,9 @@ export default class AccountTooltip extends Component {
     this.onClick = ::this.onClick;
   }
 
+  //TODO
   onClick() {
-    this.props.onButtonClick(this.props.account);
+    console.log(this.props.account)
   }
 
   render() {
