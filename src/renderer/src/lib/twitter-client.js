@@ -152,6 +152,18 @@ export default class TwitterClient {
         });
     });
   }
+
+  destroyFriendship(params) {
+    return new Promise((resolve, reject) => {
+      this.client.post(
+        'friendships/destroy',
+        params,
+        (error, user) => {
+          if (error) reject(error);
+          else resolve(user);
+        });
+    });
+  }
   /*
   getProfile(params) {
     var d = Q.defer();
@@ -227,4 +239,3 @@ export default class TwitterClient {
   }
    */
 }
-
