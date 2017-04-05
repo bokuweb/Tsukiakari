@@ -1,142 +1,199 @@
 {
-  "name": "Tsukiakari",
-  "version": "0.1.0",
-  "description": "Multi account, multi column twitter clinet",
-  "main": "/src/browser/dist/bundle.js",
+  "name": "electron-react-boilerplate",
+  "productName": "ElectronReact",
+  "version": "0.10.0",
+  "description": "Electron application boilerplate based on React, React Router, Webpack, React Hot Loader for rapid application development",
+  "main": "main.js",
   "scripts": {
-    "dev": "npm run build:all && (electron src/browser/dist/bundle.js & npm run watch)",
+    "test": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 node --trace-warnings ./test/runTests.js",
+    "test-all": "npm run lint && npm run flow && npm run test && npm run build",
+    "test-watch": "npm test -- --watch",
+    "test-e2e": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 node --trace-warnings ./test/runTests.js e2e",
+    "lint": "eslint --cache --format=node_modules/eslint-formatter-pretty .",
+    "lint-fix": "npm run lint -- --fix",
+    "hot-updates-server": "cross-env NODE_ENV=development node --trace-warnings -r babel-register ./node_modules/webpack-dev-server/bin/webpack-dev-server --config webpack.config.renderer.dev.js",
+    "build": "concurrently \"npm run build-main\" \"npm run build-renderer\"",
+    "build-dll": "cross-env NODE_ENV=development node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.renderer.dev.dll.js --progress --profile --colors",
+    "build-main": "cross-env NODE_ENV=production node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.main.prod.js --progress --profile --colors",
+    "build-renderer": "cross-env NODE_ENV=production node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.renderer.prod.js --progress --profile --colors",
+    "start": "cross-env NODE_ENV=production electron ./app/",
     "flow": "flow",
-    "start": "electron src/browser/dist/bundle.js",
-    "build:all": "npm run build:js && npm run build:stylus",
-    "watch:js": "NODE_ENV=develop watchify src/renderer/src/index.js -o src/renderer/dist/bundle.js --ignore-missing --exclude electron",
-    "build:js": "npm run build:renderer && npm run build:main",
-    "build:renderer": "NODE_ENV=production browserify --extension=js -o src/renderer/dist/bundle.js src/renderer/src/index.js --ignore-missing --exclude electron",
-    "build:main": "NODE_ENV=production browserify --extension=js -o src/browser/dist/bundle.js src/browser/src/main.js --im --no-detect-globals --node --exclude electron",
-    "watch": "npm run watch:js & npm run watch:stylus",
-    "watch:stylus": "stylus src/renderer/stylus/ --watch  --out src/renderer/stylesheets/",
-    "build:stylus": "stylus src/renderer/stylus/ --out src/renderer/stylesheets/",
-    "package": "npm run build:stylus && npm run build:js && npm run minify && electron-packager ./ --platform=darwin --arch=x64 --icon=icon/tsukiakari.icns --ignore={packages,screenshots,node_modules}/* --out=packages/v0.0.1 --overwrite",
-    "lint": "eslint src/renderer/src --fix",
-    "minify": "uglifyjs src/renderer/dist/bundle.js -o src/renderer/dist/bundle.js",
-    "test": "npm run unittest:view",
-    "unittest:view": "karma start",
-    "unittest:view-watch": "karma start --auto-watch --no-single-run",
-    "prepush": "npm run flow && npm run unittest:view"
+    "flow-typed": "flow-typed install",
+    "start-hot-renderer": "cross-env HOT=1 NODE_ENV=development electron -r babel-register -r babel-polyfill ./app/main.development",
+    "postinstall": "concurrently \"npm run build-dll\" \"install-app-deps\" \"node node_modules/fbjs-scripts/node/check-dev-engines.js package.json\"",
+    "dev": "cross-env START_HOT=1 npm run hot-updates-server",
+    "package": "npm run build && build --publish never",
+    "package-win": "npm run build && build --win --x64",
+    "package-linux": "npm run build && build --linux",
+    "package-all": "npm run build && build -mwl",
+    "cleanup": "mop -v"
+  },
+  "browserslist": "electron 1.4",
+  "build": {
+    "productName": "ElectronReact",
+    "appId": "org.develar.ElectronReact",
+    "files": [
+      "dist/",
+      "node_modules/",
+      "app.html",
+      "main.js",
+      "main.js.map",
+      "package.json"
+    ],
+    "dmg": {
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "linux": {
+      "target": [
+        "deb",
+        "AppImage"
+      ]
+    },
+    "directories": {
+      "buildResources": "resources",
+      "output": "release"
+    }
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bokuweb/Tsukiakari.git"
+    "url": "git+https://github.com/chentsulin/electron-react-boilerplate.git"
   },
-  "keywords": [
-    "Electron",
-    "React",
-    "Redux",
-    "Twitter"
-  ],
-  "author": "bokuweb",
+  "author": {
+    "name": "C. T. Lin",
+    "email": "chentsulin@gmail.com",
+    "url": "https://github.com/chentsulin"
+  },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/bokuweb/Tsukiakari/issues"
+    "url": "https://github.com/chentsulin/electron-react-boilerplate/issues"
   },
-  "homepage": "https://github.com/bokuweb/Tsukiakari#readme",
+  "keywords": [
+    "electron",
+    "boilerplate",
+    "react",
+    "redux",
+    "flow",
+    "sass",
+    "webpack",
+    "hot",
+    "reload"
+  ],
+  "homepage": "https://github.com/chentsulin/electron-react-boilerplate#readme",
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/mocks/fileMock.js",
+      "\\.(css|less|sass|scss)$": "identity-obj-proxy"
+    },
+    "moduleFileExtensions": [
+      "js"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "app/node_modules"
+    ],
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    }
+  },
   "devDependencies": {
-    "babel": "^6.23.0",
-    "babel-cli": "^6.23.0",
-    "babel-eslint": "^7.1.1",
-    "babel-plugin-remove-comments": "^2.0.0",
-    "babel-plugin-syntax-do-expressions": "^6.13.0",
+    "asar": "^0.13.0",
+    "babel-core": "^6.24.0",
+    "babel-eslint": "^7.2.1",
+    "babel-jest": "^19.0.0",
+    "babel-loader": "^6.4.1",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-dev-expression": "^0.2.1",
+    "babel-plugin-flow-runtime": "^0.10.0",
     "babel-plugin-transform-class-properties": "^6.23.0",
-    "babel-plugin-transform-do-expressions": "^6.22.0",
-    "babel-plugin-transform-flow-strip-types": "^6.22.0",
-    "babel-plugin-transform-inline-environment-variables": "^6.8.0",
-    "babel-plugin-transform-react-inline-elements": "^6.22.0",
+    "babel-plugin-transform-es2015-classes": "^6.23.0",
     "babel-polyfill": "^6.23.0",
-    "babel-preset-airbnb": "^2.2.3",
-    "babel-preset-es2015": "^6.22.0",
-    "babel-preset-power-assert": "^1.0.0",
+    "babel-preset-env": "^1.3.2",
     "babel-preset-react": "^6.23.0",
+    "babel-preset-react-hmre": "^1.1.1",
+    "babel-preset-react-optimize": "^1.0.1",
     "babel-preset-stage-0": "^6.22.0",
-    "babelify": "^7.3.0",
-    "brfs": "^1.4.3",
-    "browserify": "^14.1.0",
+    "babel-register": "^6.24.0",
+    "babili-webpack-plugin": "^0.0.11",
+    "boiler-room-custodian": "^0.6.1",
+    "chalk": "^1.1.3",
+    "concurrently": "^3.4.0",
+    "cross-env": "^4.0.0",
+    "cross-spawn": "^5.1.0",
+    "css-loader": "^0.28.0",
     "devtron": "^1.4.0",
-    "electron-packager": "^8.5.2",
-    "envify": "^4.0.0",
-    "enzyme": "^2.7.1",
-    "eslint": "^3.16.0",
+    "electron": "^1.6.2",
+    "electron-builder": "^16.6.0",
+    "electron-devtools-installer": "^2.1.0",
+    "enzyme": "^2.8.0",
+    "eslint": "^3.19.0",
     "eslint-config-airbnb": "^14.1.0",
-    "eslint-plugin-flow-vars": "^0.5.0",
-    "eslint-plugin-flowtype": "^2.30.0",
-    "eslint-plugin-react": "^6.10.0",
-    "estraverse": "^4.2.0",
-    "estraverse-fb": "^1.3.1",
-    "flow-bin": "^0.38.0",
-    "flow-typed": "^2.0.0",
-    "husky": "^0.13.1",
-    "iflow-lodash": "^1.1.27",
-    "iflow-react-redux": "^1.1.17",
-    "iflow-redux": "^1.0.37",
-    "karma": "^1.5.0",
-    "karma-babel-preprocessor": "^6.0.1",
-    "karma-browserify": "^5.1.1",
-    "karma-cli": "^1.0.1",
-    "karma-mocha": "^1.3.0",
-    "karma-mocha-reporter": "^2.2.2",
-    "karma-phantomjs-launcher": "^1.0.2",
-    "mocha": "^3.2.0",
-    "phantomjs-prebuilt": "^2.1.14",
-    "power-assert": "^1.4.2",
-    "proxyquireify": "^3.2.1",
-    "react-addons-test-utils": "^15.4.2",
-    "sinon": "^1.17.7",
-    "spectron": "^3.6.0",
-    "stylus": "^0.54.5",
-    "uglify-js": "^2.7.5",
-    "watchify": "^3.9.0",
-    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-formatter-pretty": "^1.1.0",
+    "eslint-import-resolver-webpack": "^0.8.1",
+    "eslint-plugin-compat": "^1.0.2",
+    "eslint-plugin-flowtype": "^2.30.4",
+    "eslint-plugin-flowtype-errors": "^3.0.3",
     "eslint-plugin-import": "^2.2.0",
-    "why-did-you-update": "0.0.8"
+    "eslint-plugin-jest": "^19.0.1",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-react": "^6.10.3",
+    "express": "^4.15.2",
+    "fbjs-scripts": "^0.7.1",
+    "file-loader": "^0.11.0",
+    "flow-bin": "^0.42.0",
+    "flow-runtime": "^0.10.0",
+    "flow-typed": "^2.0.0",
+    "html-webpack-plugin": "^2.28.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^19.0.2",
+    "jsdom": "^9.12.0",
+    "minimist": "^1.2.0",
+    "node-sass": "^4.5.2",
+    "react-addons-test-utils": "^15.4.2",
+    "react-test-renderer": "^15.4.2",
+    "redux-logger": "^3.0.1",
+    "sass-loader": "^6.0.3",
+    "sinon": "^2.1.0",
+    "spectron": "^3.6.1",
+    "style-loader": "^0.16.1",
+    "url-loader": "^0.5.8",
+    "webpack": "^2.3.2",
+    "webpack-dev-server": "^2.4.2",
+    "webpack-merge": "^4.1.0"
   },
   "dependencies": {
-    "autolinker": "^1.4.1",
-    "b_": "^1.3.3",
-    "draft-js": "^0.10.0",
-    "draft-js-emoji-plugin": "^2.0.0-beta9",
-    "draft-js-mention-plugin": "^2.0.0-beta9",
-    "draft-js-plugins-editor": "^2.0.0-beta9",
-    "electron": "^1.6.0",
-    "immutable": "^3.8.1",
-    "jsonfile": "^2.4.0",
-    "lodash": "^4.17.4",
-    "lodash.escaperegexp": "^4.1.2",
-    "loglevel": "^1.4.1",
-    "moment": "^2.17.1",
-    "node-twitter-api": "^1.8.0",
-    "normalizr": "^2.3.1",
-    "rc-tooltip": "^3.4.2",
-    "re-bulma": "^0.3.1",
+    "electron-debug": "^1.1.0",
+    "extract-text-webpack-plugin": "^2.0.0",
+    "font-awesome": "^4.7.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
-    "react-html5video": "^1.4.0",
-    "react-images": "^0.5.2",
-    "react-list": "^0.8.3",
-    "react-notification-system": "^0.2.11",
+    "react-hot-loader": "3.0.0-beta.6",
     "react-redux": "^5.0.2",
-    "react-sortable-pane": "^0.5.4",
-    "react-window-component": "0.1.1",
+    "react-router": "^3.0.2",
+    "react-router-redux": "^4.0.7",
     "redux": "^3.6.0",
-    "redux-actions": "^1.2.1",
-    "redux-logger": "^2.8.1",
-    "redux-saga": "^0.14.3",
     "redux-thunk": "^2.2.0",
-    "reselect": "^2.5.4",
-    "twit": "^2.2.5",
-    "twitter-text": "^1.14.3",
-    "uuid": "^3.0.1"
+    "source-map-support": "^0.4.10"
   },
-  "browserify": {
-    "transform": [
-      "babelify"
-    ]
+  "devEngines": {
+    "node": ">=6.x",
+    "npm": ">=3.x",
+    "yarn": "0.21.3"
   }
 }
