@@ -1,18 +1,19 @@
 // @flow
 import React from 'react';
 import { Provider } from 'react-redux';
-import { Router } from 'react-router';
-import routes from '../routes';
+import App from './App';
+import Home from './HomePage';
 
 type RootType = {
   store: {},
-  history: {}
 };
 
-export default function Root({ store, history }: RootType) {
+export default function Root({ store }: RootType) {
   return (
     <Provider store={store}>
-      <Router key={Math.random()} history={history} routes={routes} />
+      <App>
+        <Home />
+      </App>
     </Provider>
   );
 }

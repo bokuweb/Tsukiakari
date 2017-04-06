@@ -1,7 +1,5 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import { hashHistory } from 'react-router';
-import { routerMiddleware, push } from 'react-router-redux';
 import { createLogger } from 'redux-logger';
 import rootReducer from '../reducers';
 import * as counterActions from '../actions/counter';
@@ -22,14 +20,9 @@ export default (initialState: ?counterStateType) => {
   });
   middleware.push(logger);
 
-  // Router Middleware
-  const router = routerMiddleware(hashHistory);
-  middleware.push(router);
-
   // Redux DevTools Configuration
   const actionCreators = {
     ...counterActions,
-    push,
   };
   // If Redux DevTools Extension is installed use it, otherwise use Redux compose
   /* eslint-disable no-underscore-dangle */
