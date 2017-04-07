@@ -28,5 +28,7 @@ a:hover {
 
 body .titlebar {
   background: #29294A;
+  height: 24px;
+  -webkit-app-region: drag;
 }
 

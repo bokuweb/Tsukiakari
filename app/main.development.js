@@ -51,6 +51,7 @@ app.on('ready', async () => {
     height: 728,
     frame: false,
     vibrancy: 'dark',
+    titleBarStyle: 'hidden',
   });
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
