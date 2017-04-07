@@ -1,14 +1,43 @@
+
 .container {
-  position: absolute;
-  top: 30%;
-  left: 10px;
-  text-align: center;
+  display: flex;
+  height: 100vh;
 }
 
-.container h2 {
-  font-size: 5rem;
+.sidebar {
+  flex-basis: 225px;
+  background:#3F3F5F;
+  /*opacity: 0.8; */
 }
 
-.container a {
-  font-size: 1.4rem;
+.content {
+  height: 100vh;
+  flex-basis: auto;
+  flex-grow: 1;
+  background: #DDDEF6;
+}
+
+.title {
+  height: 45px;
+  width: 100%;
+  background: #2D2D4E;
+  color: #CAC8EE;
+  padding: 0 0 0 30px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 200;
+  vertical-align: middle;
+  font-size: 14px;
+  display: flex;
+}
+
+.title > div {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  letter-spacing: 1px;
+}
+
+.account {
+  background-color:#363655;
+  height: 68px;
 }

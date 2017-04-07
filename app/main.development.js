@@ -50,6 +50,7 @@ app.on('ready', async () => {
     width: 1024,
     height: 728,
     frame: false,
+    vibrancy: 'dark',
   });
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
