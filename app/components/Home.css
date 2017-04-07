@@ -17,27 +17,79 @@
   background: #DDDEF6;
 }
 
-.title {
+.titleContainer {
   height: 45px;
   width: 100%;
   background: #2D2D4E;
   color: #CAC8EE;
   padding: 0 0 0 30px;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: 200;
+  /* font-weight: 200; */
   vertical-align: middle;
   font-size: 14px;
   display: flex;
 }
 
-.title > div {
+.title {
+  display: inline-flex;
+  justify-content: left;
+  align-items: center;
+  flex-basis: 150px;
+}
+
+.menu {
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  letter-spacing: 1px;
+  font-size: 12px;
 }
 
 .account {
   background-color:#363655;
   height: 68px;
+  padding: 0 0 0 30px;
+  display: flex;
+  align-items: center;  
+}
+
+.avatar {
+  width: 40px;
+  align-items: center;
+}
+
+.avatar > img {
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+}
+
+.accountName {
+  margin: 0 0 0 10px;
+  width: 100px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.name {
+  font-size: 12px;
+  color:#DBD9FA;
+  font-weight: 300;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;  
+}
+
+.screenName {
+  font-size: 11px;
+  color:#9996D2;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.chevron {
+  color:#9996D2;
+  font-size: 10px;
+  padding: 0 0 0 2px;
 }
