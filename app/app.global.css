@@ -1,5 +1,6 @@
 @import "~font-awesome/css/font-awesome.css";
 @import "~semantic-ui-css/components/icon.min.css";
+@import "~semantic-ui-css/components/image.min.css";
 
 html,
 body {
@@ -16,7 +17,7 @@ body {
 
 a {
   color: white;
-  opacity: .75;
+  opacity: 0.75;
   text-decoration: none;
 }
 

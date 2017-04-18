@@ -1,8 +1,9 @@
 // @flow
+
 import React, { Component } from 'react';
 import { Icon } from 'semantic-ui-react';
+import Avatar from './ui/avatar/';
 import styles from './Home.css';
-
 
 export default class Home extends Component {
   render() {
@@ -15,7 +16,7 @@ export default class Home extends Component {
           </div>
           <div className={styles.account}>
             <div className={styles.avatar} >
-              <img src="../assets/dummy_icon.png" />
+              <Avatar src="../assets/dummy_icon.png" size="mini"/>
             </div>
             <div className={styles.accountName} >
               <div className={styles.name}>bokuweb</div>
