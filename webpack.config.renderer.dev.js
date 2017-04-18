@@ -60,7 +60,7 @@ export default merge.smart(baseConfig, {
             options: {
               sourceMap: true,
             },
-          }
+          },
         ]
       },
       {
@@ -78,6 +78,9 @@ export default merge.smart(baseConfig, {
               // localIdentName: '[name]__[local]__[hash:base64:5]',
             }
           },
+          {
+            loader: 'postcss-loader',
+          }
         ]
       },
       // WOFF Font
@@ -204,8 +207,8 @@ export default merge.smart(baseConfig, {
           ['run', 'start-hot-renderer'],
           { shell: true, env: process.env, stdio: 'inherit' }
         )
-        .on('close', code => process.exit(code))
-        .on('error', spawnError => console.error(spawnError));
+          .on('close', code => process.exit(code))
+          .on('error', spawnError => console.error(spawnError));
       }
     }
   },
