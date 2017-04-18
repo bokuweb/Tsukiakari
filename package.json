@@ -26,9 +26,7 @@
     "package-win": "npm run build && build --win --x64",
     "package-linux": "npm run build && build --linux",
     "package-all": "npm run build && build -mwl",
-    "cleanup": "mop -v",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "cleanup": "mop -v"
   },
   "browserslist": "electron 1.4",
   "build": {
@@ -192,8 +190,7 @@
     "url-loader": "^0.5.8",
     "webpack": "^2.3.2",
     "webpack-dev-server": "^2.4.2",
-    "webpack-merge": "^4.1.0",
-    "@kadira/storybook": "^2.21.0"
+    "webpack-merge": "^4.1.0"
   },
   "dependencies": {
     "electron-debug": "^1.1.0",
